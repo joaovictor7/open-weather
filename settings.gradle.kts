@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google {
             content {
@@ -21,3 +22,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Compose Test"
 include(":app")
+include(":feature:login")

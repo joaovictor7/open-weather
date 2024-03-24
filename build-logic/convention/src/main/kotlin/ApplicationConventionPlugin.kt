@@ -5,14 +5,12 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 
-
-
 internal class ApplicationConventionPlugin: Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             pluginManager.apply("com.android.application")
             extensions.configure<BaseAppModuleExtension> {
-                configureAndroid(this@with)
+                configureAndroid(this@with, this)
                 defaultConfig {
                     versionCode = AppConfig.CODE_VERSION
                     versionName = AppConfig.NAME_VERSION

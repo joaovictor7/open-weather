@@ -9,7 +9,7 @@ internal class LibraryConventionPlugin : Plugin<Project> {
         with(target) {
             pluginManager.apply("com.android.library")
             extensions.configure<LibraryExtension> {
-                configureAndroid(this@with)
+                configureAndroid(this@with, this)
             }
         }
     }

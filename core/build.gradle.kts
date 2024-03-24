@@ -1,9 +1,8 @@
 plugins {
     alias(libs.plugins.composeTestLibrary)
-    alias(libs.plugins.composeTestCompose)
     alias(libs.plugins.composeTestTest)
 }
 
 android {
-    namespace = "com.composetest.feature.login"
+    namespace = "com.composetest.core"
 }

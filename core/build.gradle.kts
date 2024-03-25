@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.composeTestLibrary)
+    alias(libs.plugins.composeTestCompose)
     alias(libs.plugins.composeTestTest)
 }
 

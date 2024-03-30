@@ -5,9 +5,13 @@ plugins {
 }
 
 android {
-    namespace = "com.composetest"
-
+    val appPackage = "com.composetest"
+    namespace = appPackage
     defaultConfig {
-        applicationId = "com.composetest"
+        applicationId = appPackage
     }
+}
+
+dependencies {
+    implementation(project(":core"))
 }

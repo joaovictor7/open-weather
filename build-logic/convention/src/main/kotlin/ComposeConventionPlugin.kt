@@ -26,10 +26,10 @@ internal class ComposeConventionPlugin : Plugin<Project> {
                     implementation(findLibrary("compose.ui.graphics"))
                     implementation(findLibrary("compose.ui.tooling.preview"))
                     implementation(findLibrary("compose.material3"))
-                    androidTestImplementation(composeBom)
                     debugImplementation(findLibrary("compose.ui.test.manifest"))
-                    androidTestImplementation(findLibrary("compose.ui.test.junit4"))
                     debugImplementation(findLibrary("compose.ui.tooling"))
+                    androidTestImplementation(findLibrary("compose.ui.test.junit4"))
+                    androidTestImplementation(composeBom)
                 }
             }
         }

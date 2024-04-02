@@ -3,6 +3,7 @@ package com.composetest.core.theme
 import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -10,15 +11,17 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import com.composetest.core.BuildConfig
 
 @Composable
 fun ComposeTestTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = BuildConfig.DYNAMIC_COLORS,
     content: @Composable () -> Unit
 ) {
     val colorScheme = getColorScheme(dynamicColor, darkTheme)
@@ -27,7 +30,11 @@ fun ComposeTestTheme(
         colorScheme = colorScheme,
         typography = getTypography(colorScheme),
         content = {
-            Surface(color = MaterialTheme.colorScheme.background, content = content)
+            Surface(
+                color = MaterialTheme.colorScheme.background,
+                content = content,
+                modifier = Modifier.fillMaxSize()
+            )
         }
     )
 }

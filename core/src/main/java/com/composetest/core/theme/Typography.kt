@@ -1,90 +1,76 @@
 package com.composetest.core.theme
 
-import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
-private val defaultTextStyle = TextStyle(
-    fontFamily = FontFamily.Default,
-    fontWeight = FontWeight.Normal
-)
-
-fun getTypography(colorScheme: ColorScheme) = Typography(
-    titleLarge = defaultTextStyle.copy(
+internal val typography = Typography(
+    titleLarge = TextStyle(
         fontSize = 22.sp,
-        lineHeight = 28.sp,
-        color = colorScheme.onSurface
+        lineHeight = 28.sp
     ),
-    titleMedium = defaultTextStyle.copy(
+    titleMedium = TextStyle(
         fontSize = 16.sp,
         lineHeight = 24.sp,
-        letterSpacing = 0.15.sp,
-        color = colorScheme.onSurface
+        letterSpacing = 0.15.sp
     ),
-    titleSmall = defaultTextStyle.copy(
-        fontSize = 14.sp,
-        lineHeight = 20.sp,
-        letterSpacing = 0.1.sp,
-        color = colorScheme.onSurface
-    ),
-    bodyLarge = defaultTextStyle.copy(
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.5.sp,
-        color = colorScheme.onSurfaceVariant
-    ),
-    bodyMedium = defaultTextStyle.copy(
-        fontSize = 14.sp,
-        lineHeight = 20.sp,
-        letterSpacing = 0.25.sp,
-        color = colorScheme.onSurfaceVariant
-    ),
-    bodySmall = defaultTextStyle.copy(
-        fontSize = 12.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.4.sp,
-        color = colorScheme.onSurfaceVariant
-    ),
-    headlineLarge = defaultTextStyle.copy(
-        fontSize = 32.sp,
-        lineHeight = 40.sp
-    ),
-    headlineMedium = defaultTextStyle.copy(
-        fontSize = 28.sp,
-        lineHeight = 36.sp
-    ),
-    headlineSmall = defaultTextStyle.copy(
-        fontSize = 24.sp,
-        lineHeight = 32.sp
-    ),
-    labelLarge = defaultTextStyle.copy(
+    titleSmall = TextStyle(
         fontSize = 14.sp,
         lineHeight = 20.sp,
         letterSpacing = 0.1.sp
     ),
-    labelMedium = defaultTextStyle.copy(
+    bodyLarge = TextStyle(
+        fontSize = 16.sp,
+        lineHeight = 24.sp,
+        letterSpacing = 0.5.sp
+    ),
+    bodyMedium = TextStyle(
+        fontSize = 14.sp,
+        lineHeight = 20.sp,
+        letterSpacing = 0.25.sp
+    ),
+    bodySmall = TextStyle(
+        fontSize = 12.sp,
+        lineHeight = 16.sp,
+        letterSpacing = 0.4.sp
+    ),
+    headlineLarge = TextStyle(
+        fontSize = 32.sp,
+        lineHeight = 40.sp
+    ),
+    headlineMedium = TextStyle(
+        fontSize = 28.sp,
+        lineHeight = 36.sp
+    ),
+    headlineSmall = TextStyle(
+        fontSize = 24.sp,
+        lineHeight = 32.sp
+    ),
+    labelLarge = TextStyle(
+        fontSize = 14.sp,
+        lineHeight = 20.sp,
+        letterSpacing = 0.1.sp
+    ),
+    labelMedium = TextStyle(
         fontSize = 12.sp,
         lineHeight = 16.sp,
         letterSpacing = 0.5.sp
     ),
-    labelSmall = defaultTextStyle.copy(
+    labelSmall = TextStyle(
         fontSize = 11.sp,
         lineHeight = 16.sp,
         letterSpacing = 0.5.sp
     ),
-    displayLarge = defaultTextStyle.copy(
+    displayLarge = TextStyle(
         fontSize = 57.sp,
         lineHeight = 64.sp,
         letterSpacing = (-0.25).sp
     ),
-    displayMedium = defaultTextStyle.copy(
+    displayMedium = TextStyle(
         fontSize = 45.sp,
         lineHeight = 52.sp
     ),
-    displaySmall = defaultTextStyle.copy(
+    displaySmall = TextStyle(
         fontSize = 36.sp,
         lineHeight = 44.sp
     )

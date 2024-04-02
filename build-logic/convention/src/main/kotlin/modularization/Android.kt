@@ -11,8 +11,8 @@ import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
-internal fun configureAndroid(target: Project, commonExtension: CommonExtension<*, *, *, *, *, *>) {
-    with(target) {
+internal fun configureAndroid(project: Project, commonExtension: CommonExtension<*, *, *, *, *, *>) {
+    with(project) {
         pluginManager.apply("org.jetbrains.kotlin.android")
         tasks.withType<KotlinJvmCompile> {
             compilerOptions {
@@ -25,28 +25,17 @@ internal fun configureAndroid(target: Project, commonExtension: CommonExtension<
             implementation(findLibrary("androidx.lifecycle.runtime.ktx"))
         }
     }
-    commonExtension.apply {
+    with(commonExtension) {
         compileSdk = AppConfig.COMPILE_SDK_VERSION
+        buildFeatures.buildConfig = true
         defaultConfig {
             minSdk = AppConfig.MIN_SDK_VERSION
             testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         }
-        setBuildTypes()
         compileOptions {
             sourceCompatibility = JavaVersion.VERSION_19
             targetCompatibility = JavaVersion.VERSION_19
         }
-    }
-}
-
-private fun CommonExtension<*, *, *, *, *, *>.setBuildTypes() {
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
+        setBuildTypes()
     }
 }

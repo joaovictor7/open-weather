@@ -24,3 +24,4 @@ rootProject.name = "Compose Test"
 include(":app")
 include(":feature:login")
 include(":core")
+includeBuild("build-logic")

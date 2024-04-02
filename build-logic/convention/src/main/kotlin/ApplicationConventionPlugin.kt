@@ -4,6 +4,8 @@ import modularization.configureAndroid
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.dependencies
+import utils.includeAllModules
 
 internal class ApplicationConventionPlugin: Plugin<Project> {
     override fun apply(target: Project) {
@@ -19,10 +21,26 @@ internal class ApplicationConventionPlugin: Plugin<Project> {
                         useSupportLibrary = true
                     }
                 }
+                signingConfigs {
+                    create("release") {
+                        storeFile = file(property("key.store").toString())
+                        storePassword = property("key.store.password").toString()
+                        keyAlias = property("key.alias").toString()
+                        keyPassword = property("key.alias.password").toString()
+                    }
+                }
+                buildTypes {
+                    release {
+                        signingConfig = signingConfigs.getByName("release")
+                    }
+                }
                 packaging {
                     resources {
                         excludes += "/META-INF/{AL2.0,LGPL2.1}"
                     }
+                }
+                dependencies {
+                    includeAllModules()
                 }
             }
         }

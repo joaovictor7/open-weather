@@ -11,7 +11,3 @@ android {
         applicationId = appPackage
     }
 }
-
-dependencies {
-    implementation(project(":core"))
-}

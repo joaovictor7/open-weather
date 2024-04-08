@@ -1,6 +1,6 @@
 package com.composetest.core.dimensions.densities.sw360
 
-import com.composetest.core.dimensions.densities.default.Component
+import com.composetest.core.dimensions.densities.defaults.Component
 
 internal class ComponentSw360: Component() {
 

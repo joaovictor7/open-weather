@@ -1,4 +1,4 @@
-package com.composetest.core.dimensions.densities.default
+package com.composetest.core.dimensions.densities.defaults
 
 import androidx.compose.ui.unit.sp
 

@@ -1,7 +1,7 @@
 package com.composetest.core.dimensions.densities.sw600
 
 import androidx.compose.ui.unit.sp
-import com.composetest.core.dimensions.densities.default.FontSize
+import com.composetest.core.dimensions.densities.defaults.FontSize
 
 internal class FontSizeSw600: FontSize() {
     override val eight = 10.sp

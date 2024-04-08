@@ -1,7 +1,7 @@
 package com.composetest.core.dimensions.densities.sw600
 
 import androidx.compose.ui.unit.dp
-import com.composetest.core.dimensions.densities.default.Spacing
+import com.composetest.core.dimensions.densities.defaults.Spacing
 
 internal class SpacingSw600: Spacing() {
     override val zero = 0.dp

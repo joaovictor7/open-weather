@@ -1,5 +1,6 @@
 import extensions.androidTestImplementation
 import extensions.findLibrary
+import extensions.kaptTest
 import extensions.testImplementation
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -12,6 +13,8 @@ internal class TestConventionPlugin : Plugin<Project> {
                 androidTestImplementation(findLibrary("androidx.espresso.core"))
                 androidTestImplementation(findLibrary("androidx.junit"))
                 testImplementation(findLibrary("junit"))
+                testImplementation(findLibrary("android.hilt.test"))
+                kaptTest(findLibrary("android.hilt.compiler"))
             }
         }
     }

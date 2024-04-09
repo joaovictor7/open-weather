@@ -20,7 +20,9 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Compose Test"
-include(":app")
-include(":feature:login")
-include(":core")
 includeBuild("build-logic")
+include(":app")
+include(":core")
+include(":router")
+include(":feature:login")
+include(":feature:home")

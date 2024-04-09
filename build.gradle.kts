@@ -4,4 +4,6 @@ plugins {
     alias(libs.plugins.composeTestLibrary) apply false
     alias(libs.plugins.composeTestCompose) apply false
     alias(libs.plugins.composeTestTest) apply false
+    alias(libs.plugins.kotlinSerialization) apply false
+    alias(libs.plugins.hilt) apply false
 }

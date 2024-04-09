@@ -1,5 +1,5 @@
-import appconfig.AppModule
-import utils.includeModule
+import appconfig.AppModules
+import utils.includeModules
 
 plugins {
     alias(libs.plugins.composeTestLibrary)
@@ -12,5 +12,8 @@ android {
 }
 
 dependencies {
-    includeModule(AppModule.CORE)
+    includeModules(
+        AppModules.CORE,
+        AppModules.ROUTER
+    )
 }

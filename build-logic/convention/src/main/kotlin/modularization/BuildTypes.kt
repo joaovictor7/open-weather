@@ -1,20 +1,23 @@
 package modularization
 
-import com.android.build.api.dsl.CommonExtension
+import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 
-internal fun CommonExtension<*, *, *, *, *, *>.setBuildTypes() {
+internal fun BaseAppModuleExtension.setBuildTypes() {
     buildTypes {
         all {
             buildConfigField("Boolean", "DYNAMIC_COLORS", "true")
         }
-        getByName("release") {
+        release {
+            signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
-        getByName("debug") {
+        debug {
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-DEBUG"
             buildConfigField("Boolean", "DYNAMIC_COLORS", "false")
         }
     }

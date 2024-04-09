@@ -16,3 +16,9 @@ internal fun DependencyHandlerScope.androidTestImplementation(dependencyNotation
 
 internal fun DependencyHandlerScope.testImplementation(dependencyNotation: Any) =
     implement("testImplementation", dependencyNotation)
+
+internal fun DependencyHandlerScope.kapt(dependencyNotation: Any) =
+    implement("kapt", dependencyNotation)
+
+internal fun DependencyHandlerScope.kaptTest(dependencyNotation: Any) =
+    implement("kaptTest", dependencyNotation)

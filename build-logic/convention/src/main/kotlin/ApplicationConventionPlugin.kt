@@ -1,16 +1,21 @@
 import appconfig.AppConfig
+import appconfig.AppModules
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import modularization.configureAndroid
+import modularization.setBuildTypes
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
-import utils.includeAllModules
+import utils.includeModules
 
 internal class ApplicationConventionPlugin: Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            pluginManager.apply("com.android.application")
+            with(pluginManager) {
+                apply("com.android.application")
+                apply("com.google.dagger.hilt.android")
+            }
             extensions.configure<BaseAppModuleExtension> {
                 configureAndroid(this@with, this)
                 defaultConfig {
@@ -29,18 +34,17 @@ internal class ApplicationConventionPlugin: Plugin<Project> {
                         keyPassword = property("key.alias.password").toString()
                     }
                 }
-                buildTypes {
-                    release {
-                        signingConfig = signingConfigs.getByName("release")
-                    }
+                buildFeatures {
+                    buildConfig = true
                 }
                 packaging {
                     resources {
                         excludes += "/META-INF/{AL2.0,LGPL2.1}"
                     }
                 }
+                setBuildTypes()
                 dependencies {
-                    includeAllModules()
+                    includeModules(*AppModules.values())
                 }
             }
         }

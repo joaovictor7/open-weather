@@ -14,13 +14,11 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
-import com.composetest.core.BuildConfig
-import com.composetest.core.theme.typography
 
 @Composable
 fun ComposeTestTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = BuildConfig.DYNAMIC_COLORS,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = getColorScheme(dynamicColor, darkTheme)
@@ -51,6 +49,7 @@ private fun SetStatusBarColor(colorScheme: ColorScheme, darkTheme: Boolean) {
         SideEffect {
             val window = (view.context as Activity).window
             window.statusBarColor = colorScheme.primary.toArgb()
+            window.navigationBarColor = colorScheme.primary.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
         }
     }

@@ -13,21 +13,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
 import com.composetest.core.dimensions.spacings
 import com.composetest.core.ui.components.buttons.ElevatedButton
 import com.composetest.core.ui.components.textfields.OutlinedTextField
 import com.composetest.core.ui.theme.ComposeTestTheme
-import com.composetest.core.utils.hiltViewModel
-import com.composetest.router.providers.NavigationProvider
+import com.composetest.core.R
 
 @Composable
-fun LoginScreen(navController: NavHostController) {
-    val viewModel = hiltViewModel<LoginViewModel>(navController)
+fun LoginScreen() {
+    val viewModel = hiltViewModel<LoginViewModel>()
     val state by viewModel.state.collectAsStateWithLifecycle()
     LoginContent(state = state, onHandleAction = viewModel::handleAction)
 }
@@ -47,12 +47,12 @@ private fun LoginContent(
                 .align(Alignment.Center)
         ) {
             Text(
-                text = "Login",
+                text = stringResource(R.string.feature_login_login),
                 style = MaterialTheme.typography.headlineLarge
             )
             Spacer(modifier = Modifier.height(spacings.fourteen))
             OutlinedTextField(
-                labelText = "E-mail",
+                labelText = stringResource(R.string.feature_login_email),
                 placeholderText = "fulano@gmail.com",
                 imeAction = ImeAction.Next,
                 modifier = Modifier.fillMaxWidth()
@@ -61,7 +61,7 @@ private fun LoginContent(
             }
             Spacer(modifier = Modifier.height(spacings.fourteen))
             OutlinedTextField(
-                labelText = "Senha",
+                labelText = stringResource(R.string.feature_login_password),
                 keyboardInput = KeyboardType.Password,
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -69,7 +69,7 @@ private fun LoginContent(
             }
             Spacer(modifier = Modifier.height(spacings.twentyTwo))
             ElevatedButton(
-                text = "Entrar",
+                text = stringResource(R.string.feature_login_enter),
                 modifier = Modifier.fillMaxWidth()
             ) { onHandleAction.invoke(LoginAction.ClickEnter) }
         }

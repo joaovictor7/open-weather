@@ -1,8 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <!-- Login feature -->
-    <string name="feature_login_login" translatable="false">Login</string>
-    <string name="feature_login_email" translatable="false">E-mail</string>
     <string name="feature_login_password">Password</string>
     <string name="feature_login_enter">Enter</string>
 

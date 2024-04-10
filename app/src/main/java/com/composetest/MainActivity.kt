@@ -14,6 +14,7 @@ import com.composetest.core.ui.theme.ComposeTestTheme
 import com.composetest.navigation.allDestinations
 import com.composetest.router.base.ScreenDestination
 import com.composetest.router.destinations.LoginDestinations
+import com.composetest.router.providers.NavControllerProvider
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -23,12 +24,15 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var loginDestination: LoginDestinations.Login
 
+    @Inject
+    lateinit var navControllerProvider: NavControllerProvider
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeTestTheme(dynamicColor = BuildConfig.DYNAMIC_COLORS) {
                 Column(modifier = Modifier.fillMaxSize()) {
-                    Navigation(loginDestination)
+                    Navigation(navControllerProvider, loginDestination)
                 }
             }
         }
@@ -36,14 +40,17 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-private fun Navigation(firstDestination: ScreenDestination) {
+private fun Navigation(
+    navControllerProvider: NavControllerProvider,
+    firstDestination: ScreenDestination
+) {
     val navController = rememberNavController()
+    navControllerProvider.setNavController(navController)
     NavHost(navController, firstDestination.route) {
-        allDestinations.forEach { screen ->
-            composable(route = screen.route,) {
-                screen.screen.invoke(navController)
+        allDestinations.forEach { destination ->
+            composable(route = destination.route) {
+                destination.screen.invoke()
             }
         }
     }
 }
-

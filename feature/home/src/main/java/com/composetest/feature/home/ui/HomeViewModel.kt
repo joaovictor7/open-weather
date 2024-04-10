@@ -1,19 +1,14 @@
 package com.composetest.feature.home.ui
 
-import androidx.navigation.NavHostController
-import com.composetest.core.factories.ViewModelNavigationFactory
 import com.composetest.core.ui.bases.BaseViewModel
 import com.composetest.router.destinations.HomeDestinations
 import com.composetest.router.params.home.HomeParam
 import com.composetest.router.providers.NavigationProvider
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-@HiltViewModel(assistedFactory = HomeViewModel.Factory::class)
-class HomeViewModel @AssistedInject constructor(
-    @Assisted private val navController: NavHostController,
+@HiltViewModel
+class HomeViewModel @Inject constructor(
     private val navigationProvider: NavigationProvider,
     private val homeDestinations: HomeDestinations.Home
 ) : BaseViewModel<HomeAction, HomeState>(HomeState()) {
@@ -28,9 +23,6 @@ class HomeViewModel @AssistedInject constructor(
     }
 
     private fun navigateToLogin() {
-        navigationProvider.navigateToBack(navController)
+        navigationProvider.navigateToBack()
     }
-
-    @AssistedFactory
-    sealed interface Factory : ViewModelNavigationFactory<HomeViewModel>
 }

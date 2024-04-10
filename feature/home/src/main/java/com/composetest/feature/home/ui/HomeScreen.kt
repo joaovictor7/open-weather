@@ -8,14 +8,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
 import com.composetest.core.ui.theme.ComposeTestTheme
-import com.composetest.core.utils.hiltViewModel
 
 @Composable
-fun HomeScreen(navController: NavHostController) {
-    val viewModel = hiltViewModel<HomeViewModel>(navController)
+fun HomeScreen() {
+    val viewModel = hiltViewModel<HomeViewModel>()
     val state by viewModel.state.collectAsStateWithLifecycle()
     HomeContent(state = state, viewModel::handleAction)
 }

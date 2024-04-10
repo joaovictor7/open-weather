@@ -4,5 +4,5 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
 
 interface ViewModelNavigationFactory<VM : ViewModel> {
-    fun create(navArgs: NavHostController): VM
+    fun create(navController: NavHostController): VM
 }

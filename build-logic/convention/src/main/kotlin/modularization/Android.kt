@@ -40,6 +40,8 @@ private fun configureProject(project: Project) = with(project) {
         implementation(findLibrary("androidx.lifecycle.runtime.ktx"))
         implementation(findLibrary("kotlin.json.serializable"))
         implementation(findLibrary("android.hilt"))
+        implementation(platform(findLibrary("firebase.bom")))
+        implementation(findLibrary("firebase.analytics"))
         kapt(findLibrary("android.hilt.compiler"))
     }
 }

@@ -7,24 +7,28 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.composetest.core.ui.theme.ComposeTestTheme
-import com.composetest.feature.login.destinations.LoginDestination
-import com.composetest.navigation.allModuleDestinations
+import com.composetest.navigation.allDestinations
+import com.composetest.router.base.ScreenDestination
+import com.composetest.router.destinations.LoginDestinations
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var loginDestination: LoginDestinations.Login
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeTestTheme(dynamicColor = BuildConfig.DYNAMIC_COLORS) {
                 Column(modifier = Modifier.fillMaxSize()) {
-                    Navigation()
+                    Navigation(loginDestination)
                 }
             }
         }
@@ -32,21 +36,14 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-private fun Navigation() {
+private fun Navigation(firstDestination: ScreenDestination) {
     val navController = rememberNavController()
-    NavHost(navController, LoginDestination.route) {
-        allModuleDestinations.forEach { screen ->
-            composable(route = screen.route) { navBackStackEntry ->
-                screen.screen.invoke(navController, navBackStackEntry)
+    NavHost(navController, firstDestination.route) {
+        allDestinations.forEach { screen ->
+            composable(route = screen.route,) {
+                screen.screen.invoke(navController)
             }
         }
     }
 }
 
-@Preview
-@Composable
-private fun GreetingPreview() {
-    ComposeTestTheme {
-        Navigation()
-    }
-}

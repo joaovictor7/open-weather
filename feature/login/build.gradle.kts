@@ -16,4 +16,5 @@ dependencies {
         AppModules.CORE,
         AppModules.ROUTER
     )
+    implementation(libs.firebase.auth)
 }

@@ -18,19 +18,27 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.composetest.core.dimensions.spacings
 import com.composetest.core.ui.components.buttons.ElevatedButton
 import com.composetest.core.ui.components.textfields.OutlinedTextField
 import com.composetest.core.ui.theme.ComposeTestTheme
 import com.composetest.core.utils.hiltViewModel
+import com.composetest.router.providers.NavigationProvider
 
 @Composable
-fun LoginScreen(
-    navHostController: NavHostController
-) {
-    val viewModel = hiltViewModel<LoginViewModel>(navHostController)
+fun LoginScreen(navController: NavHostController) {
+    val viewModel = hiltViewModel<LoginViewModel>(navController)
     val state by viewModel.state.collectAsStateWithLifecycle()
+    LoginContent(state = state, onHandleAction = viewModel::handleAction)
+}
+
+@Composable
+private fun LoginContent(
+    state: LoginState,
+    onHandleAction: (LoginAction) -> Unit
+) {
+    var email: String
+    var password: String
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -48,18 +56,22 @@ fun LoginScreen(
                 placeholderText = "fulano@gmail.com",
                 imeAction = ImeAction.Next,
                 modifier = Modifier.fillMaxWidth()
-            )
+            ) {
+                email = it
+            }
             Spacer(modifier = Modifier.height(spacings.fourteen))
             OutlinedTextField(
                 labelText = "Senha",
                 keyboardInput = KeyboardType.Password,
                 modifier = Modifier.fillMaxWidth()
-            )
+            ) {
+                password = it
+            }
             Spacer(modifier = Modifier.height(spacings.twentyTwo))
             ElevatedButton(
                 text = "Entrar",
                 modifier = Modifier.fillMaxWidth()
-            ) { viewModel.handleAction(LoginAction.ClickEnter) }
+            ) { onHandleAction.invoke(LoginAction.ClickEnter) }
         }
         Text(
             text = state.versionName,
@@ -75,6 +87,6 @@ fun LoginScreen(
 @Preview
 private fun Preview() {
     ComposeTestTheme {
-        LoginScreen(rememberNavController())
+        LoginContent(LoginState()) { }
     }
 }

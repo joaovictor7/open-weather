@@ -1,5 +1,5 @@
 package com.composetest.feature.login.destinations
 
-val loginModuleDestinations = listOf(
+val loginDestinations = listOf(
     LoginDestination
 )

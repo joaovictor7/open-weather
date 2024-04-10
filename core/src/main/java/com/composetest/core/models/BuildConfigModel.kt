@@ -5,7 +5,9 @@ data class BuildConfigModel(
     val versionName: String,
     val versionCode: Int,
     val buildType: String,
-    val dynamicColors: Boolean
+    val flavor: String,
+    val dynamicColors: Boolean,
+    val useMock: Boolean
 ) {
     val versionNameWithVersionCode get() = "$versionName - $versionCode"
 }

@@ -5,5 +5,12 @@ plugins {
     alias(libs.plugins.composeTestCompose) apply false
     alias(libs.plugins.composeTestTest) apply false
     alias(libs.plugins.kotlinSerialization) apply false
+    alias(libs.plugins.googleServices) apply false
     alias(libs.plugins.hilt) apply false
+}
+
+buildscript {
+    dependencies {
+        classpath(libs.firebase.crashlytics.gradle)
+    }
 }

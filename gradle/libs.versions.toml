@@ -13,8 +13,10 @@ composeBom = "2024.04.00"
 composeNavigation = "2.7.7"
 material = "1.11.0"
 hilt = "2.51.1"
+googleServices = "4.4.1"
 hiltComposeNavigation = "1.2.0"
 firebaseBom = "32.8.0"
+firebaseCrashlyticsGradle = "2.9.9"
 kotlinComposeCompilerExtension = "1.5.11"
 unspecified = "unspecified"
 
@@ -41,6 +43,8 @@ androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navig
 # Firebase
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics" }
+firebase-crashlytics-gradle = { group = "com.google.firebase", name = "firebase-crashlytics-gradle", version.ref = "firebaseCrashlyticsGradle" }
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth" }
 
 # Junit
@@ -65,3 +69,4 @@ composeTestCompose = { id = "com.composetest.compose", version.ref = "unspecifie
 composeTestTest = { id = "com.composetest.test", version.ref = "unspecified" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+googleServices = { id = "com.google.gms.google-services", version.ref = "googleServices" }

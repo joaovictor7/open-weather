@@ -1,5 +1,6 @@
 package modularization
 
+import appconfig.AppBuildTypes
 import appconfig.AppConfig
 import com.android.build.api.dsl.CommonExtension
 import extensions.findLibrary
@@ -18,11 +19,11 @@ internal fun configureAndroid(
     project: Project,
     commonExtension: CommonExtension<*, *, *, *, *, *>
 ) {
-    configureProject(project)
-    configureCommonExtension(commonExtension)
+    project.configure()
+    commonExtension.configure()
 }
 
-private fun configureProject(project: Project) = with(project) {
+private fun Project.configure() {
     with(pluginManager) {
         apply("org.jetbrains.kotlin.android")
         apply("org.jetbrains.kotlin.plugin.serialization")
@@ -41,20 +42,32 @@ private fun configureProject(project: Project) = with(project) {
         implementation(findLibrary("kotlin.json.serializable"))
         implementation(findLibrary("android.hilt"))
         implementation(platform(findLibrary("firebase.bom")))
-        implementation(findLibrary("firebase.analytics"))
         kapt(findLibrary("android.hilt.compiler"))
     }
 }
 
-private fun configureCommonExtension(commonExtension: CommonExtension<*, *, *, *, *, *>) =
-    with(commonExtension) {
-        compileSdk = AppConfig.COMPILE_SDK_VERSION
-        defaultConfig {
-            minSdk = AppConfig.MIN_SDK_VERSION
-            testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        }
-        compileOptions {
-            sourceCompatibility = JavaVersion.VERSION_19
-            targetCompatibility = JavaVersion.VERSION_19
-        }
+private fun CommonExtension<*, *, *, *, *, *>.configure() {
+    compileSdk = AppConfig.COMPILE_SDK_VERSION
+    defaultConfig {
+        minSdk = AppConfig.MIN_SDK_VERSION
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_19
+        targetCompatibility = JavaVersion.VERSION_19
+    }
+    setBuildTypes()
+}
+
+private fun CommonExtension<*, *, *, *, *, *>.setBuildTypes() {
+    buildTypes {
+        getByName(AppBuildTypes.RELEASE.buildTypeName) {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+        AppBuildTypes.values().filterNot { it.iaDefault }.forEach { create(it.buildTypeName) }
+    }
+}

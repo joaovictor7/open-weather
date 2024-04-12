@@ -3,8 +3,9 @@ package com.composetest.providers
 import com.composetest.BuildConfig
 import com.composetest.core.models.BuildConfigModel
 import com.composetest.core.providers.BuildConfigProvider
+import javax.inject.Inject
 
-class BuildConfigProviderImpl: BuildConfigProvider {
+class BuildConfigProviderImpl @Inject constructor() : BuildConfigProvider {
 
     override val buildConfigModel = BuildConfigModel(
         applicationId = BuildConfig.APPLICATION_ID,

@@ -3,9 +3,10 @@ package com.composetest.feature.login.ui
 import com.composetest.core.providers.BuildConfigProvider
 import com.composetest.core.ui.bases.BaseViewModel
 import com.composetest.feature.login.models.LoginModel
-import com.composetest.feature.login.usecases.LoginUseCase
-import com.composetest.router.destinations.HomeDestinations
-import com.composetest.router.destinations.LoginDestinations
+import com.composetest.feature.login.infra.usecases.LoginUseCase
+import com.composetest.router.destinations.Destination
+import com.composetest.router.destinations.Destinations
+import com.composetest.router.destinations.ScreenDestination
 import com.composetest.router.params.home.HomeParam
 import com.composetest.router.providers.NavigationProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val homeDestination: HomeDestinations.Home,
+    @Destinations(Destination.HOME) private val homeDestination: ScreenDestination,
     private val navigationProvider: NavigationProvider,
     private val buildConfigProvider: BuildConfigProvider,
     private val loginUseCase: LoginUseCase

@@ -7,31 +7,36 @@ import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
-import com.composetest.router.base.ScreenDestination
+import com.composetest.router.destinations.ScreenDestination
+import dagger.hilt.android.scopes.ViewModelScoped
+import javax.inject.Inject
 
-class NavigationProvider(
-    private val navControllerProvider: NavControllerProvider,
-    private val savedStateHandle: SavedStateHandle
+@ViewModelScoped
+class NavigationProvider @Inject constructor(
+    navControllerProvider: NavControllerProvider,
+    private val savedStateHandle: SavedStateHandle,
 ) {
+
+    private val navController: NavHostController? = navControllerProvider.navController
 
     fun <Param> navigateWithArgs(
         destination: ScreenDestination,
         param: Param
     ) {
-        navControllerProvider.navController?.navigateToScreen(destination.route, param)
+        navController?.navigateToScreen(destination.route, param)
     }
 
-    fun <Param> navigateToBackWithArgs(param: Param) = navControllerProvider.navController?.run {
+    fun <Param> navigateToBackWithArgs(param: Param) = navController?.run {
         val previousDestination = previousBackStackEntry?.destination
         navigateToScreen(previousDestination?.route.orEmpty(), param, true)
     }
 
     fun navigate(destination: ScreenDestination) {
-        navControllerProvider.navController?.navigate(destination.route)
+        navController?.navigate(destination.route)
     }
 
     fun navigateToBack() {
-        navControllerProvider.navController?.popBackStack()
+        navController?.popBackStack()
     }
 
     fun <Param> getParam(destination: ScreenDestination): Param {

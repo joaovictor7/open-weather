@@ -1,30 +1,16 @@
 package com.composetest.router.providers
 
 import androidx.navigation.NavHostController
-import dagger.BindsInstance
-import dagger.hilt.DefineComponent
-import dagger.hilt.EntryPoint
+import com.composetest.router.providers.components.NavControllerComponentBuilder
+import com.composetest.router.providers.components.NavHostControllerEntryPoint
 import dagger.hilt.EntryPoints
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@DefineComponent(parent = SingletonComponent::class)
-interface NavControllerComponent
-
-@DefineComponent.Builder
-sealed interface NavControllerComponentBuilder {
-    fun setNavController(@BindsInstance navController: NavHostController): NavControllerComponentBuilder
-    fun build(): NavControllerComponent
-}
-
-@EntryPoint
-@InstallIn(NavControllerComponent::class)
-internal interface NavHostControllerEntryPoint {
-    val navController: NavHostController
-}
-
-class NavControllerProvider @Inject constructor(private val builder: NavControllerComponentBuilder) {
+@Singleton
+class NavControllerProvider @Inject constructor(
+    private val builder: NavControllerComponentBuilder
+) {
 
     var navController: NavHostController? = null
         private set

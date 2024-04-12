@@ -1,8 +1,15 @@
 package com.composetest.core.providers
 
-class DataSourceProvider(private val buildConfigProvider: BuildConfigProvider) {
+import javax.inject.Inject
+import javax.inject.Singleton
+
+@Singleton
+class DataSourceProvider @Inject constructor(
+    private val buildConfigProvider: BuildConfigProvider
+) {
     fun <DataSource> getDataSource(
         apiDataSource: DataSource,
         mockDataSource: DataSource
-    ): DataSource = if (buildConfigProvider.buildConfigModel.useMock) mockDataSource else apiDataSource
+    ): DataSource =
+        if (buildConfigProvider.buildConfigModel.useMock) mockDataSource else apiDataSource
 }

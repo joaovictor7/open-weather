@@ -15,9 +15,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.composetest.core.ui.theme.ComposeTestTheme
-import com.composetest.navigation.allDestinations
-import com.composetest.router.base.ScreenDestination
-import com.composetest.router.destinations.LoginDestinations
+import com.composetest.router.destinations.Destination
+import com.composetest.router.destinations.Destinations
+import com.composetest.router.destinations.ScreenDestination
+import com.composetest.router.providers.DestinationProvider
 import com.composetest.router.providers.NavControllerProvider
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -26,10 +27,14 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
 
     @Inject
-    lateinit var loginDestination: LoginDestinations.Login
+    @Destinations(Destination.LOGIN)
+    lateinit var firstDestination: ScreenDestination
 
     @Inject
     lateinit var navControllerProvider: NavControllerProvider
+
+    @Inject
+    lateinit var destinationProvider: DestinationProvider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +49,11 @@ class MainActivity : ComponentActivity() {
                 dynamicColor = state.dynamicColor
             ) {
                 Column(modifier = Modifier.fillMaxSize()) {
-                    Navigation(navControllerProvider, loginDestination)
+                    Navigation(
+                        navControllerProvider,
+                        firstDestination,
+                        destinationProvider.allDestinations
+                    )
                 }
             }
         }
@@ -54,7 +63,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 private fun Navigation(
     navControllerProvider: NavControllerProvider,
-    firstDestination: ScreenDestination
+    firstDestination: ScreenDestination,
+    allDestinations: List<ScreenDestination>
 ) {
     val navController = rememberNavController()
     navControllerProvider.setNavController(navController)

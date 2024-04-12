@@ -2,16 +2,16 @@ package com.composetest.di
 
 import com.composetest.core.providers.BuildConfigProvider
 import com.composetest.providers.BuildConfigProviderImpl
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object SingletonModule {
+abstract class ProviderModule {
+    @Binds
     @Singleton
-    @get:Provides
-    val buildConfigProvider: BuildConfigProvider get() = BuildConfigProviderImpl()
+    abstract fun buildConfigProvider(buildConfigProviderImpl: BuildConfigProviderImpl): BuildConfigProvider
 }

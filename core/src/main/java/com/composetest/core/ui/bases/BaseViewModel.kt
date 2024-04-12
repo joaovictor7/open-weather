@@ -2,7 +2,6 @@ package com.composetest.core.ui.bases
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -24,7 +23,7 @@ abstract class BaseViewModel<Action, State>(stateInstance: State) : ViewModel() 
         errorAction: (e: Throwable) -> Unit = ::handleError,
         successAction: (param: T) -> Unit,
     ) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             flowAction.onStart {
                 //showLoading(showLoading)
             }.onCompletion {

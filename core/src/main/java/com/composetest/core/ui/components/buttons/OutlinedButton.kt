@@ -8,7 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import com.composetest.core.extensions.colors.opacity
+import com.composetest.core.extensions.opacity
 import com.composetest.core.ui.theme.ComposeTestTheme
 
 @Composable

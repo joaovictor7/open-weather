@@ -9,8 +9,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
+    private val homeDestinations: HomeDestinations.Home,
     private val navigationProvider: NavigationProvider,
-    private val homeDestinations: HomeDestinations.Home
 ) : BaseViewModel<HomeAction, HomeState>(HomeState()) {
 
     init {

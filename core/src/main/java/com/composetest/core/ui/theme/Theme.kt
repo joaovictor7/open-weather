@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import com.composetest.core.extensions.activity
 
 @Composable
 fun ComposeTestTheme(
@@ -47,7 +48,7 @@ private fun SetStatusBarColor(colorScheme: ColorScheme, darkTheme: Boolean) {
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
-            val window = (view.context as Activity).window
+            val window = view.context.activity.window
             window.statusBarColor = colorScheme.primary.toArgb()
             window.navigationBarColor = colorScheme.primary.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme

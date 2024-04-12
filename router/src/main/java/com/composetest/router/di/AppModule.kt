@@ -1,7 +1,7 @@
 package com.composetest.router.di
 
 import androidx.lifecycle.SavedStateHandle
-import com.composetest.router.di.components.NavControllerComponentBuilder
+import com.composetest.router.providers.NavControllerComponentBuilder
 import com.composetest.router.providers.NavControllerProvider
 import com.composetest.router.providers.NavigationProvider
 import dagger.Module
@@ -14,20 +14,20 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(ViewModelComponent::class)
-object AppModule {
-
+object ViewModelModule {
     @Provides
     @ViewModelScoped
-    fun navigation(teste: NavControllerProvider, savedStateHandle: SavedStateHandle) =
-        NavigationProvider(teste, savedStateHandle)
-
+    fun navigationProvider(
+        navControllerProvider: NavControllerProvider,
+        savedStateHandle: SavedStateHandle
+    ) = NavigationProvider(navControllerProvider, savedStateHandle)
 }
 
 @Module
 @InstallIn(SingletonComponent::class)
-object NavigationSingleModule {
+object SingletonModule {
     @Provides
     @Singleton
-    fun getTest(builder: NavControllerComponentBuilder) = NavControllerProvider(builder)
+    fun navControllerProvider(builder: NavControllerComponentBuilder) = NavControllerProvider(builder)
 }
 

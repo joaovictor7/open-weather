@@ -3,7 +3,9 @@ package com.composetest.feature.login.ui
 import com.composetest.core.providers.BuildConfigProvider
 import com.composetest.core.ui.bases.BaseViewModel
 import com.composetest.feature.login.models.LoginModel
+import com.composetest.feature.login.usecases.LoginUseCase
 import com.composetest.router.destinations.HomeDestinations
+import com.composetest.router.destinations.LoginDestinations
 import com.composetest.router.params.home.HomeParam
 import com.composetest.router.providers.NavigationProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,25 +14,30 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val navigationProvider: NavigationProvider,
     private val homeDestination: HomeDestinations.Home,
-    private val buildConfigProvider: BuildConfigProvider
+    private val navigationProvider: NavigationProvider,
+    private val buildConfigProvider: BuildConfigProvider,
+    private val loginUseCase: LoginUseCase
 ) : BaseViewModel<LoginAction, LoginState>(LoginState()) {
 
     private var loginModel: LoginModel? = null
 
     init {
         init()
-        val y = ""
     }
 
-    override fun handleAction(action: LoginAction) = when(action) {
+    override fun handleAction(action: LoginAction) = when (action) {
         is LoginAction.ClickEnter -> clickEnter()
         is LoginAction.WriteData -> writeData(action)
     }
 
     private fun clickEnter() {
-        navigationProvider.navigateWithArgs(homeDestination, HomeParam("teste"))
+        loginModel?.let {
+            asyncFlowTask(
+                flowAction = loginUseCase.login(it),
+                successAction = ::proccessLoginResponse
+            )
+        }
     }
 
     private fun writeData(data: LoginAction.WriteData) {
@@ -39,5 +46,11 @@ class LoginViewModel @Inject constructor(
 
     private fun init() = _state.update {
         it.setVersionName(buildConfigProvider.buildConfigModel.versionNameWithVersionCode)
+    }
+
+    private fun proccessLoginResponse(success: Boolean) {
+        if (success) {
+            navigationProvider.navigateWithArgs(homeDestination, HomeParam("teste"))
+        }
     }
 }

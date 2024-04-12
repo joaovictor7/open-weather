@@ -10,10 +10,8 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
-
+object SingletonModule {
     @Singleton
     @get:Provides
-    val buildConfigProvider: BuildConfigProvider
-        get() = BuildConfigProviderImpl()
+    val buildConfigProvider: BuildConfigProvider get() = BuildConfigProviderImpl()
 }

@@ -1,4 +1,4 @@
-package com.composetest.core.extensions.colors
+package com.composetest.core.extensions
 
 import androidx.compose.ui.graphics.Color
 

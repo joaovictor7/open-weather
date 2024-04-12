@@ -1,12 +1,16 @@
-package com.composetest
+package com.composetest.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -30,7 +34,15 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            ComposeTestTheme(dynamicColor = BuildConfig.DYNAMIC_COLORS) {
+            val darkMode = isSystemInDarkTheme()
+            val viewModel = hiltViewModel<MainViewModel, MainViewModel.Factory> {
+                it.create(darkMode)
+            }
+            val state by viewModel.state.collectAsStateWithLifecycle()
+            ComposeTestTheme(
+                darkTheme = state.darkTheme,
+                dynamicColor = state.dynamicColor
+            ) {
                 Column(modifier = Modifier.fillMaxSize()) {
                     Navigation(navControllerProvider, loginDestination)
                 }

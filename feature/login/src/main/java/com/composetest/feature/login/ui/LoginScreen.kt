@@ -37,8 +37,8 @@ private fun LoginContent(
     state: LoginState,
     onHandleAction: (LoginAction) -> Unit
 ) {
-    var email: String
-    var password: String
+    var email = String()
+    var password = String()
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -58,6 +58,7 @@ private fun LoginContent(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 email = it
+                onHandleAction.invoke(LoginAction.WriteData(email, password))
             }
             Spacer(modifier = Modifier.height(spacings.fourteen))
             OutlinedTextField(
@@ -66,6 +67,7 @@ private fun LoginContent(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 password = it
+                onHandleAction.invoke(LoginAction.WriteData(email, password))
             }
             Spacer(modifier = Modifier.height(spacings.twentyTwo))
             ElevatedButton(

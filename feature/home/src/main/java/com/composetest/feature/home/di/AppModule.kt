@@ -10,10 +10,10 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
+object SingletonModule {
 
     @get:Provides
     @Singleton
-    val login: HomeDestinations.Home get() = HomeDestination
+    val homeDestination: HomeDestinations.Home get() = HomeDestination
 
 }

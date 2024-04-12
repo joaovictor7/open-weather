@@ -13,6 +13,7 @@ internal fun BaseAppModuleExtension.setBuildTypes() {
                     AppBuildTypes.RELEASE -> signingConfigs.getByName(buildType.buildTypeName)
                     else -> signingConfigs.getByName(AppBuildTypes.DEBUG.buildTypeName)
                 }
+                isDebuggable = true
                 setAppName(buildType)
                 setBuildConfigFields(buildType)
             }

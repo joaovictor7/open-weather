@@ -13,7 +13,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import com.composetest.core.enums.textfields.TextFieldIconEnum
-import com.composetest.core.extensions.colors.opacity
+import com.composetest.core.extensions.opacity
 import com.composetest.core.ui.components.textfields.commons.createIcon
 import com.composetest.core.ui.components.textfields.commons.textFieldHelpedText
 import com.composetest.core.ui.components.textfields.commons.trailingIcon

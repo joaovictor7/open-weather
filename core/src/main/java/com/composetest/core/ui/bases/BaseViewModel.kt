@@ -19,19 +19,19 @@ abstract class BaseViewModel<Action, State>(stateInstance: State) : ViewModel() 
 
     protected fun <T> asyncFlowTask(
         showLoading: Boolean = false,
-        flowAction: Flow<T>,
-        errorAction: (e: Throwable) -> Unit = ::handleError,
-        successAction: (param: T) -> Unit,
+        flowTask: Flow<T>,
+        onErrorTask: (e: Throwable) -> Unit = ::handleError,
+        onSuccessTask: (param: T) -> Unit,
     ) {
         viewModelScope.launch {
-            flowAction.onStart {
+            flowTask.onStart {
                 //showLoading(showLoading)
             }.onCompletion {
                 //showLoading(false)
             }.catch {
-                errorAction.invoke(it)
+                onErrorTask.invoke(it)
             }.collect {
-                successAction.invoke(it)
+                onSuccessTask.invoke(it)
             }
         }
     }

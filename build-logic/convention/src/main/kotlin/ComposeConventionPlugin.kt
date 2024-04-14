@@ -1,5 +1,4 @@
 import com.android.build.gradle.BaseExtension
-import extensions.androidTestImplementation
 import extensions.debugImplementation
 import extensions.findLibrary
 import extensions.findVersion
@@ -24,17 +23,12 @@ internal class ComposeConventionPlugin : Plugin<Project> {
                 val composeBom = platform(findLibrary("compose.bom"))
                 implementation(composeBom)
                 implementation(findLibrary("compose.activity"))
-                implementation(findLibrary("compose.ui"))
-                implementation(findLibrary("compose.ui.graphics"))
                 implementation(findLibrary("compose.ui.tooling.preview"))
                 implementation(findLibrary("compose.material3"))
                 implementation(findLibrary("compose.navigation"))
                 implementation(findLibrary("androidx.lifecycle.runtime.compose"))
                 implementation(findLibrary("androidx.hilt.navigation.compose"))
-                debugImplementation(findLibrary("compose.ui.test.manifest"))
                 debugImplementation(findLibrary("compose.ui.tooling"))
-                androidTestImplementation(findLibrary("compose.ui.test.junit4"))
-                androidTestImplementation(composeBom)
             }
         }
     }

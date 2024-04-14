@@ -7,4 +7,5 @@ data class LoginState(
     val loginError: Boolean = false
 ) {
     fun setVersionName(versionName: String) = copy(versionName = versionName)
+    fun setError() = copy(loginError = true)
 }

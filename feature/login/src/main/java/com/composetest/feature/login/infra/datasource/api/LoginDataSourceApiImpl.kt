@@ -12,5 +12,4 @@ class LoginDataSourceApiImpl(private val firebaseAuth: FirebaseAuth): LoginDataS
         firebaseAuth.signInWithEmailAndPassword(login.email, login.password).await()
         emit(true)
     }
-
 }

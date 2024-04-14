@@ -35,8 +35,9 @@ class LoginViewModel @Inject constructor(
     private fun clickEnter() {
         loginModel?.let {
             asyncFlowTask(
-                flowAction = loginUseCase.login(it),
-                successAction = ::proccessLoginResponse
+                flowTask = loginUseCase.login(it),
+                onSuccessTask = ::processLoginResponse,
+                onErrorTask = ::errorLogin
             )
         }
     }
@@ -49,9 +50,13 @@ class LoginViewModel @Inject constructor(
         it.setVersionName(buildConfigProvider.buildConfigModel.versionNameWithVersionCode)
     }
 
-    private fun proccessLoginResponse(success: Boolean) {
+    private fun processLoginResponse(success: Boolean) {
         if (success) {
             navigationProvider.navigateWithArgs(homeDestination, HomeParam("teste"))
         }
+    }
+
+    private fun errorLogin(error: Throwable) = _state.update {
+        it.setError()
     }
 }

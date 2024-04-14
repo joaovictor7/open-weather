@@ -5,18 +5,18 @@ import com.composetest.router.destinations.Destination
 import com.composetest.router.destinations.Destinations
 import com.composetest.router.destinations.ScreenDestination
 import com.composetest.router.params.home.HomeParam
-import com.composetest.router.providers.NavigationProvider
+import com.composetest.router.managers.NavigationManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     @Destinations(Destination.HOME) private val homeDestination: ScreenDestination,
-    private val navigationProvider: NavigationProvider,
+    private val navigationManager: NavigationManager,
 ) : BaseViewModel<HomeAction, HomeState>(HomeState()) {
 
     init {
-        var e = navigationProvider.getParam<HomeParam>(homeDestination)
+        var e = navigationManager.getParam<HomeParam>(homeDestination)
         var w = e
     }
 
@@ -25,6 +25,6 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun navigateToLogin() {
-        navigationProvider.navigateToBack()
+        navigationManager.navigateToBack()
     }
 }

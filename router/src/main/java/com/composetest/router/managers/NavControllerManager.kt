@@ -1,14 +1,14 @@
-package com.composetest.router.providers
+package com.composetest.router.managers
 
 import androidx.navigation.NavHostController
-import com.composetest.router.providers.components.NavControllerComponentBuilder
-import com.composetest.router.providers.components.NavHostControllerEntryPoint
+import com.composetest.router.managers.components.NavControllerComponentBuilder
+import com.composetest.router.managers.components.NavHostControllerEntryPoint
 import dagger.hilt.EntryPoints
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class NavControllerProvider @Inject constructor(
+class NavControllerManager @Inject constructor(
     private val builder: NavControllerComponentBuilder
 ) {
 

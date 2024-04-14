@@ -18,8 +18,8 @@ import com.composetest.core.ui.theme.ComposeTestTheme
 import com.composetest.router.destinations.Destination
 import com.composetest.router.destinations.Destinations
 import com.composetest.router.destinations.ScreenDestination
-import com.composetest.router.providers.DestinationProvider
-import com.composetest.router.providers.NavControllerProvider
+import com.composetest.router.managers.DestinationManager
+import com.composetest.router.managers.NavControllerManager
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -31,10 +31,10 @@ class MainActivity : ComponentActivity() {
     lateinit var firstDestination: ScreenDestination
 
     @Inject
-    lateinit var navControllerProvider: NavControllerProvider
+    lateinit var navControllerManager: NavControllerManager
 
     @Inject
-    lateinit var destinationProvider: DestinationProvider
+    lateinit var destinationManager: DestinationManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,9 +50,9 @@ class MainActivity : ComponentActivity() {
             ) {
                 Column(modifier = Modifier.fillMaxSize()) {
                     Navigation(
-                        navControllerProvider,
+                        navControllerManager,
                         firstDestination,
-                        destinationProvider.allDestinations
+                        destinationManager.allDestinations
                     )
                 }
             }
@@ -62,12 +62,12 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 private fun Navigation(
-    navControllerProvider: NavControllerProvider,
+    navControllerManager: NavControllerManager,
     firstDestination: ScreenDestination,
     allDestinations: List<ScreenDestination>
 ) {
     val navController = rememberNavController()
-    navControllerProvider.setNavController(navController)
+    navControllerManager.setNavController(navController)
     NavHost(navController, firstDestination.route) {
         allDestinations.forEach { destination ->
             composable(route = destination.route) {

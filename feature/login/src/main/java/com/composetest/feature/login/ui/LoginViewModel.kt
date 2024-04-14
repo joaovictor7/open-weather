@@ -1,6 +1,6 @@
 package com.composetest.feature.login.ui
 
-import com.composetest.core.providers.BuildConfigProvider
+import com.composetest.core.managers.BuildConfigManager
 import com.composetest.core.ui.bases.BaseViewModel
 import com.composetest.feature.login.models.LoginModel
 import com.composetest.feature.login.infra.usecases.LoginUseCase
@@ -8,7 +8,7 @@ import com.composetest.router.destinations.Destination
 import com.composetest.router.destinations.Destinations
 import com.composetest.router.destinations.ScreenDestination
 import com.composetest.router.params.home.HomeParam
-import com.composetest.router.providers.NavigationProvider
+import com.composetest.router.managers.NavigationManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
@@ -16,8 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     @Destinations(Destination.HOME) private val homeDestination: ScreenDestination,
-    private val navigationProvider: NavigationProvider,
-    private val buildConfigProvider: BuildConfigProvider,
+    private val navigationManager: NavigationManager,
+    private val buildConfigManager: BuildConfigManager,
     private val loginUseCase: LoginUseCase
 ) : BaseViewModel<LoginAction, LoginState>(LoginState()) {
 
@@ -47,12 +47,12 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun init() = _state.update {
-        it.setVersionName(buildConfigProvider.buildConfigModel.versionNameWithVersionCode)
+        it.setVersionName(buildConfigManager.buildConfigModel.versionNameWithVersionCode)
     }
 
     private fun processLoginResponse(success: Boolean) {
         if (success) {
-            navigationProvider.navigateWithArgs(homeDestination, HomeParam("teste"))
+            navigationManager.navigateWithArgs(homeDestination, HomeParam("teste"))
         }
     }
 

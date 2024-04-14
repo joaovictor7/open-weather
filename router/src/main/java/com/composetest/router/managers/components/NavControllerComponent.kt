@@ -1,4 +1,4 @@
-package com.composetest.router.providers.components
+package com.composetest.router.managers.components
 
 import androidx.navigation.NavHostController
 import dagger.BindsInstance

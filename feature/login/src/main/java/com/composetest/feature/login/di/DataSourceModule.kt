@@ -1,6 +1,6 @@
 package com.composetest.feature.login.di
 
-import com.composetest.core.providers.DataSourceProvider
+import com.composetest.core.managers.DataSourceManager
 import com.composetest.feature.login.infra.datasource.LoginDataSource
 import com.composetest.feature.login.infra.datasource.api.LoginDataSourceApiImpl
 import com.composetest.feature.login.infra.datasource.mock.LoginDataSourceMockImpl
@@ -17,9 +17,9 @@ object DataSourceModule {
     @Provides
     @ViewModelScoped
     fun loginDataSource(
-        dataSourceProvider: DataSourceProvider,
+        dataSourceManager: DataSourceManager,
         firebaseAuth: FirebaseAuth
-    ): LoginDataSource = dataSourceProvider.getDataSource(
+    ): LoginDataSource = dataSourceManager.getDataSource(
         apiDataSource = LoginDataSourceApiImpl(firebaseAuth),
         mockDataSource = LoginDataSourceMockImpl()
     )

@@ -5,6 +5,17 @@ internal enum class AppBuildTypes(val buildTypeName: String, ) {
     DEBUG("debug"),
     STAGING("staging");
 
-    val isRelease: Boolean get() = this == RELEASE
-    val iaDefault: Boolean get() = this in listOf(RELEASE, DEBUG)
+    val isDefault: Boolean get() = this in listOf(RELEASE, DEBUG)
+
+    fun getApplicationIdSuffix(
+        onRelease: () -> Unit,
+        onNonRelease: (String) -> Unit,
+    ) = when(this) {
+        RELEASE -> onRelease.invoke()
+        DEBUG, STAGING -> onNonRelease.invoke(DEV_APP_ID_SUFFIX)
+    }
+
+    private companion object {
+        const val DEV_APP_ID_SUFFIX = "dev"
+    }
 }

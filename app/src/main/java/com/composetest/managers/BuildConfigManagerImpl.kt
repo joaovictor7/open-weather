@@ -4,7 +4,9 @@ import com.composetest.BuildConfig
 import com.composetest.core.models.BuildConfigModel
 import com.composetest.core.managers.BuildConfigManager
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class BuildConfigManagerImpl @Inject constructor() : BuildConfigManager {
 
     override val buildConfigModel = BuildConfigModel(
@@ -16,5 +18,4 @@ class BuildConfigManagerImpl @Inject constructor() : BuildConfigManager {
         dynamicColors = BuildConfig.DYNAMIC_COLORS,
         useMock = BuildConfig.USE_MOCK
     )
-
 }

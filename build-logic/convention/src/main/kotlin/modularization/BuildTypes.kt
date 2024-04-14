@@ -21,15 +21,18 @@ internal fun BaseAppModuleExtension.setBuildTypes() {
     }
 }
 
-private fun ApplicationBuildType.setAppName(buildType: AppBuildTypes) {
-    if (buildType.isRelease) {
-        manifestPlaceholders["appName"] = AppConfig.APP_NAME
-    } else {
-        val buildTypeNameUpper = buildType.buildTypeName.uppercase()
-        manifestPlaceholders["appName"] = "${AppConfig.APP_NAME} - $buildTypeNameUpper"
-        versionNameSuffix = "-$buildTypeNameUpper"
-        applicationIdSuffix = ".dev"
-    }
+private fun ApplicationBuildType.setAppName(buildType: AppBuildTypes) = with(buildType) {
+    getApplicationIdSuffix(
+        onRelease = {
+            manifestPlaceholders["appName"] = AppConfig.APP_NAME
+        },
+        onNonRelease = { idSuffix ->
+            val buildTypeNameUpper = buildType.buildTypeName.uppercase()
+            manifestPlaceholders["appName"] = "${AppConfig.APP_NAME} - $buildTypeNameUpper"
+            versionNameSuffix = "-$buildTypeNameUpper"
+            applicationIdSuffix = ".$idSuffix"
+        }
+    )
 }
 
 private fun ApplicationBuildType.setBuildConfigFields(buildType: AppBuildTypes) {

@@ -1,17 +1,20 @@
 import appconfig.AppBuildTypes
 import appconfig.AppConfig
 import appconfig.AppModules
+import com.android.build.api.dsl.ApkSigningConfig
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import extensions.findLibrary
 import extensions.implementation
 import modularization.configureAndroid
 import modularization.setBuildTypes
 import modularization.setFlavors
+import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import utils.includeModules
+import java.util.Properties
 
 internal class ApplicationConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -33,12 +36,7 @@ internal class ApplicationConventionPlugin : Plugin<Project> {
                     }
                 }
                 signingConfigs {
-                    create(AppBuildTypes.RELEASE.buildTypeName) {
-                        storeFile = file(property("key.store").toString())
-                        storePassword = property("key.store.password").toString()
-                        keyAlias = property("key.alias").toString()
-                        keyPassword = property("key.alias.password").toString()
-                    }
+                    createSigning(this@with, this, AppBuildTypes.RELEASE)
                 }
                 buildFeatures {
                     buildConfig = true
@@ -55,6 +53,24 @@ internal class ApplicationConventionPlugin : Plugin<Project> {
                 includeModules(*AppModules.values())
                 implementation(findLibrary("firebase.analytics"))
                 implementation(findLibrary("firebase.crashlytics"))
+            }
+        }
+    }
+
+    private fun createSigning(
+        project: Project,
+        apkSigningConfig: NamedDomainObjectContainer<out ApkSigningConfig>,
+        buildType: AppBuildTypes
+    ) = with(project) {
+        val buildTypeName = buildType.buildTypeName
+        val propertyFile = file("../$buildTypeName-signing.properties")
+        if (propertyFile.exists()) {
+            val property = Properties().apply { propertyFile.inputStream().use { load(it) } }
+            apkSigningConfig.create(buildTypeName) {
+                storeFile = file("../key/$buildTypeName/key-chain")
+                storePassword = property.getProperty("key.store.password")
+                keyAlias = property.getProperty("key.alias")
+                keyPassword = property.getProperty("key.alias.password")
             }
         }
     }

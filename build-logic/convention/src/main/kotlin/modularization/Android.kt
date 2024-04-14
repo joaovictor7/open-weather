@@ -68,6 +68,6 @@ private fun CommonExtension<*, *, *, *, *, *>.setBuildTypes() {
                 "proguard-rules.pro"
             )
         }
-        AppBuildTypes.values().filterNot { it.iaDefault }.forEach { create(it.buildTypeName) }
+        AppBuildTypes.values().filterNot { it.isDefault }.forEach { create(it.buildTypeName) }
     }
 }

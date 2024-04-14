@@ -10,7 +10,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class ManagerModule {
+internal abstract class ManagerModule {
     @Binds
     @Singleton
     abstract fun buildConfigManager(buildConfigManagerImpl: BuildConfigManagerImpl): BuildConfigManager

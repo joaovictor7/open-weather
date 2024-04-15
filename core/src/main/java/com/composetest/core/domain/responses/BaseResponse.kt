@@ -1,4 +1,4 @@
-package com.composetest.core.models.responses.bases
+package com.composetest.core.domain.responses
 
 open class BaseResponse(
     val statusCode: Int = 200,

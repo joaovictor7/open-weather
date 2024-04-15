@@ -1,9 +1,9 @@
 package com.composetest.feature.login.di
 
-import com.composetest.feature.login.destinations.LoginDestination
-import com.composetest.router.destinations.Destination
-import com.composetest.router.destinations.Destinations
-import com.composetest.router.destinations.ScreenDestination
+import com.composetest.feature.login.navigation.LoginDestination
+import com.composetest.router.domain.enums.Destinations
+import com.composetest.router.navigation.ScreenDestination
+import com.composetest.router.navigation.qualifiers.Destination
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -15,6 +15,6 @@ import javax.inject.Singleton
 abstract class NavigationModule {
     @Binds
     @Singleton
-    @Destinations(Destination.LOGIN)
+    @Destination(Destinations.LOGIN)
     abstract fun loginDestination(loginDestinations: LoginDestination): ScreenDestination
 }

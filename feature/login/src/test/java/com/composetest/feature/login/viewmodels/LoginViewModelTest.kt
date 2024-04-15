@@ -1,12 +1,12 @@
 package com.composetest.feature.login.viewmodels
 
-import com.composetest.core.models.BuildConfigModel
+import com.composetest.core.domain.models.BuildConfigModel
 import com.composetest.core.managers.BuildConfigManager
 import com.composetest.core.test.shared.CourotineExtension
 import com.composetest.feature.login.infra.datasource.LoginDataSource
 import com.composetest.feature.login.infra.repositories.LoginRepository
 import com.composetest.feature.login.infra.usecases.LoginUseCase
-import com.composetest.feature.login.models.LoginModel
+import com.composetest.feature.login.domain.models.LoginModel
 import com.composetest.feature.login.ui.LoginAction
 import com.composetest.feature.login.ui.LoginState
 import com.composetest.feature.login.ui.LoginViewModel

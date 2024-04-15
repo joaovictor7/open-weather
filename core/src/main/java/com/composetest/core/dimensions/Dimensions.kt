@@ -8,7 +8,7 @@ import com.composetest.core.dimensions.densities.sw360.ComponentSw360
 import com.composetest.core.dimensions.densities.sw600.ComponentSw600
 import com.composetest.core.dimensions.densities.sw600.FontSizeSw600
 import com.composetest.core.dimensions.densities.sw600.SpacingSw600
-import com.composetest.core.enums.DensitiesEnum.Companion.getDensity
+import com.composetest.core.domain.enums.Densities.Companion.getDensity
 
 val spacings: Spacing
     @Composable get() = getDensity(

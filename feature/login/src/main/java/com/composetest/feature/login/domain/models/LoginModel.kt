@@ -1,4 +1,4 @@
-package com.composetest.feature.login.models
+package com.composetest.feature.login.domain.models
 
 data class LoginModel(
     val email: String,

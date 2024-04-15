@@ -7,7 +7,7 @@ import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
-import com.composetest.router.destinations.ScreenDestination
+import com.composetest.router.navigation.ScreenDestination
 import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject
 

@@ -12,11 +12,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
-import com.composetest.core.enums.textfields.TextFieldIconEnum
+import com.composetest.core.domain.enums.components.textfield.TextFieldIcons
 import com.composetest.core.extensions.opacity
-import com.composetest.core.ui.components.textfields.commons.createIcon
-import com.composetest.core.ui.components.textfields.commons.textFieldHelpedText
-import com.composetest.core.ui.components.textfields.commons.trailingIcon
+import com.composetest.core.ui.components.textfields.utils.createIcon
+import com.composetest.core.ui.components.textfields.utils.textFieldHelpedText
+import com.composetest.core.ui.components.textfields.utils.trailingIcon
 import com.composetest.core.ui.components.textfields.params.TextFieldTrailingIconParam
 import com.composetest.core.ui.theme.ComposeTestTheme
 
@@ -27,7 +27,7 @@ fun TextField(
     placeholderText: String? = null,
     supportingText: String? = null,
     trailingIconParam: TextFieldTrailingIconParam? = null,
-    leadingIcon: TextFieldIconEnum? = null,
+    leadingIcon: TextFieldIcons? = null,
     singleLine: Boolean = true,
     enabled: Boolean = true,
     readOnly: Boolean = false,
@@ -40,7 +40,7 @@ fun TextField(
         value = textValue.value,
         enabled = enabled,
         singleLine = singleLine,
-        isError = trailingIconParam?.iconType == TextFieldIconEnum.ERROR,
+        isError = trailingIconParam?.iconType == TextFieldIcons.ERROR,
         readOnly = readOnly,
         modifier = modifier,
         onValueChange = {
@@ -76,7 +76,7 @@ private fun Preview() {
             labelText = "Label",
             placeholderText = "Placeholder",
             supportingText = "Supporting text",
-            trailingIconParam = TextFieldTrailingIconParam(TextFieldIconEnum.CLEAR_TEXT)
+            trailingIconParam = TextFieldTrailingIconParam(TextFieldIcons.CLEAR_TEXT)
         ) { }
     }
 }

@@ -1,6 +1,6 @@
-import appconfig.AppBuildTypes
 import appconfig.AppConfig
 import appconfig.AppModules
+import appconfig.AppSignings
 import com.android.build.api.dsl.ApkSigningConfig
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import extensions.findLibrary
@@ -36,7 +36,7 @@ internal class ApplicationConventionPlugin : Plugin<Project> {
                     }
                 }
                 signingConfigs {
-                    createSigning(this@with, this, AppBuildTypes.RELEASE)
+                    createSigning(this@with, this, AppSignings.RELEASE)
                 }
                 buildFeatures {
                     buildConfig = true
@@ -60,14 +60,13 @@ internal class ApplicationConventionPlugin : Plugin<Project> {
     private fun createSigning(
         project: Project,
         apkSigningConfig: NamedDomainObjectContainer<out ApkSigningConfig>,
-        buildType: AppBuildTypes
+        name: AppSignings
     ) = with(project) {
-        val buildTypeName = buildType.buildTypeName
-        val propertyFile = file("../$buildTypeName-signing.properties")
+        val propertyFile = file("../${name.signingName}-signing.properties")
         if (propertyFile.exists()) {
             val property = Properties().apply { propertyFile.inputStream().use { load(it) } }
-            apkSigningConfig.create(buildTypeName) {
-                storeFile = file("../key/$buildTypeName/key-chain")
+            apkSigningConfig.create(name.signingName) {
+                storeFile = file("../key/${name.signingName}/keystore.jks")
                 storePassword = property.getProperty("key.store.password")
                 keyAlias = property.getProperty("key.alias")
                 keyPassword = property.getProperty("key.alias.password")

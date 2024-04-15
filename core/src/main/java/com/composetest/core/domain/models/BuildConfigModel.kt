@@ -1,4 +1,4 @@
-package com.composetest.core.models
+package com.composetest.core.domain.models
 
 data class BuildConfigModel(
     val applicationId: String,

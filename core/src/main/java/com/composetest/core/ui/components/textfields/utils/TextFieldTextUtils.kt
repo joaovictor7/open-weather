@@ -1,4 +1,4 @@
-package com.composetest.core.ui.components.textfields.commons
+package com.composetest.core.ui.components.textfields.utils
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

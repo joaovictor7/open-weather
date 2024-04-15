@@ -2,20 +2,20 @@ package com.composetest.feature.login.ui
 
 import com.composetest.core.managers.BuildConfigManager
 import com.composetest.core.ui.bases.BaseViewModel
-import com.composetest.feature.login.models.LoginModel
+import com.composetest.feature.login.domain.models.LoginModel
 import com.composetest.feature.login.infra.usecases.LoginUseCase
-import com.composetest.router.destinations.Destination
-import com.composetest.router.destinations.Destinations
-import com.composetest.router.destinations.ScreenDestination
+import com.composetest.router.domain.enums.Destinations
+import com.composetest.router.navigation.ScreenDestination
 import com.composetest.router.params.home.HomeParam
 import com.composetest.router.managers.NavigationManager
+import com.composetest.router.navigation.qualifiers.Destination
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    @Destinations(Destination.HOME) private val homeDestination: ScreenDestination,
+    @Destination(Destinations.HOME) private val homeDestination: ScreenDestination,
     private val navigationManager: NavigationManager,
     private val buildConfigManager: BuildConfigManager,
     private val loginUseCase: LoginUseCase

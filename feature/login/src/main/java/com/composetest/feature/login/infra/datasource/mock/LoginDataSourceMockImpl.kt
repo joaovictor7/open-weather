@@ -1,7 +1,7 @@
 package com.composetest.feature.login.infra.datasource.mock
 
 import com.composetest.feature.login.infra.datasource.LoginDataSource
-import com.composetest.feature.login.models.LoginModel
+import com.composetest.feature.login.domain.models.LoginModel
 import kotlinx.coroutines.flow.flow
 
 class LoginDataSourceMockImpl: LoginDataSource {

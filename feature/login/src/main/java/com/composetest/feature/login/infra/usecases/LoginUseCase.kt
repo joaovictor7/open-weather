@@ -1,7 +1,7 @@
 package com.composetest.feature.login.infra.usecases
 
 import com.composetest.feature.login.infra.repositories.LoginRepository
-import com.composetest.feature.login.models.LoginModel
+import com.composetest.feature.login.domain.models.LoginModel
 import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject
 

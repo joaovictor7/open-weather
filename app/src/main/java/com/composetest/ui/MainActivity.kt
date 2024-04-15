@@ -15,11 +15,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.composetest.core.ui.theme.ComposeTestTheme
-import com.composetest.router.destinations.Destination
-import com.composetest.router.destinations.Destinations
-import com.composetest.router.destinations.ScreenDestination
+import com.composetest.router.domain.enums.Destinations
+import com.composetest.router.navigation.ScreenDestination
 import com.composetest.router.managers.DestinationManager
 import com.composetest.router.managers.NavControllerManager
+import com.composetest.router.navigation.qualifiers.Destination
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -27,7 +27,7 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
 
     @Inject
-    @Destinations(Destination.LOGIN)
+    @Destination(Destinations.LOGIN)
     lateinit var firstDestination: ScreenDestination
 
     @Inject

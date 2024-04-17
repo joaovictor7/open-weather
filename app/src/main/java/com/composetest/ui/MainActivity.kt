@@ -17,8 +17,8 @@ import androidx.navigation.compose.rememberNavController
 import com.composetest.core.ui.theme.ComposeTestTheme
 import com.composetest.router.domain.enums.Destinations
 import com.composetest.router.navigation.ScreenDestination
-import com.composetest.router.managers.DestinationManager
-import com.composetest.router.managers.NavControllerManager
+import com.composetest.router.providers.DestinationProvider
+import com.composetest.router.providers.NavControllerProvider
 import com.composetest.router.navigation.qualifiers.Destination
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -31,10 +31,10 @@ class MainActivity : ComponentActivity() {
     lateinit var firstDestination: ScreenDestination
 
     @Inject
-    lateinit var navControllerManager: NavControllerManager
+    lateinit var navControllerProvider: NavControllerProvider
 
     @Inject
-    lateinit var destinationManager: DestinationManager
+    lateinit var destinationProvider: DestinationProvider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,9 +50,9 @@ class MainActivity : ComponentActivity() {
             ) {
                 Column(modifier = Modifier.fillMaxSize()) {
                     Navigation(
-                        navControllerManager,
+                        navControllerProvider,
                         firstDestination,
-                        destinationManager.allDestinations
+                        destinationProvider.allDestinations
                     )
                 }
             }
@@ -62,12 +62,12 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 private fun Navigation(
-    navControllerManager: NavControllerManager,
+    navControllerProvider: NavControllerProvider,
     firstDestination: ScreenDestination,
     allDestinations: List<ScreenDestination>
 ) {
     val navController = rememberNavController()
-    navControllerManager.setNavController(navController)
+    navControllerProvider.setNavController(navController)
     NavHost(navController, firstDestination.route) {
         allDestinations.forEach { destination ->
             composable(route = destination.route) {

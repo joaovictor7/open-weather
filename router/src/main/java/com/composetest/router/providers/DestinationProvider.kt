@@ -1,4 +1,4 @@
-package com.composetest.router.managers
+package com.composetest.router.providers
 
 import com.composetest.router.domain.enums.Destinations
 import com.composetest.router.navigation.ScreenDestination
@@ -7,7 +7,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class DestinationManager @Inject constructor(
+class DestinationProvider @Inject constructor(
     @Destination(Destinations.LOGIN) loginDestination: ScreenDestination,
     @Destination(Destinations.HOME) homeDestination: ScreenDestination
 ) {

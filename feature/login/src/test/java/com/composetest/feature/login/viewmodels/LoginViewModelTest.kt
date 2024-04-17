@@ -1,7 +1,7 @@
 package com.composetest.feature.login.viewmodels
 
 import com.composetest.core.domain.models.BuildConfigModel
-import com.composetest.core.managers.BuildConfigManager
+import com.composetest.core.providers.BuildConfigProvider
 import com.composetest.core.test.shared.CourotineExtension
 import com.composetest.feature.login.infra.datasource.LoginDataSource
 import com.composetest.feature.login.infra.repositories.LoginRepository
@@ -32,7 +32,7 @@ class LoginViewModelTest {
         useMock = true
     )
 
-    private val buildConfigManager: BuildConfigManager = object : BuildConfigManager {
+    private val buildConfigProvider: BuildConfigProvider = object : BuildConfigProvider {
         override val buildConfigModel: BuildConfigModel = buildConfigModelMock
     }
     private val loginDataSource: LoginDataSource = mockk()
@@ -45,8 +45,8 @@ class LoginViewModelTest {
     fun before() {
         viewModel = LoginViewModel(
             homeDestination = mockk(),
-            navigationManager = mockk(),
-            buildConfigManager = buildConfigManager,
+            navigationProvider = mockk(),
+            buildConfigProvider = buildConfigProvider,
             loginUseCase = loginUseCase
         )
     }

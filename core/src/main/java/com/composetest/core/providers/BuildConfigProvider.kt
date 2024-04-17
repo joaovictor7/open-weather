@@ -1,7 +1,7 @@
-package com.composetest.core.managers
+package com.composetest.core.providers
 
 import com.composetest.core.domain.models.BuildConfigModel
 
-interface BuildConfigManager {
+interface BuildConfigProvider {
     val buildConfigModel: BuildConfigModel
 }

@@ -1,4 +1,4 @@
-package com.composetest.router.managers
+package com.composetest.router.providers
 
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
@@ -12,12 +12,12 @@ import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject
 
 @ViewModelScoped
-class NavigationManager @Inject constructor(
-    navControllerManager: NavControllerManager,
+class NavigationProvider @Inject constructor(
+    navControllerProvider: NavControllerProvider,
     private val savedStateHandle: SavedStateHandle,
 ) {
 
-    private val navController: NavHostController? = navControllerManager.navController
+    private val navController: NavHostController? = navControllerProvider.navController
 
     fun <Param> navigateWithArgs(
         destination: ScreenDestination,

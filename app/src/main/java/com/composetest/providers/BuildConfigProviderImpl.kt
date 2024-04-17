@@ -1,13 +1,13 @@
-package com.composetest.managers
+package com.composetest.providers
 
 import com.composetest.BuildConfig
 import com.composetest.core.domain.models.BuildConfigModel
-import com.composetest.core.managers.BuildConfigManager
+import com.composetest.core.providers.BuildConfigProvider
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class BuildConfigManagerImpl @Inject constructor() : BuildConfigManager {
+class BuildConfigProviderImpl @Inject constructor() : BuildConfigProvider {
 
     override val buildConfigModel = BuildConfigModel(
         applicationId = BuildConfig.APPLICATION_ID,

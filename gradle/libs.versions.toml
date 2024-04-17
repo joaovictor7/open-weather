@@ -14,9 +14,9 @@ material = "1.11.0"
 hilt = "2.51.1"
 googleServices = "4.4.1"
 hiltComposeNavigation = "1.2.0"
-firebaseBom = "32.8.0"
+firebaseBom = "32.8.1"
 firebaseCrashlyticsGradle = "2.9.9"
-mockito = "5.11.0"
+mockK = "1.13.10"
 kotlinComposeCompilerExtension = "1.5.11"
 unspecified = "unspecified"
 
@@ -59,8 +59,8 @@ compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling
 compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "composeNavigation" }
 
-# Mockito
-mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
+# MockK
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockK" }
 
 [plugins]
 composeTestApplication = { id = "com.composetest.application", version.ref = "unspecified" }

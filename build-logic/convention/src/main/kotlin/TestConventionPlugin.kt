@@ -15,7 +15,7 @@ internal class TestConventionPlugin : Plugin<Project> {
             }
             dependencies {
                 testImplementation(findLibrary("junit5"))
-                testImplementation(findLibrary("mockito.core"))
+                testImplementation(findLibrary("mockk"))
                 testRuntimeOnly(findLibrary("junit5.engine"))
             }
         }

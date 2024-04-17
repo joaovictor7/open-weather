@@ -10,13 +10,13 @@ import com.composetest.feature.login.domain.models.LoginModel
 import com.composetest.feature.login.ui.LoginAction
 import com.composetest.feature.login.ui.LoginState
 import com.composetest.feature.login.ui.LoginViewModel
+import io.mockk.coEvery
+import io.mockk.mockk
 import kotlinx.coroutines.flow.flow
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.`when`
 import java.lang.Exception
 
 @ExtendWith(CourotineExtension::class)
@@ -35,7 +35,7 @@ class LoginViewModelTest {
     private val buildConfigManager: BuildConfigManager = object : BuildConfigManager {
         override val buildConfigModel: BuildConfigModel = buildConfigModelMock
     }
-    private val loginDataSource: LoginDataSource = mock()
+    private val loginDataSource: LoginDataSource = mockk()
     private val loginRepository: LoginRepository = LoginRepository(loginDataSource)
     private val loginUseCase = LoginUseCase(loginRepository)
 
@@ -44,8 +44,8 @@ class LoginViewModelTest {
     @BeforeEach
     fun before() {
         viewModel = LoginViewModel(
-            homeDestination = mock(),
-            navigationManager = mock(),
+            homeDestination = mockk(),
+            navigationManager = mockk(),
             buildConfigManager = buildConfigManager,
             loginUseCase = loginUseCase
         )
@@ -61,11 +61,9 @@ class LoginViewModelTest {
 
     @Test
     fun `misleanding login`() {
-        `when`(
+        coEvery {
             loginDataSource.login(LoginModel("teste@teste.com", "password"))
-        ).thenReturn(
-            flow { throw Exception() }
-        )
+        } returns(flow { throw Exception() })
         viewModel.handleAction(LoginAction.WriteData("teste@teste.com", "password"))
         viewModel.handleAction(LoginAction.ClickEnter)
         assertEquals(
@@ -79,11 +77,9 @@ class LoginViewModelTest {
 
     @Test
     fun `success login`() {
-        `when`(
+        coEvery {
             loginDataSource.login(LoginModel("teste@teste.com", "password"))
-        ).thenReturn(
-            flow { emit(true) }
-        )
+        } returns flow { emit(true) }
         viewModel.handleAction(LoginAction.WriteData("teste@teste.com", "password"))
         viewModel.handleAction(LoginAction.ClickEnter)
         assertEquals(

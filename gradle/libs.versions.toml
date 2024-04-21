@@ -17,7 +17,7 @@ hiltComposeNavigation = "1.2.0"
 firebaseBom = "32.8.1"
 firebaseCrashlyticsGradle = "2.9.9"
 mockK = "1.13.10"
-kotlinComposeCompilerExtension = "1.5.11"
+kotlinComposeCompilerExtension = "1.5.12"
 unspecified = "unspecified"
 
 [libraries]

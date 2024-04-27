@@ -1,10 +1,11 @@
 package com.composetest.router.navigation
 
 import androidx.compose.runtime.Composable
-import com.composetest.router.domain.enums.Destinations
+import androidx.navigation.NavDeepLink
+import com.composetest.router.domain.enums.Destination
 
 interface ScreenDestination {
-    val destination: Destinations
+    val destination: Destination
     val screen: @Composable () -> Unit
-    val route: String get() = destination.name.lowercase()
+    val deepLinks: List<NavDeepLink> get() = emptyList()
 }

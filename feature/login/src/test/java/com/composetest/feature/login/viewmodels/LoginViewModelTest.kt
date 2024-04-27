@@ -3,9 +3,9 @@ package com.composetest.feature.login.viewmodels
 import com.composetest.core.domain.models.BuildConfigModel
 import com.composetest.core.providers.BuildConfigProvider
 import com.composetest.core.test.shared.CourotineExtension
-import com.composetest.feature.login.infra.datasource.LoginDataSource
-import com.composetest.feature.login.infra.repositories.LoginRepository
-import com.composetest.feature.login.infra.usecases.LoginUseCase
+import com.composetest.feature.login.data.datasources.LoginDataSource
+import com.composetest.feature.login.data.repositories.LoginRepository
+import com.composetest.feature.login.data.usecases.LoginUseCase
 import com.composetest.feature.login.domain.models.LoginModel
 import com.composetest.feature.login.ui.LoginAction
 import com.composetest.feature.login.ui.LoginState
@@ -44,7 +44,6 @@ class LoginViewModelTest {
     @BeforeEach
     fun before() {
         viewModel = LoginViewModel(
-            homeDestination = mockk(),
             navigationProvider = mockk(),
             buildConfigProvider = buildConfigProvider,
             loginUseCase = loginUseCase
@@ -54,7 +53,7 @@ class LoginViewModelTest {
     @Test
     fun `initial state`() {
         assertEquals(
-            LoginState(versionName = buildConfigModelMock.versionNameWithVersionCode),
+            LoginState(versionName = buildConfigModelMock.versionNameForView),
             viewModel.state.value
         )
     }
@@ -65,10 +64,10 @@ class LoginViewModelTest {
             loginDataSource.login(LoginModel("teste@teste.com", "password"))
         } returns(flow { throw Exception() })
         viewModel.handleAction(LoginAction.WriteData("teste@teste.com", "password"))
-        viewModel.handleAction(LoginAction.ClickEnter)
+        viewModel.handleAction(LoginAction.Login)
         assertEquals(
             LoginState(
-                versionName = buildConfigModelMock.versionNameWithVersionCode,
+                versionName = buildConfigModelMock.versionNameForView,
                 loginError = true
             ),
             viewModel.state.value
@@ -81,10 +80,10 @@ class LoginViewModelTest {
             loginDataSource.login(LoginModel("teste@teste.com", "password"))
         } returns flow { emit(true) }
         viewModel.handleAction(LoginAction.WriteData("teste@teste.com", "password"))
-        viewModel.handleAction(LoginAction.ClickEnter)
+        viewModel.handleAction(LoginAction.Login)
         assertEquals(
             LoginState(
-                versionName = buildConfigModelMock.versionNameWithVersionCode,
+                versionName = buildConfigModelMock.versionNameForView,
                 loginError = false
             ),
             viewModel.state.value

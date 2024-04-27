@@ -9,5 +9,5 @@ data class BuildConfigModel(
     val dynamicColors: Boolean,
     val useMock: Boolean
 ) {
-    val versionNameWithVersionCode get() = "$versionName - $versionCode"
+    val versionNameForView get() = "$versionName - $versionCode ($flavor)"
 }

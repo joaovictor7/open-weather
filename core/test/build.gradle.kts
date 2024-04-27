@@ -8,5 +8,5 @@ android {
 
 dependencies {
     implementation(libs.junit5)
-    implementation(libs.kotlin.courotines.test)
+    implementation(libs.kotlin.coroutines.test)
 }

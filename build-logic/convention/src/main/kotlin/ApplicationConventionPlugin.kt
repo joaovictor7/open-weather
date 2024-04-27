@@ -6,7 +6,7 @@ import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import extensions.findLibrary
 import extensions.implementation
 import modularization.configureAndroid
-import modularization.setBuildTypes
+import modularization.setApplicationBuildTypes
 import modularization.setFlavors
 import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Plugin
@@ -46,7 +46,7 @@ internal class ApplicationConventionPlugin : Plugin<Project> {
                         excludes += "/META-INF/{AL2.0,LGPL2.1,LICENSE*}"
                     }
                 }
-                setBuildTypes()
+                setApplicationBuildTypes()
                 setFlavors()
             }
             dependencies {

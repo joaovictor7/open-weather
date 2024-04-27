@@ -2,9 +2,6 @@ package extensions
 
 import org.gradle.kotlin.dsl.DependencyHandlerScope
 
-private fun DependencyHandlerScope.implement(configurationName: String, dependencyNotation: Any) =
-    add(configurationName, dependencyNotation)
-
 internal fun DependencyHandlerScope.implementation(dependencyNotation: Any) =
     implement("implementation", dependencyNotation)
 
@@ -19,3 +16,6 @@ internal fun DependencyHandlerScope.testRuntimeOnly(dependencyNotation: Any) =
 
 internal fun DependencyHandlerScope.kapt(dependencyNotation: Any) =
     implement("kapt", dependencyNotation)
+
+private fun DependencyHandlerScope.implement(configurationName: String, dependencyNotation: Any) =
+    add(configurationName, dependencyNotation)

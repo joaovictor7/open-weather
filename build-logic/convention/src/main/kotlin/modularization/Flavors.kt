@@ -4,12 +4,13 @@ import appconfig.AppFlavors
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 
 internal fun BaseAppModuleExtension.setFlavors() {
-    val defaultDimension = "flavorType"
-    flavorDimensions += defaultDimension
+    val dimensions = "flavorDimension"
+    flavorDimensions += dimensions
     productFlavors {
         AppFlavors.values().forEach { flavor ->
             create(flavor.flavorName) {
-                dimension = defaultDimension
+                dimension = dimensions
+                isDefault = flavor.isDefault
             }
         }
     }

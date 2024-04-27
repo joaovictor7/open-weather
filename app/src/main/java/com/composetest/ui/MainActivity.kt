@@ -3,7 +3,6 @@ package com.composetest.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -15,11 +14,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.composetest.core.ui.theme.ComposeTestTheme
-import com.composetest.router.domain.enums.Destinations
+import com.composetest.feature.login.navigation.LoginDestination
 import com.composetest.router.navigation.ScreenDestination
-import com.composetest.router.providers.DestinationProvider
 import com.composetest.router.providers.NavControllerProvider
-import com.composetest.router.navigation.qualifiers.Destination
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -27,32 +24,24 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
 
     @Inject
-    @Destination(Destinations.LOGIN)
-    lateinit var firstDestination: ScreenDestination
-
-    @Inject
     lateinit var navControllerProvider: NavControllerProvider
 
     @Inject
-    lateinit var destinationProvider: DestinationProvider
+    lateinit var allScreenDestination: Array<ScreenDestination>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val darkMode = isSystemInDarkTheme()
-            val viewModel = hiltViewModel<MainViewModel, MainViewModel.Factory> {
-                it.create(darkMode)
-            }
+            val viewModel = hiltViewModel<MainViewModel>()
             val state by viewModel.state.collectAsStateWithLifecycle()
-            ComposeTestTheme(
-                darkTheme = state.darkTheme,
+            com.composetest.core.ui.theme.ComposeTestTheme(
                 dynamicColor = state.dynamicColor
             ) {
                 Column(modifier = Modifier.fillMaxSize()) {
                     Navigation(
-                        navControllerProvider,
-                        firstDestination,
-                        destinationProvider.allDestinations
+                        navControllerProvider = navControllerProvider,
+                        firstScreenDestination = LoginDestination,
+                        allScreenDestinations = allScreenDestination
                     )
                 }
             }
@@ -63,15 +52,18 @@ class MainActivity : ComponentActivity() {
 @Composable
 private fun Navigation(
     navControllerProvider: NavControllerProvider,
-    firstDestination: ScreenDestination,
-    allDestinations: List<ScreenDestination>
+    firstScreenDestination: ScreenDestination,
+    allScreenDestinations: Array<ScreenDestination>
 ) {
     val navController = rememberNavController()
     navControllerProvider.setNavController(navController)
-    NavHost(navController, firstDestination.route) {
-        allDestinations.forEach { destination ->
-            composable(route = destination.route) {
-                destination.screen.invoke()
+    NavHost(navController, firstScreenDestination.destination.route) {
+        allScreenDestinations.forEach { screen ->
+            composable(
+                route = screen.destination.route,
+                deepLinks = screen.deepLinks
+            ) {
+                screen.screen.invoke()
             }
         }
     }

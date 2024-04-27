@@ -19,11 +19,14 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.composetest.core.dimensions.spacings
+import com.composetest.core.ui.dimensions.spacings
 import com.composetest.core.ui.components.buttons.ElevatedButton
+import com.composetest.core.ui.domain.enums.textfield.TextFieldIcons
+import com.composetest.core.ui.components.textfields.params.TextFieldTrailingIconParam
+import com.composetest.core.ui.R
 import com.composetest.core.ui.components.textfields.OutlinedTextField
+import com.composetest.core.ui.extensions.modifiers.verticalBackgroundBrush
 import com.composetest.core.ui.theme.ComposeTestTheme
-import com.composetest.core.R
 
 @Composable
 fun LoginScreen() {
@@ -39,7 +42,11 @@ private fun LoginContent(
 ) {
     var email = String()
     var password = String()
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(
+        modifier = Modifier
+            .verticalBackgroundBrush()
+            .fillMaxSize()
+    ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
@@ -53,9 +60,16 @@ private fun LoginContent(
             Spacer(modifier = Modifier.height(spacings.fourteen))
             OutlinedTextField(
                 labelText = stringResource(R.string.feature_login_email),
-                placeholderText = "fulano@gmail.com",
+                placeholderText = stringResource(R.string.feature_login_email_placeholder),
+                supportingText = if (state.invalidEmail)
+                    stringResource(R.string.feature_login_invalid_email) else null,
                 imeAction = ImeAction.Next,
-                modifier = Modifier.fillMaxWidth()
+                trailingIconParam = if (state.invalidEmail)
+                    TextFieldTrailingIconParam(iconType = TextFieldIcons.ERROR) else null,
+                modifier = Modifier.fillMaxWidth(),
+                onFocusChanged = {
+                    if (!it.hasFocus) onHandleAction.invoke(LoginAction.CheckEmail)
+                }
             ) {
                 email = it
                 onHandleAction.invoke(LoginAction.WriteData(email, password))
@@ -64,6 +78,9 @@ private fun LoginContent(
             OutlinedTextField(
                 labelText = stringResource(R.string.feature_login_password),
                 keyboardInput = KeyboardType.Password,
+                trailingIconParam = TextFieldTrailingIconParam(
+                    iconType = TextFieldIcons.SEARCH
+                ),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 password = it
@@ -72,8 +89,9 @@ private fun LoginContent(
             Spacer(modifier = Modifier.height(spacings.twentyTwo))
             ElevatedButton(
                 text = stringResource(R.string.feature_login_enter),
-                modifier = Modifier.fillMaxWidth()
-            ) { onHandleAction.invoke(LoginAction.ClickEnter) }
+                modifier = Modifier.fillMaxWidth(),
+                enabled = state.enableLoginButton
+            ) { onHandleAction.invoke(LoginAction.Login) }
         }
         Text(
             text = state.versionName,

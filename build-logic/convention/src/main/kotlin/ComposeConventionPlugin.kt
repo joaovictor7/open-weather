@@ -20,8 +20,7 @@ internal class ComposeConventionPlugin : Plugin<Project> {
                 }
             }
             dependencies {
-                val composeBom = platform(findLibrary("compose.bom"))
-                implementation(composeBom)
+                implementation(platform(findLibrary("compose.bom")))
                 implementation(findLibrary("compose.activity"))
                 implementation(findLibrary("compose.ui.tooling.preview"))
                 implementation(findLibrary("compose.material3"))

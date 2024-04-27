@@ -1,9 +1,9 @@
 package com.composetest.feature.login.di
 
 import com.composetest.core.providers.DataSourceProvider
-import com.composetest.feature.login.infra.datasource.LoginDataSource
-import com.composetest.feature.login.infra.datasource.api.LoginDataSourceApiImpl
-import com.composetest.feature.login.infra.datasource.mock.LoginDataSourceMockImpl
+import com.composetest.feature.login.data.datasources.LoginDataSource
+import com.composetest.feature.login.data.datasources.api.LoginDataSourceApiImpl
+import com.composetest.feature.login.data.datasources.mock.LoginDataSourceMockImpl
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides

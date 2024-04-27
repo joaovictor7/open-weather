@@ -15,6 +15,7 @@ dependencies {
     includeModules(
         AppModules.CORE,
         AppModules.CORE_TEST,
+        AppModules.CORE_UI,
         AppModules.ROUTER
     )
     implementation(libs.firebase.auth)

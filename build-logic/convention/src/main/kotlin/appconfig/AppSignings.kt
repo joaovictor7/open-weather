@@ -5,10 +5,10 @@ internal enum class AppSignings(
     val buildTypes: List<AppBuildTypes>
 ) {
     RELEASE("release", listOf(AppBuildTypes.RELEASE)),
-    DEBUG("debug", listOf(AppBuildTypes.DEBUG));
+    DEBUG("debug", listOf(AppBuildTypes.DEBUG, AppBuildTypes.STAGING));
 
     companion object {
-        fun getAssociatedBuildTypes(buildType: AppBuildTypes) = values().find {
+        fun getAssociatedBuildType(buildType: AppBuildTypes) = values().find {
             buildType in it.buildTypes
         }
     }

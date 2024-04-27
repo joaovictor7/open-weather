@@ -1,6 +1,5 @@
 package modularization
 
-import appconfig.AppBuildTypes
 import appconfig.AppConfig
 import com.android.build.api.dsl.CommonExtension
 import extensions.findLibrary
@@ -36,6 +35,7 @@ private fun Project.configure() {
     extensions.getByType<KaptExtension>().apply {
         correctErrorTypes = true
     }
+    setAllModulesBuildTypes()
     dependencies {
         implementation(findLibrary("androidx.core.ktx"))
         implementation(findLibrary("androidx.lifecycle.runtime.ktx"))
@@ -55,19 +55,5 @@ private fun CommonExtension<*, *, *, *, *, *>.configure() {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_19
         targetCompatibility = JavaVersion.VERSION_19
-    }
-    setBuildTypes()
-}
-
-private fun CommonExtension<*, *, *, *, *, *>.setBuildTypes() {
-    buildTypes {
-        getByName(AppBuildTypes.RELEASE.buildTypeName) {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-        AppBuildTypes.values().filterNot { it.isDefault }.forEach { create(it.buildTypeName) }
     }
 }

@@ -1,38 +1,43 @@
 package com.composetest.feature.login.ui
 
+import androidx.core.util.PatternsCompat.EMAIL_ADDRESS
 import com.composetest.core.providers.BuildConfigProvider
 import com.composetest.core.ui.bases.BaseViewModel
 import com.composetest.feature.login.domain.models.LoginModel
-import com.composetest.feature.login.infra.usecases.LoginUseCase
-import com.composetest.router.domain.enums.Destinations
-import com.composetest.router.navigation.ScreenDestination
-import com.composetest.router.params.home.HomeParam
+import com.composetest.feature.login.data.usecases.LoginUseCase
+import com.composetest.router.domain.enums.Destination
+import com.composetest.router.domain.params.home.HomeParam
 import com.composetest.router.providers.NavigationProvider
-import com.composetest.router.navigation.qualifiers.Destination
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    @Destination(Destinations.HOME) private val homeDestination: ScreenDestination,
     private val navigationProvider: NavigationProvider,
     private val buildConfigProvider: BuildConfigProvider,
     private val loginUseCase: LoginUseCase
 ) : BaseViewModel<LoginAction, LoginState>(LoginState()) {
 
     private var loginModel: LoginModel? = null
+    private val buildConfigModel get() = buildConfigProvider.buildConfigModel
 
     init {
-        init()
+        initState()
     }
 
     override fun handleAction(action: LoginAction) = when (action) {
-        is LoginAction.ClickEnter -> clickEnter()
+        is LoginAction.CheckEmail -> checkEmail()
+        is LoginAction.Login -> login()
         is LoginAction.WriteData -> writeData(action)
     }
 
-    private fun clickEnter() {
+    private fun checkEmail() {
+        loginModel?.let { loginModel ->
+            stateValue = stateValue.setInvalidEmail(!EMAIL_ADDRESS.matcher(loginModel.email).matches())
+        }
+    }
+
+    private fun login() {
         loginModel?.let {
             asyncFlowTask(
                 flowTask = loginUseCase.login(it),
@@ -44,19 +49,21 @@ class LoginViewModel @Inject constructor(
 
     private fun writeData(data: LoginAction.WriteData) {
         loginModel = LoginModel(data.email, data.password)
+        if (stateValue.invalidEmail)
+            stateValue = stateValue.setInvalidEmail(false)
     }
 
-    private fun init() = _state.update {
-        it.setVersionName(buildConfigProvider.buildConfigModel.versionNameWithVersionCode)
+    private fun initState() {
+        stateValue = stateValue.setVersionName(buildConfigModel.versionNameForView)
     }
 
     private fun processLoginResponse(success: Boolean) {
         if (success) {
-            navigationProvider.navigateWithArgs(homeDestination, HomeParam("teste"))
+            navigationProvider.navigateWithArgs(Destination.FEATURE_HOME, HomeParam("teste"))
         }
     }
 
-    private fun errorLogin(error: Throwable) = _state.update {
-        it.setError()
+    private fun errorLogin(error: Throwable) {
+        stateValue = stateValue.setError()
     }
 }

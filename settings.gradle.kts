@@ -24,6 +24,7 @@ rootProject.name = "Compose Test"
 include(":app")
 include(":core")
 include(":core:test")
+include(":core:ui")
 include(":router")
 include(":feature:login")
 include(":feature:home")

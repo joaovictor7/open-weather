@@ -3,12 +3,9 @@ package com.composetest.feature.login.navigation
 import androidx.compose.runtime.Composable
 import com.composetest.feature.login.ui.LoginScreen
 import com.composetest.router.navigation.ScreenDestination
-import com.composetest.router.domain.enums.Destinations
-import javax.inject.Inject
-import javax.inject.Singleton
+import com.composetest.router.domain.enums.Destination
 
-@Singleton
-class LoginDestination @Inject constructor() : ScreenDestination {
-    override val destination = Destinations.LOGIN
+object LoginDestination : ScreenDestination {
+    override val destination = Destination.FEATURE_LOGIN
     override val screen = @Composable { LoginScreen() }
 }

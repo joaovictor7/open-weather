@@ -10,8 +10,8 @@ import androidx.compose.ui.graphics.Brush
 @Composable
 fun Modifier.verticalBackgroundBrush() = if (!isSystemInDarkTheme()) {
     val colorStops = arrayOf(
-        0.6f to MaterialTheme.colorScheme.surface,
-        1f to MaterialTheme.colorScheme.primary,
+        0.1f to MaterialTheme.colorScheme.surface,
+        0.99f to MaterialTheme.colorScheme.primary,
     )
     Modifier.background(brush = Brush.verticalGradient(colorStops = colorStops))
 } else this

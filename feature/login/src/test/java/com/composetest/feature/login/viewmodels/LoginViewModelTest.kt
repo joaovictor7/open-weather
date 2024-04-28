@@ -7,7 +7,7 @@ import com.composetest.feature.login.data.datasources.LoginDataSource
 import com.composetest.feature.login.data.repositories.LoginRepository
 import com.composetest.feature.login.data.usecases.LoginUseCase
 import com.composetest.feature.login.domain.models.LoginModel
-import com.composetest.feature.login.ui.LoginAction
+import com.composetest.feature.login.ui.LoginEvent
 import com.composetest.feature.login.ui.LoginState
 import com.composetest.feature.login.ui.LoginViewModel
 import io.mockk.coEvery
@@ -63,8 +63,8 @@ class LoginViewModelTest {
         coEvery {
             loginDataSource.login(LoginModel("teste@teste.com", "password"))
         } returns(flow { throw Exception() })
-        viewModel.handleAction(LoginAction.WriteData("teste@teste.com", "password"))
-        viewModel.handleAction(LoginAction.Login)
+        viewModel.handleEvent(LoginEvent.WriteData("teste@teste.com", "password"))
+        viewModel.handleEvent(LoginEvent.Login)
         assertEquals(
             LoginState(
                 versionName = buildConfigModelMock.versionNameForView,
@@ -79,8 +79,8 @@ class LoginViewModelTest {
         coEvery {
             loginDataSource.login(LoginModel("teste@teste.com", "password"))
         } returns flow { emit(true) }
-        viewModel.handleAction(LoginAction.WriteData("teste@teste.com", "password"))
-        viewModel.handleAction(LoginAction.Login)
+        viewModel.handleEvent(LoginEvent.WriteData("teste@teste.com", "password"))
+        viewModel.handleEvent(LoginEvent.Login)
         assertEquals(
             LoginState(
                 versionName = buildConfigModelMock.versionNameForView,

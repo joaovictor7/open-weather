@@ -10,15 +10,15 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val navigationProvider: NavigationProvider,
-) : BaseViewModel<HomeAction, HomeState>(HomeState()) {
+) : BaseViewModel<HomeEvent, HomeState>(HomeState()) {
 
     init {
         var e = navigationProvider.getParam<HomeParam>(Destination.FEATURE_HOME)
         var w = e
     }
 
-    override fun handleAction(action: HomeAction) = when (action) {
-        is HomeAction.ReturnLogin -> navigateToLogin()
+    override fun handleEvent(event: HomeEvent) = when (event) {
+        is HomeEvent.ReturnLogin -> navigateToLogin()
     }
 
     private fun navigateToLogin() {

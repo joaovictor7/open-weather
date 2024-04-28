@@ -7,7 +7,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor() : BaseViewModel<MainAction, MainState>(MainState()) {
 
-    override fun handleAction(action: MainAction) = when (action) {
+    override fun handleEvent(event: MainAction) = when (event) {
         else -> Unit
     }
 }

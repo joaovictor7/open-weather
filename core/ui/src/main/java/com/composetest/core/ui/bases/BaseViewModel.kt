@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-abstract class BaseViewModel<Action, State>(stateInstance: State) : ViewModel() {
+abstract class BaseViewModel<Event, State>(stateInstance: State) : ViewModel() {
 
     private val _state = MutableStateFlow(stateInstance)
     val state = _state.asStateFlow()
@@ -22,7 +22,7 @@ abstract class BaseViewModel<Action, State>(stateInstance: State) : ViewModel() 
             _state.update { value }
         }
 
-    abstract fun handleAction(action: Action)
+    abstract fun handleEvent(event: Event)
 
     protected fun <T> asyncFlowTask(
         showLoading: Boolean = false,

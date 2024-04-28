@@ -1,6 +1,5 @@
 package com.composetest.feature.login.ui
 
-import androidx.core.util.PatternsCompat.EMAIL_ADDRESS
 import com.composetest.core.providers.BuildConfigProvider
 import com.composetest.core.ui.bases.BaseViewModel
 import com.composetest.feature.login.domain.models.LoginModel
@@ -16,41 +15,52 @@ class LoginViewModel @Inject constructor(
     private val navigationProvider: NavigationProvider,
     private val buildConfigProvider: BuildConfigProvider,
     private val loginUseCase: LoginUseCase
-) : BaseViewModel<LoginAction, LoginState>(LoginState()) {
+) : BaseViewModel<LoginEvent, LoginState>(LoginState()) {
 
-    private var loginModel: LoginModel? = null
+    private var loginModel: LoginModel = LoginModel()
     private val buildConfigModel get() = buildConfigProvider.buildConfigModel
 
     init {
         initState()
     }
 
-    override fun handleAction(action: LoginAction) = when (action) {
-        is LoginAction.CheckEmail -> checkEmail()
-        is LoginAction.Login -> login()
-        is LoginAction.WriteData -> writeData(action)
+    override fun handleEvent(event: LoginEvent) = when (event) {
+        is LoginEvent.CheckShowInvalidEmailMsg -> showInvalidEmailMsg()
+        is LoginEvent.Login -> login()
+        is LoginEvent.WriteData -> writeData(event)
     }
 
-    private fun checkEmail() {
-        loginModel?.let { loginModel ->
-            stateValue = stateValue.setInvalidEmail(!EMAIL_ADDRESS.matcher(loginModel.email).matches())
+    private fun showInvalidEmailMsg() {
+        if (loginModel.emailIsEmpty) {
+            stateValue = stateValue.setInvalidEmail(!loginModel.emailIsValid)
         }
     }
 
     private fun login() {
-        loginModel?.let {
-            asyncFlowTask(
-                flowTask = loginUseCase.login(it),
-                onSuccessTask = ::processLoginResponse,
-                onErrorTask = ::errorLogin
-            )
-        }
+        asyncFlowTask(
+            flowTask = loginUseCase.login(loginModel),
+            onSuccessTask = ::processLoginResponse,
+            onErrorTask = ::errorLogin
+        )
     }
 
-    private fun writeData(data: LoginAction.WriteData) {
-        loginModel = LoginModel(data.email, data.password)
-        if (stateValue.invalidEmail)
-            stateValue = stateValue.setInvalidEmail(false)
+    private fun writeData(action: LoginEvent.WriteData) {
+        when {
+            action.email != null -> {
+                loginModel = loginModel.copy(email = action.email)
+                if (stateValue.invalidEmail) {
+                    stateValue = stateValue.setInvalidEmail(false)
+                }
+            }
+            action.password != null -> {
+                loginModel = loginModel.copy(password = action.password)
+            }
+        }
+        loginButtonManager()
+    }
+
+    private fun loginButtonManager() {
+        stateValue = stateValue.setEnableLoginButton(loginModel.loginAlready)
     }
 
     private fun initState() {

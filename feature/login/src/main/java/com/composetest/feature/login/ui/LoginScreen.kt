@@ -10,15 +10,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.composetest.core.ui.dimensions.spacings
 import com.composetest.core.ui.components.buttons.ElevatedButton
 import com.composetest.core.ui.domain.enums.textfield.TextFieldIcons
@@ -29,19 +26,10 @@ import com.composetest.core.ui.extensions.modifiers.verticalBackgroundBrush
 import com.composetest.core.ui.theme.ComposeTestTheme
 
 @Composable
-fun LoginScreen() {
-    val viewModel = hiltViewModel<LoginViewModel>()
-    val state by viewModel.state.collectAsStateWithLifecycle()
-    LoginContent(state = state, onHandleAction = viewModel::handleAction)
-}
-
-@Composable
-private fun LoginContent(
+fun LoginScreen(
     state: LoginState,
-    onHandleAction: (LoginAction) -> Unit
+    onHandleEvent: (LoginEvent) -> Unit
 ) {
-    var email = String()
-    var password = String()
     Box(
         modifier = Modifier
             .verticalBackgroundBrush()
@@ -68,11 +56,10 @@ private fun LoginContent(
                     TextFieldTrailingIconParam(iconType = TextFieldIcons.ERROR) else null,
                 modifier = Modifier.fillMaxWidth(),
                 onFocusChanged = {
-                    if (!it.hasFocus) onHandleAction.invoke(LoginAction.CheckEmail)
+                    if (!it.hasFocus) onHandleEvent.invoke(LoginEvent.CheckShowInvalidEmailMsg)
                 }
-            ) {
-                email = it
-                onHandleAction.invoke(LoginAction.WriteData(email, password))
+            ) { email ->
+                onHandleEvent.invoke(LoginEvent.WriteData(email = email))
             }
             Spacer(modifier = Modifier.height(spacings.fourteen))
             OutlinedTextField(
@@ -82,16 +69,15 @@ private fun LoginContent(
                     iconType = TextFieldIcons.SEARCH
                 ),
                 modifier = Modifier.fillMaxWidth()
-            ) {
-                password = it
-                onHandleAction.invoke(LoginAction.WriteData(email, password))
+            ) { password ->
+                onHandleEvent.invoke(LoginEvent.WriteData(password = password))
             }
             Spacer(modifier = Modifier.height(spacings.twentyTwo))
             ElevatedButton(
                 text = stringResource(R.string.feature_login_enter),
                 modifier = Modifier.fillMaxWidth(),
                 enabled = state.enableLoginButton
-            ) { onHandleAction.invoke(LoginAction.Login) }
+            ) { onHandleEvent.invoke(LoginEvent.Login) }
         }
         Text(
             text = state.versionName,
@@ -107,6 +93,6 @@ private fun LoginContent(
 @Preview
 private fun Preview() {
     ComposeTestTheme {
-        LoginContent(LoginState()) { }
+        LoginScreen(LoginState(versionName = "Version")) { }
     }
 }

@@ -17,10 +17,11 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import com.composetest.core.ui.dimensions.spacings
-import com.composetest.core.ui.components.buttons.ElevatedButton
 import com.composetest.core.ui.domain.enums.textfield.TextFieldIcons
 import com.composetest.core.ui.components.textfields.params.TextFieldTrailingIconParam
 import com.composetest.core.ui.R
+import com.composetest.core.ui.components.buttons.Button
+import com.composetest.core.ui.components.cards.ElevatedCard
 import com.composetest.core.ui.components.textfields.OutlinedTextField
 import com.composetest.core.ui.extensions.modifiers.verticalBackgroundBrush
 import com.composetest.core.ui.theme.ComposeTestTheme
@@ -35,49 +36,53 @@ fun LoginScreen(
             .verticalBackgroundBrush()
             .fillMaxSize()
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
+        ElevatedCard(
             modifier = Modifier
-                .padding(spacings.twelve)
                 .align(Alignment.Center)
+                .padding(spacings.sixteen)
         ) {
-            Text(
-                text = stringResource(R.string.feature_login_login),
-                style = MaterialTheme.typography.headlineLarge
-            )
-            Spacer(modifier = Modifier.height(spacings.fourteen))
-            OutlinedTextField(
-                labelText = stringResource(R.string.feature_login_email),
-                placeholderText = stringResource(R.string.feature_login_email_placeholder),
-                supportingText = if (state.invalidEmail)
-                    stringResource(R.string.feature_login_invalid_email) else null,
-                imeAction = ImeAction.Next,
-                trailingIconParam = if (state.invalidEmail)
-                    TextFieldTrailingIconParam(iconType = TextFieldIcons.ERROR) else null,
-                modifier = Modifier.fillMaxWidth(),
-                onFocusChanged = {
-                    if (!it.hasFocus) onHandleEvent.invoke(LoginEvent.CheckShowInvalidEmailMsg)
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.padding(spacings.twelve)
+            ) {
+                Text(
+                    text = stringResource(R.string.feature_login_login),
+                    style = MaterialTheme.typography.headlineLarge
+                )
+                Spacer(modifier = Modifier.height(spacings.fourteen))
+                OutlinedTextField(
+                    labelText = stringResource(R.string.feature_login_email),
+                    placeholderText = stringResource(R.string.feature_login_email_placeholder),
+                    supportingText = if (state.invalidEmail)
+                        stringResource(R.string.feature_login_invalid_email) else null,
+                    imeAction = ImeAction.Next,
+                    trailingIconParam = if (state.invalidEmail)
+                        TextFieldTrailingIconParam(iconType = TextFieldIcons.ERROR) else null,
+                    modifier = Modifier.fillMaxWidth(),
+                    onFocusChanged = {
+                        if (!it.hasFocus) onHandleEvent.invoke(LoginEvent.CheckShowInvalidEmailMsg)
+                    }
+                ) { email ->
+                    onHandleEvent.invoke(LoginEvent.WriteData(email = email))
                 }
-            ) { email ->
-                onHandleEvent.invoke(LoginEvent.WriteData(email = email))
+                Spacer(modifier = Modifier.height(spacings.fourteen))
+                OutlinedTextField(
+                    labelText = stringResource(R.string.feature_login_password),
+                    keyboardInput = KeyboardType.Password,
+                    trailingIconParam = TextFieldTrailingIconParam(
+                        iconType = TextFieldIcons.SEARCH
+                    ),
+                    modifier = Modifier.fillMaxWidth()
+                ) { password ->
+                    onHandleEvent.invoke(LoginEvent.WriteData(password = password))
+                }
+                Spacer(modifier = Modifier.height(spacings.twentyTwo))
+                Button(
+                    text = stringResource(R.string.feature_login_enter),
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = state.enableLoginButton
+                ) { onHandleEvent.invoke(LoginEvent.Login) }
             }
-            Spacer(modifier = Modifier.height(spacings.fourteen))
-            OutlinedTextField(
-                labelText = stringResource(R.string.feature_login_password),
-                keyboardInput = KeyboardType.Password,
-                trailingIconParam = TextFieldTrailingIconParam(
-                    iconType = TextFieldIcons.SEARCH
-                ),
-                modifier = Modifier.fillMaxWidth()
-            ) { password ->
-                onHandleEvent.invoke(LoginEvent.WriteData(password = password))
-            }
-            Spacer(modifier = Modifier.height(spacings.twentyTwo))
-            ElevatedButton(
-                text = stringResource(R.string.feature_login_enter),
-                modifier = Modifier.fillMaxWidth(),
-                enabled = state.enableLoginButton
-            ) { onHandleEvent.invoke(LoginEvent.Login) }
         }
         Text(
             text = state.versionName,

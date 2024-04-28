@@ -30,7 +30,9 @@ private fun Project.configure() {
         apply("kotlin-kapt")
     }
     tasks.withType<KotlinJvmCompile> {
-        kotlinOptions.jvmTarget = JvmTarget.JVM_19.target
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_19)
+        }
     }
     extensions.getByType<KaptExtension>().apply {
         correctErrorTypes = true

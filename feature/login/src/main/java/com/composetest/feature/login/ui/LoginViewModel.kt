@@ -69,7 +69,11 @@ class LoginViewModel @Inject constructor(
 
     private fun processLoginResponse(success: Boolean) {
         if (success) {
-            navigationProvider.navigateWithArgs(Destination.FEATURE_HOME, HomeParam("teste"))
+            navigationProvider.navigateWithParam(
+                Destination.FEATURE_HOME,
+                HomeParam("teste"),
+                true
+            )
         }
     }
 

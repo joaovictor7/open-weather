@@ -1,4 +1,4 @@
-package com.composetest.feature.login.data.usecases
+package com.composetest.feature.login.domain.usecases
 
 import com.composetest.feature.login.data.repositories.LoginRepository
 import com.composetest.feature.login.domain.models.LoginModel

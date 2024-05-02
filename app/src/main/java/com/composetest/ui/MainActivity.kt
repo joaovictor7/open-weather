@@ -3,22 +3,26 @@ package com.composetest.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Column
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.composetest.core.ui.theme.ComposeTestTheme
-import com.composetest.feature.login.navigation.LoginDestination
-import com.composetest.router.navigation.ScreenDestination
+import com.composetest.navigation.homeNavGraph
+import com.composetest.navigation.loginNavGraph
+import com.composetest.router.navigation.LoginDestinations
 import com.composetest.router.providers.NavControllerProvider
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import kotlin.reflect.KClass
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -26,22 +30,23 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var navControllerProvider: NavControllerProvider
 
-    @Inject
-    lateinit var allScreenDestination: Array<ScreenDestination>
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContent {
             val viewModel = hiltViewModel<MainViewModel>()
             val state by viewModel.state.collectAsStateWithLifecycle()
-            com.composetest.core.ui.theme.ComposeTestTheme(
+            ComposeTestTheme(
                 dynamicColor = state.dynamicColor
             ) {
-                Column(modifier = Modifier.fillMaxSize()) {
+                Scaffold(
+                    modifier = Modifier.fillMaxSize(),
+                    containerColor = MaterialTheme.colorScheme.surface
+                ) { innerPading ->
                     Navigation(
+                        modifier = Modifier.padding(innerPading),
                         navControllerProvider = navControllerProvider,
-                        firstScreenDestination = LoginDestination,
-                        allScreenDestinations = allScreenDestination
+                        firstScreenDestination = LoginDestinations.Login::class
                     )
                 }
             }
@@ -51,20 +56,18 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 private fun Navigation(
+    modifier: Modifier,
     navControllerProvider: NavControllerProvider,
-    firstScreenDestination: ScreenDestination,
-    allScreenDestinations: Array<ScreenDestination>
+    firstScreenDestination: KClass<*>
 ) {
     val navController = rememberNavController()
     navControllerProvider.setNavController(navController)
-    NavHost(navController, firstScreenDestination.destination.route) {
-        allScreenDestinations.forEach { screen ->
-            composable(
-                route = screen.destination.route,
-                deepLinks = screen.deepLinks
-            ) {
-                screen.screen.invoke()
-            }
-        }
+    NavHost(
+        modifier = modifier,
+        navController = navController,
+        startDestination = firstScreenDestination
+    ) {
+        loginNavGraph()
+        homeNavGraph()
     }
 }

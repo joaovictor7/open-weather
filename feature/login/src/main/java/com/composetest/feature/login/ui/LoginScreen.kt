@@ -1,5 +1,6 @@
 package com.composetest.feature.login.ui
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -25,12 +26,14 @@ import com.composetest.core.ui.components.cards.ElevatedCard
 import com.composetest.core.ui.components.textfields.OutlinedTextField
 import com.composetest.core.ui.extensions.modifiers.verticalBackgroundBrush
 import com.composetest.core.ui.theme.ComposeTestTheme
+import com.composetest.core.ui.utils.SetNavigationBarColor
 
 @Composable
 fun LoginScreen(
     state: LoginState,
     onHandleEvent: (LoginEvent) -> Unit
 ) {
+//    SetNavigationBarColor()
     Box(
         modifier = Modifier
             .verticalBackgroundBrush()
@@ -91,6 +94,13 @@ fun LoginScreen(
                 .align(Alignment.BottomCenter)
                 .padding(bottom = spacings.twelve)
         )
+    }
+}
+
+@Composable
+private fun SetNavigationBarColor() {
+    if (!isSystemInDarkTheme()) {
+        SetNavigationBarColor(MaterialTheme.colorScheme.primary)
     }
 }
 

@@ -1,4 +1,4 @@
-package com.composetest.feature.home.ui
+package com.composetest.feature.home2.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,15 +10,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.composetest.core.ui.theme.ComposeTestTheme
 
 @Composable
-fun HomeScreen(
-    state: HomeState,
-    onHandleEvent: (HomeEvent) -> Unit
+fun Home2Screen(
+    state: Home2State,
+    onHandleEvent: (Home2Event) -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
-        Button(onClick = { onHandleEvent(HomeEvent.ReturnLogin) }) {
+        Button(onClick = { onHandleEvent(Home2Event.ReturnLogin) }) {
             Text(text = state.t)
         }
-        Text(text = "Home1")
+        Text(text = "Home2")
     }
 }
 
@@ -26,6 +26,6 @@ fun HomeScreen(
 @Composable
 private fun Preview() {
     ComposeTestTheme {
-        HomeScreen(state = HomeState()) { }
+        Home2Screen(state = Home2State()) { }
     }
 }

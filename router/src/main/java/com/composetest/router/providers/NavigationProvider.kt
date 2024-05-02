@@ -1,76 +1,46 @@
 package com.composetest.router.providers
 
-import androidx.core.os.bundleOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavDestination
 import androidx.navigation.NavOptions
-import com.composetest.router.domain.enums.Destination
-import com.composetest.router.domain.params.base.BaseParam
+import androidx.navigation.toRoute
 import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject
 
 @ViewModelScoped
 class NavigationProvider @Inject constructor(
     private val navControllerProvider: NavControllerProvider,
-    private val savedStateHandle: SavedStateHandle
+    @PublishedApi internal val savedStateHandle: SavedStateHandle
 ) {
 
     private val navController get() = navControllerProvider.navController
 
-    @SuppressWarnings("RestrictedApi")
-    fun <Param : BaseParam> navigateWithParam(
-        param: Param,
+    fun <Destination : Any> navigate(
+        destination: Destination,
         removeCurrentScreen: Boolean = false
     ) = navController?.run {
-        findDestination(param.destination.route)?.let { navDestination ->
-            navigateToScreenWithParam(
-                navDestination = navDestination,
-                param = param,
-                navOptions = NavOptionsBuilder().apply {
-                    if (removeCurrentScreen) removeScreen(currentDestination) else singleLauncher()
-                }.build()
-            )
-        }
+        navigate(
+            route = destination,
+            navOptions = NavOptionsBuilder().apply {
+                if (removeCurrentScreen) removeScreen(currentDestination) else singleLauncher()
+            }.build()
+        )
     }
 
-    fun <Param : BaseParam> navigateToBackWithParam(param: Param) =
-        navController?.previousBackStackEntry?.destination?.let { previousNavDestination ->
-            navigateToScreenWithParam(
-                navDestination = previousNavDestination,
-                param = param,
-                navOptions = NavOptionsBuilder().removeScreen(previousNavDestination).build()
-            )
-        }
-
-    fun navigate(destination: Destination, removeCurrentScreen: Boolean = false) =
-        navController?.run {
-            navigate(
-                route = destination.route,
-                navOptions = NavOptionsBuilder().apply {
-                    if (removeCurrentScreen) removeScreen(currentDestination) else singleLauncher()
-                }.build()
-            )
-        }
+    fun <Destination : Any> navigateToBackWithParam(destination: Destination) = navController?.run {
+        navigate(
+            route = destination,
+            navOptions = NavOptionsBuilder().removeScreen(previousBackStackEntry?.destination)
+                .build()
+        )
+    }
 
     fun navigateToBack() {
         navController?.popBackStack()
     }
 
-    fun <Param : BaseParam> getParam(): Param {
-        val currentRoute = navController?.currentDestination?.route.orEmpty()
-        return checkNotNull(savedStateHandle.get<Param>(currentRoute))
-    }
-
-    private fun <Param> navigateToScreenWithParam(
-        navDestination: NavDestination,
-        param: Param,
-        navOptions: NavOptions? = null
-    ) {
-        val route = navDestination.route
-        if (navDestination.id != 0 && route != null) {
-            navController?.navigate(navDestination.id, bundleOf(route to param), navOptions)
-        }
-    }
+    inline fun <reified Destination> getParam(): Destination =
+        savedStateHandle.toRoute<Destination>()
 
     private inner class NavOptionsBuilder {
 

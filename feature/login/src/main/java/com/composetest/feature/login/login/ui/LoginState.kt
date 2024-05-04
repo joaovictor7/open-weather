@@ -1,6 +1,6 @@
-package com.composetest.feature.login.ui
+package com.composetest.feature.login.login.ui
 
-data class LoginState(
+internal data class LoginState(
     val versionName: String = String(),
     val invalidEmail: Boolean = false,
     val enableLoginButton: Boolean = false,

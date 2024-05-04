@@ -1,4 +1,4 @@
-package com.composetest.feature.login.di
+package com.composetest.feature.login.login.di
 
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
@@ -9,7 +9,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object ServiceModule {
+internal object ServiceModule {
     @Provides
     @Singleton
     fun firebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()

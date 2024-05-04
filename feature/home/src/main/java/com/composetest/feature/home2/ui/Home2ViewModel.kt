@@ -1,18 +1,20 @@
 package com.composetest.feature.home2.ui
 
 import com.composetest.core.ui.bases.BaseViewModel
-import com.composetest.router.navigation.HomeDestinations
+import com.composetest.router.navigation.home.Home2Destination
+import com.composetest.router.navigation.home.HomeDestination
+import com.composetest.router.navigation.home.InnerHome
 import com.composetest.router.providers.NavigationProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class Home2ViewModel @Inject constructor(
+internal class Home2ViewModel @Inject constructor(
     private val navigationProvider: NavigationProvider
 ) : BaseViewModel<Home2Event, Home2State>(Home2State()) {
 
     init {
-        val e = navigationProvider.getParam<HomeDestinations.Home2>()
+        val e = navigationProvider.getParam<Home2Destination>()
         stateValue = stateValue.copy(t = e.teste)
     }
 
@@ -21,7 +23,9 @@ class Home2ViewModel @Inject constructor(
     }
 
     private fun navigateToLogin() {
-        navigationProvider.navigateToBackWithParam(HomeDestinations.Home(teste + count))
+        navigationProvider.navigateToBackWithParam(
+            HomeDestination(teste + count, InnerHome("rer", "343"))
+        )
         count++
     }
 

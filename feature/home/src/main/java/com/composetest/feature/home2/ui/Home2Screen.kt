@@ -10,7 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.composetest.core.ui.theme.ComposeTestTheme
 
 @Composable
-fun Home2Screen(
+internal fun Home2Screen(
     state: Home2State,
     onHandleEvent: (Home2Event) -> Unit
 ) {

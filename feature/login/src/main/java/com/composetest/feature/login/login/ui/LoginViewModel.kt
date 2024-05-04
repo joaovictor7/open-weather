@@ -1,16 +1,17 @@
-package com.composetest.feature.login.ui
+package com.composetest.feature.login.login.ui
 
 import com.composetest.core.providers.BuildConfigProvider
 import com.composetest.core.ui.bases.BaseViewModel
-import com.composetest.feature.login.domain.models.LoginModel
-import com.composetest.feature.login.domain.usecases.LoginUseCase
-import com.composetest.router.navigation.HomeDestinations
+import com.composetest.feature.login.login.domain.models.LoginModel
+import com.composetest.feature.login.login.domain.usecases.LoginUseCase
+import com.composetest.router.navigation.home.HomeDestination
+import com.composetest.router.navigation.home.InnerHome
 import com.composetest.router.providers.NavigationProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(
+internal class LoginViewModel @Inject constructor(
     private val navigationProvider: NavigationProvider,
     private val buildConfigProvider: BuildConfigProvider,
     private val loginUseCase: LoginUseCase
@@ -70,7 +71,7 @@ class LoginViewModel @Inject constructor(
 
     private fun processLoginResponse(success: Boolean) {
         if (success) {
-            navigationProvider.navigate(HomeDestinations.Home("teste"), true)
+            navigationProvider.navigate(HomeDestination("teste", InnerHome("te","23232")))
         }
     }
 

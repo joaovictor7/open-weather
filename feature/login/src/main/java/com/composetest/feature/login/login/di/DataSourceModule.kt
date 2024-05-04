@@ -1,9 +1,9 @@
-package com.composetest.feature.login.di
+package com.composetest.feature.login.login.di
 
 import com.composetest.core.providers.DataSourceProvider
-import com.composetest.feature.login.data.datasources.LoginDataSource
-import com.composetest.feature.login.data.datasources.api.LoginDataSourceApiImpl
-import com.composetest.feature.login.data.datasources.mock.LoginDataSourceMockImpl
+import com.composetest.feature.login.login.data.datasources.LoginDataSource
+import com.composetest.feature.login.login.data.datasources.api.LoginDataSourceApiImpl
+import com.composetest.feature.login.login.data.datasources.mock.LoginDataSourceMockImpl
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
@@ -13,7 +13,7 @@ import dagger.hilt.android.scopes.ViewModelScoped
 
 @Module
 @InstallIn(ViewModelComponent::class)
-object DataSourceModule {
+internal object DataSourceModule {
     @Provides
     @ViewModelScoped
     fun loginDataSource(

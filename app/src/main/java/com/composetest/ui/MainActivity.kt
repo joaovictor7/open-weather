@@ -4,10 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -16,9 +15,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.composetest.core.ui.theme.ComposeTestTheme
-import com.composetest.navigation.homeNavGraph
-import com.composetest.navigation.loginNavGraph
-import com.composetest.router.navigation.LoginDestinations
+import com.composetest.feature.login.navigation.loginNavGraph
+import com.composetest.feature.navigation.homeNavGraph
+import com.composetest.router.navigation.login.LoginDestination
 import com.composetest.router.providers.NavControllerProvider
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -36,17 +35,15 @@ class MainActivity : ComponentActivity() {
         setContent {
             val viewModel = hiltViewModel<MainViewModel>()
             val state by viewModel.state.collectAsStateWithLifecycle()
-            ComposeTestTheme(
-                dynamicColor = state.dynamicColor
-            ) {
-                Scaffold(
-                    modifier = Modifier.fillMaxSize(),
-                    containerColor = MaterialTheme.colorScheme.surface
-                ) { innerPading ->
+            ComposeTestTheme(dynamicColor = state.dynamicColor) {
+                Column(
+                    modifier = Modifier
+                        .safeDrawingPadding()
+                        .fillMaxSize()
+                ) {
                     Navigation(
-                        modifier = Modifier.padding(innerPading),
                         navControllerProvider = navControllerProvider,
-                        firstScreenDestination = LoginDestinations.Login::class
+                        firstScreenDestination = LoginDestination::class
                     )
                 }
             }
@@ -56,14 +53,12 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 private fun Navigation(
-    modifier: Modifier,
     navControllerProvider: NavControllerProvider,
     firstScreenDestination: KClass<*>
 ) {
     val navController = rememberNavController()
     navControllerProvider.setNavController(navController)
     NavHost(
-        modifier = modifier,
         navController = navController,
         startDestination = firstScreenDestination
     ) {

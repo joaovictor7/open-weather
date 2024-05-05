@@ -1,4 +1,4 @@
-package com.composetest.feature.login.ui
+package com.composetest.feature.login.ui.login
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,7 +24,7 @@ import com.composetest.core.ui.R
 import com.composetest.core.ui.components.buttons.Button
 import com.composetest.core.ui.components.cards.ElevatedCard
 import com.composetest.core.ui.components.textfields.OutlinedTextField
-import com.composetest.core.ui.extensions.modifiers.verticalBackgroundBrush
+import com.composetest.core.ui.extensions.modifiers.verticalTopBackgroundBrush
 import com.composetest.core.ui.theme.ComposeTestTheme
 
 @Composable
@@ -33,8 +34,9 @@ fun LoginScreen(
 ) {
     Box(
         modifier = Modifier
-            .verticalBackgroundBrush()
+            .verticalTopBackgroundBrush()
             .fillMaxSize()
+            .safeDrawingPadding()
     ) {
         ElevatedCard(
             modifier = Modifier

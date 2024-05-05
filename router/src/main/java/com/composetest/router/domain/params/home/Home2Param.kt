@@ -5,9 +5,8 @@ import com.composetest.router.domain.params.base.BaseParam
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class HomeParam(
+data class Home2Param(
     val teste: String
 ) : BaseParam {
-    override val destination get() = Destination.FEATURE_HOME
-
+    override val destination get() = Destination.FEATURE_HOME2
 }

@@ -18,13 +18,13 @@ class NavigationProvider @Inject constructor(
     private val navController get() = navControllerProvider.navController
 
     @SuppressWarnings("RestrictedApi")
-    fun <Param : BaseParam> navigateWithParam(
+    fun <Param : BaseParam> navigate(
         param: Param,
         removeCurrentScreen: Boolean = false
     ) = navController?.run {
-        findDestination(param.destination.route)?.let { navDestination ->
+        findDestination(param.destination.route)?.let { nextNavDestination ->
             navigateToScreenWithParam(
-                navDestination = navDestination,
+                navDestination = nextNavDestination,
                 param = param,
                 navOptions = NavOptionsBuilder().apply {
                     if (removeCurrentScreen) removeScreen(currentDestination) else singleLauncher()
@@ -32,15 +32,6 @@ class NavigationProvider @Inject constructor(
             )
         }
     }
-
-    fun <Param : BaseParam> navigateToBackWithParam(param: Param) =
-        navController?.previousBackStackEntry?.destination?.let { previousNavDestination ->
-            navigateToScreenWithParam(
-                navDestination = previousNavDestination,
-                param = param,
-                navOptions = NavOptionsBuilder().removeScreen(previousNavDestination).build()
-            )
-        }
 
     fun navigate(destination: Destination, removeCurrentScreen: Boolean = false) =
         navController?.run {
@@ -55,6 +46,15 @@ class NavigationProvider @Inject constructor(
     fun navigateToBack() {
         navController?.popBackStack()
     }
+
+    fun <Param : BaseParam> navigateToBack(param: Param) =
+        navController?.previousBackStackEntry?.destination?.let { previousNavDestination ->
+            navigateToScreenWithParam(
+                navDestination = previousNavDestination,
+                param = param,
+                navOptions = NavOptionsBuilder().removeScreen(previousNavDestination).build()
+            )
+        }
 
     fun <Param : BaseParam> getParam(): Param {
         val currentRoute = navController?.currentDestination?.route.orEmpty()

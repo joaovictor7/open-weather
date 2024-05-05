@@ -76,7 +76,7 @@ val surfaceContainerDark = Color(0xFF221F1E)
 val surfaceContainerHighDark = Color(0xFF2D2928)
 val surfaceContainerHighestDark = Color(0xFF383432)
 
-internal val lightScheme = lightColorScheme(
+internal val lightColorScheme = lightColorScheme(
     primary = primaryLight,
     onPrimary = onPrimaryLight,
     primaryContainer = primaryContainerLight,
@@ -114,7 +114,7 @@ internal val lightScheme = lightColorScheme(
     surfaceContainerHighest = surfaceContainerHighestLight,
 )
 
-internal val darkScheme = darkColorScheme(
+internal val darkColorScheme = darkColorScheme(
     primary = primaryDark,
     onPrimary = onPrimaryDark,
     primaryContainer = primaryContainerDark,

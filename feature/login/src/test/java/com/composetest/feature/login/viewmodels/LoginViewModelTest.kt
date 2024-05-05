@@ -7,9 +7,9 @@ import com.composetest.feature.login.data.datasources.LoginDataSource
 import com.composetest.feature.login.data.repositories.LoginRepository
 import com.composetest.feature.login.domain.usecases.LoginUseCase
 import com.composetest.feature.login.domain.models.LoginModel
-import com.composetest.feature.login.ui.LoginEvent
-import com.composetest.feature.login.ui.LoginState
-import com.composetest.feature.login.ui.LoginViewModel
+import com.composetest.feature.login.ui.login.LoginEvent
+import com.composetest.feature.login.ui.login.LoginState
+import com.composetest.feature.login.ui.login.LoginViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flow

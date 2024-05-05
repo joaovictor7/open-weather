@@ -1,4 +1,4 @@
-package com.composetest.feature.login.ui
+package com.composetest.feature.login.ui.login
 
 sealed class LoginEvent {
     data class WriteData(val email: String? = null, val password: String? = null) : LoginEvent()

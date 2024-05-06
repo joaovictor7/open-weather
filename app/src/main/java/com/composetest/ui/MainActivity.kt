@@ -6,7 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -15,8 +14,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.composetest.core.ui.theme.ComposeTestTheme
+import com.composetest.feature.home.navigation.homeNavGraph
 import com.composetest.feature.login.navigation.loginNavGraph
-import com.composetest.feature.navigation.homeNavGraph
 import com.composetest.router.navigation.login.LoginDestination
 import com.composetest.router.providers.NavControllerProvider
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,11 +35,7 @@ class MainActivity : ComponentActivity() {
             val viewModel = hiltViewModel<MainViewModel>()
             val state by viewModel.state.collectAsStateWithLifecycle()
             ComposeTestTheme(dynamicColor = state.dynamicColor) {
-                Column(
-                    modifier = Modifier
-                        .safeDrawingPadding()
-                        .fillMaxSize()
-                ) {
+                Column(modifier = Modifier.fillMaxSize()) {
                     Navigation(
                         navControllerProvider = navControllerProvider,
                         firstScreenDestination = LoginDestination::class

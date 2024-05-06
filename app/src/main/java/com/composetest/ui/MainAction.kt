@@ -1,4 +1,3 @@
 package com.composetest.ui
 
-sealed class MainAction {
-}
+sealed class MainAction

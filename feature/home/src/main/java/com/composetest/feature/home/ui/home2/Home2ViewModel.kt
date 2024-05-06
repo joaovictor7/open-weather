@@ -1,6 +1,7 @@
-package com.composetest.feature.home2.ui
+package com.composetest.feature.home.ui.home2
 
 import com.composetest.core.ui.bases.BaseViewModel
+import com.composetest.feature.home2.ui.Home2ViewModel
 import com.composetest.router.navigation.home.Home2Destination
 import com.composetest.router.navigation.home.HomeDestination
 import com.composetest.router.navigation.home.InnerHome
@@ -9,7 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-internal class Home2ViewModel @Inject constructor(
+class Home2ViewModel @Inject constructor(
     private val navigationProvider: NavigationProvider
 ) : BaseViewModel<Home2Event, Home2State>(Home2State()) {
 
@@ -19,7 +20,7 @@ internal class Home2ViewModel @Inject constructor(
     }
 
     override fun handleEvent(event: Home2Event) = when (event) {
-        is Home2Event.ReturnLogin -> navigateToLogin()
+        is Home2Event.ReturnHome -> navigateToLogin()
     }
 
     private fun navigateToLogin() {

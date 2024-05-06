@@ -1,5 +1,3 @@
 package com.composetest.core.data
 
-open class BaseRepository {
-
-}
+open class BaseRepository

@@ -9,5 +9,13 @@ data class BuildConfigModel(
     val dynamicColors: Boolean,
     val useMock: Boolean
 ) {
-    val versionNameForView get() = "$versionName - $versionCode ($flavor)"
+    val versionNameForView: String
+        get() {
+            val flavor = if (buildType != RELEASE_BUILD_TYPE) " ($flavor)" else String()
+            return "$versionName - $versionCode$flavor"
+        }
+
+    private companion object {
+        const val RELEASE_BUILD_TYPE = "release"
+    }
 }

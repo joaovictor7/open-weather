@@ -27,7 +27,7 @@ class NavigationProvider @Inject constructor(
         )
     }
 
-    fun <Destination : Any> navigateToBackWithParam(destination: Destination) = navController?.run {
+    fun <Destination : Any> navigateToBack(destination: Destination) = navController?.run {
         navigate(
             route = destination,
             navOptions = NavOptionsBuilder().removeScreen(previousBackStackEntry?.destination)

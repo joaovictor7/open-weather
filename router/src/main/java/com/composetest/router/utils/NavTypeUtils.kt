@@ -6,9 +6,13 @@ import androidx.navigation.NavType
 import com.composetest.core.extensions.parcelable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import kotlin.reflect.KType
+import kotlin.reflect.typeOf
 
-inline fun <reified T : Parcelable> parcelableNavType(isNullableAllowed: Boolean = false) =
-    object : NavType<T>(isNullableAllowed = isNullableAllowed) {
+inline fun <reified T : Parcelable> navType(
+    isNullableAllowed: Boolean = false
+): Pair<KType, NavType<T>> =
+    typeOf<T>() to object : NavType<T>(isNullableAllowed = isNullableAllowed) {
         override fun get(bundle: Bundle, key: String): T? = bundle.parcelable(key)
 
         override fun parseValue(value: String): T = Json.decodeFromString<T>(value)

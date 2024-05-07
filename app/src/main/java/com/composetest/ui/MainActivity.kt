@@ -14,8 +14,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.composetest.core.ui.theme.ComposeTestTheme
-import com.composetest.feature.home.navigation.homeNavGraph
 import com.composetest.feature.login.navigation.loginNavGraph
+import com.composetest.feature.home.navigation.homeNavGraph
 import com.composetest.router.navigation.login.LoginDestination
 import com.composetest.router.providers.NavControllerProvider
 import dagger.hilt.android.AndroidEntryPoint

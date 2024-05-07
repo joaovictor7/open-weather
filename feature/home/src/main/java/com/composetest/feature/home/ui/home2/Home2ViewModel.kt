@@ -1,10 +1,9 @@
 package com.composetest.feature.home.ui.home2
 
 import com.composetest.core.ui.bases.BaseViewModel
-import com.composetest.feature.home2.ui.Home2ViewModel
 import com.composetest.router.navigation.home.Home2Destination
 import com.composetest.router.navigation.home.HomeDestination
-import com.composetest.router.navigation.home.InnerHome
+import com.composetest.router.navigation.home.navtypes.InnerHome
 import com.composetest.router.providers.NavigationProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -25,13 +24,12 @@ class Home2ViewModel @Inject constructor(
 
     private fun navigateToLogin() {
         navigationProvider.navigateToBack(
-            HomeDestination(teste + count, InnerHome("rer", "343"))
+            HomeDestination("teste", InnerHome("rer $count", "343"))
         )
         count++
     }
 
     companion object {
-        var teste = "teste"
         var count = 1
     }
 }

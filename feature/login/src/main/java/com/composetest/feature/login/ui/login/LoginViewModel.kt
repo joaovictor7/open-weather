@@ -5,7 +5,7 @@ import com.composetest.core.ui.bases.BaseViewModel
 import com.composetest.feature.login.domain.models.LoginModel
 import com.composetest.feature.login.domain.usecases.LoginUseCase
 import com.composetest.router.navigation.home.HomeDestination
-import com.composetest.router.navigation.home.InnerHome
+import com.composetest.router.navigation.home.navtypes.InnerHome
 import com.composetest.router.providers.NavigationProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

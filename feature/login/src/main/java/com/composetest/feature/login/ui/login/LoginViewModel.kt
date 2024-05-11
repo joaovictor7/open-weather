@@ -2,6 +2,8 @@ package com.composetest.feature.login.ui.login
 
 import com.composetest.core.providers.BuildConfigProvider
 import com.composetest.core.ui.bases.BaseViewModel
+import com.composetest.core.ui.domain.enums.AppTheme
+import com.composetest.core.ui.providers.AppThemeProvider
 import com.composetest.feature.login.domain.models.LoginModel
 import com.composetest.feature.login.domain.usecases.LoginUseCase
 import com.composetest.router.navigation.home.HomeDestination
@@ -12,6 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class LoginViewModel @Inject constructor(
+    private val appThemeProvider: AppThemeProvider,
     private val navigationProvider: NavigationProvider,
     private val buildConfigProvider: BuildConfigProvider,
     private val loginUseCase: LoginUseCase
@@ -19,12 +22,14 @@ internal class LoginViewModel @Inject constructor(
 
     private var loginModel: LoginModel = LoginModel()
     private val buildConfigModel get() = buildConfigProvider.buildConfigModel
+    private val currentAppTheme get() = appThemeProvider.currentAppTheme
 
     init {
         initState()
     }
 
     override fun handleEvent(event: LoginEvent) = when (event) {
+        is LoginEvent.SetCustomTheme -> setCustomTheme(event)
         is LoginEvent.CheckShowInvalidEmailMsg -> showInvalidEmailMsg()
         is LoginEvent.Login -> login()
         is LoginEvent.WriteData -> writeData(event)
@@ -32,7 +37,7 @@ internal class LoginViewModel @Inject constructor(
 
     private fun showInvalidEmailMsg() {
         if (loginModel.emailIsEmpty) {
-            stateValue = stateValue.setInvalidEmail(!loginModel.emailIsValid)
+            updateState { it.setInvalidEmail(!loginModel.emailIsValid) }
         }
     }
 
@@ -49,7 +54,7 @@ internal class LoginViewModel @Inject constructor(
             action.email != null -> {
                 loginModel = loginModel.copy(email = action.email)
                 if (stateValue.invalidEmail) {
-                    stateValue = stateValue.setInvalidEmail(false)
+                    updateState { it.setInvalidEmail(false) }
                 }
             }
             action.password != null -> {
@@ -60,22 +65,36 @@ internal class LoginViewModel @Inject constructor(
     }
 
     private fun loginButtonManager() {
-        stateValue = stateValue.setEnableLoginButton(loginModel.loginAlready || buildConfigModel.useMock)
+        updateState { it.setEnableLoginButton(loginModel.loginAlready || buildConfigModel.useMock) }
     }
 
     private fun initState() {
-        stateValue = stateValue
-            .setVersionName(buildConfigModel.versionNameForView)
-            .setEnableLoginButton(buildConfigModel.useMock)
+        updateState {
+            it.initState(
+                versionName = buildConfigModel.versionNameForView,
+                enableLoginButton = buildConfigModel.useMock
+            )
+        }
+    }
+
+    private fun setCustomTheme(event: LoginEvent.SetCustomTheme) {
+        appThemeProvider.setCustomTheme(
+            if (event.enterScreen && currentAppTheme.theme != AppTheme.DARK) {
+                AppTheme.DARK
+            } else {
+                null
+            }
+        )
+        updateState { it.setAppTheme(currentAppTheme) }
     }
 
     private fun processLoginResponse(success: Boolean) {
         if (success) {
-            navigationProvider.navigate(HomeDestination("teste", InnerHome("te","23232")))
+            navigationProvider.navigate(HomeDestination("teste", InnerHome("te", "23232")))
         }
     }
 
     private fun errorLogin(error: Throwable) {
-        stateValue = stateValue.setError()
+        updateState { it.setError() }
     }
 }

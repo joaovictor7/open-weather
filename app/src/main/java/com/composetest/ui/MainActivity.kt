@@ -4,21 +4,26 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.composetest.core.ui.providers.AppThemeProvider
 import com.composetest.core.ui.theme.ComposeTestTheme
 import com.composetest.feature.login.navigation.loginNavGraph
 import com.composetest.feature.home.navigation.homeNavGraph
 import com.composetest.router.navigation.login.LoginDestination
 import com.composetest.router.providers.NavControllerProvider
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.reflect.KClass
 
@@ -28,18 +33,35 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var navControllerProvider: NavControllerProvider
 
+    @Inject
+    lateinit var appThemeProvider: AppThemeProvider
+
+    private val viewModel: MainViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        setEdgeToEdge()
         setContent {
-            val viewModel = hiltViewModel<MainViewModel>()
             val state by viewModel.state.collectAsStateWithLifecycle()
-            ComposeTestTheme(dynamicColor = state.dynamicColor) {
+            ComposeTestTheme(
+                dynamicColor = state.appTheme.dynamicColors,
+                darkTheme = state.appTheme.isDarkMode
+            ) {
                 Column(modifier = Modifier.fillMaxSize()) {
                     Navigation(
                         navControllerProvider = navControllerProvider,
                         firstScreenDestination = LoginDestination::class
                     )
+                }
+            }
+        }
+    }
+
+    private fun setEdgeToEdge() = lifecycleScope.launch {
+        repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewModel.state.collect { state ->
+                if (state.statusBarStyle != null && state.navigationBarStyle != null) {
+                    enableEdgeToEdge(state.statusBarStyle, state.navigationBarStyle)
                 }
             }
         }

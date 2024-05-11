@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -34,7 +36,7 @@ fun LoginScreen(
 ) {
     Box(
         modifier = Modifier
-            .verticalTopBackgroundBrush()
+            .verticalTopBackgroundBrush(state.appTheme.isDarkMode)
             .fillMaxSize()
             .safeDrawingPadding()
     ) {
@@ -93,6 +95,19 @@ fun LoginScreen(
                 .align(Alignment.BottomCenter)
                 .padding(bottom = spacings.twelve)
         )
+    }
+    HandleEffects(onHandleEvent = onHandleEvent)
+}
+
+@Composable
+private fun HandleEffects(onHandleEvent: (LoginEvent) -> Unit) {
+    LaunchedEffect(Unit) {
+        onHandleEvent.invoke(LoginEvent.SetCustomTheme(true))
+    }
+    DisposableEffect(Unit) {
+        onDispose {
+            onHandleEvent.invoke(LoginEvent.SetCustomTheme(false))
+        }
     }
 }
 

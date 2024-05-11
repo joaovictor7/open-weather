@@ -1,11 +1,20 @@
 package com.composetest.ui
 
+import androidx.activity.SystemBarStyle
+import com.composetest.core.ui.domain.models.AppThemeModel
+
 data class MainState(
-    val darkTheme: Boolean = false,
-    val dynamicColor: Boolean = false
+    val appTheme: AppThemeModel = AppThemeModel(),
+    val statusBarStyle: SystemBarStyle? = null,
+    val navigationBarStyle: SystemBarStyle? = null
 ) {
-    fun setTheme(darkTheme: Boolean, dynamicColor: Boolean) = copy(
-        darkTheme = darkTheme,
-        dynamicColor = dynamicColor
+    fun initState(
+        appTheme: AppThemeModel,
+        statusBarStyle: SystemBarStyle,
+        navigationBarStyle: SystemBarStyle
+    ) = copy(
+        appTheme = appTheme,
+        statusBarStyle = statusBarStyle,
+        navigationBarStyle = navigationBarStyle
     )
 }

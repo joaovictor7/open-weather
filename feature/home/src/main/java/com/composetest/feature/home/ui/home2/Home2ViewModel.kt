@@ -15,7 +15,7 @@ class Home2ViewModel @Inject constructor(
 
     init {
         val e = navigationProvider.getParam<Home2Destination>()
-        stateValue = stateValue.copy(t = e.teste)
+        updateState { it.copy(t = e.teste) }
     }
 
     override fun handleEvent(event: Home2Event) = when (event) {

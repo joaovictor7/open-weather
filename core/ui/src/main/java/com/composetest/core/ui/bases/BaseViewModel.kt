@@ -16,13 +16,13 @@ abstract class BaseViewModel<Event, State>(stateInstance: State) : ViewModel() {
     private val _state = MutableStateFlow(stateInstance)
     val state = _state.asStateFlow()
 
-    protected var stateValue: State
-        get() = state.value
-        set(value) {
-            _state.update { value }
-        }
+    protected val stateValue: State get() = state.value
 
     abstract fun handleEvent(event: Event)
+
+    protected fun updateState(newState: (State) -> State) {
+        _state.update(newState)
+    }
 
     protected fun <T> asyncFlowTask(
         showLoading: Boolean = false,

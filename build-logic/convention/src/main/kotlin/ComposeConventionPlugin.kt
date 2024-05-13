@@ -1,23 +1,16 @@
-import com.android.build.gradle.BaseExtension
 import extensions.debugImplementation
 import extensions.findLibrary
-import extensions.findVersion
 import extensions.implementation
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 
 internal class ComposeConventionPlugin : Plugin<Project> {
 
-    @Suppress("UnstableApiUsage")
     override fun apply(target: Project) {
         with(target) {
-            extensions.configure<BaseExtension> {
-                buildFeatures.compose = true
-                composeOptions {
-                    kotlinCompilerExtensionVersion = findVersion("kotlinComposeCompilerExtension")
-                }
+            with(pluginManager) {
+                apply("org.jetbrains.kotlin.plugin.compose")
             }
             dependencies {
                 implementation(platform(findLibrary("compose.bom")))

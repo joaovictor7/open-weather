@@ -1,6 +1,6 @@
 import appconfig.AppConfig
-import appconfig.AppModules
-import appconfig.AppSignings
+import appconfig.AppModule
+import appconfig.AppSigning
 import com.android.build.api.dsl.ApkSigningConfig
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import extensions.findLibrary
@@ -36,7 +36,7 @@ internal class ApplicationConventionPlugin : Plugin<Project> {
                     }
                 }
                 signingConfigs {
-                    createSigning(this, AppSignings.RELEASE)
+                    createSigning(this, AppSigning.RELEASE)
                 }
                 buildFeatures {
                     buildConfig = true
@@ -50,7 +50,7 @@ internal class ApplicationConventionPlugin : Plugin<Project> {
                 setFlavors()
             }
             dependencies {
-                includeModules(*AppModules.values())
+                includeModules(*AppModule.values())
                 implementation(findLibrary("firebase.analytics"))
                 implementation(findLibrary("firebase.crashlytics"))
             }
@@ -59,7 +59,7 @@ internal class ApplicationConventionPlugin : Plugin<Project> {
 
     private fun Project.createSigning(
         apkSigningConfig: NamedDomainObjectContainer<out ApkSigningConfig>,
-        name: AppSignings
+        name: AppSigning
     ) {
         val propertyFile = file("../${name.signingName}-signing.properties")
         if (propertyFile.exists()) {

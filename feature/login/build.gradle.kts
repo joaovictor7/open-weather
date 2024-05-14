@@ -1,4 +1,4 @@
-import appconfig.AppModules
+import appconfig.AppModule
 import utils.includeModules
 
 plugins {
@@ -13,10 +13,10 @@ android {
 
 dependencies {
     includeModules(
-        AppModules.CORE,
-        AppModules.CORE_TEST,
-        AppModules.CORE_UI,
-        AppModules.ROUTER
+        AppModule.CORE,
+        AppModule.CORE_TEST,
+        AppModule.CORE_UI,
+        AppModule.ROUTER
     )
     implementation(libs.firebase.auth)
 }

@@ -1,6 +1,6 @@
 package appconfig
 
-enum class AppModules(val moduleName: String) {
+enum class AppModule(val moduleName: String) {
     CORE(":core"),
     CORE_TEST(":core:test"),
     CORE_UI(":core:ui"),

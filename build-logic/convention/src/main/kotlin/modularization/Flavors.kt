@@ -1,15 +1,15 @@
 package modularization
 
-import appconfig.AppFlavors
+import appconfig.AppFlavor
+import appconfig.AppFlavor.Companion.allDimensions
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 
 internal fun BaseAppModuleExtension.setFlavors() {
-    val dimensions = "flavorDimension"
-    flavorDimensions += dimensions
+    flavorDimensions.addAll(allDimensions)
     productFlavors {
-        AppFlavors.values().forEach { flavor ->
+        AppFlavor.values().forEach { flavor ->
             create(flavor.flavorName) {
-                dimension = dimensions
+                dimension = flavor.dimension
                 isDefault = flavor.isDefault
             }
         }

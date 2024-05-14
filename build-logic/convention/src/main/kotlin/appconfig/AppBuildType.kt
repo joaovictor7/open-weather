@@ -1,6 +1,6 @@
 package appconfig
 
-internal enum class AppBuildTypes(val buildTypeName: String) {
+internal enum class AppBuildType(val buildTypeName: String) {
     RELEASE("release"),
     DEBUG("debug"),
     STAGING("staging");

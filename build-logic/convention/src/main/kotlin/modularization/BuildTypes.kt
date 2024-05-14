@@ -1,8 +1,8 @@
 package modularization
 
-import appconfig.AppBuildTypes
+import appconfig.AppBuildType
 import appconfig.AppConfig
-import appconfig.AppSignings
+import appconfig.AppSigning
 import com.android.build.api.dsl.ApplicationBuildType
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
@@ -11,7 +11,7 @@ import org.gradle.kotlin.dsl.configure
 
 internal fun BaseAppModuleExtension.setApplicationBuildTypes() {
     buildTypes {
-        AppBuildTypes.values().forEach { buildType ->
+        AppBuildType.values().forEach { buildType ->
             getByName(buildType.buildTypeName) {
                 setSigning(buildType, this@setApplicationBuildTypes)
                 setAppName(buildType)
@@ -22,7 +22,7 @@ internal fun BaseAppModuleExtension.setApplicationBuildTypes() {
 }
 
 internal fun Project.setBuildTypesAllModules() = extensions.configure<BaseExtension> {
-    AppBuildTypes.values().forEach { buildType ->
+    AppBuildType.values().forEach { buildType ->
         if (buildType.isInternal) {
             setInternalBuildTypes(buildType)
         } else {
@@ -31,12 +31,12 @@ internal fun Project.setBuildTypesAllModules() = extensions.configure<BaseExtens
     }
 }
 
-private fun BaseExtension.setInternalBuildTypes(buildType: AppBuildTypes) = buildTypes {
+private fun BaseExtension.setInternalBuildTypes(buildType: AppBuildType) = buildTypes {
     getByName(buildType.buildTypeName) {
         isDefault = buildType.isDefault
         isDebuggable = buildType.isDebuggable
         when (buildType) {
-            AppBuildTypes.RELEASE -> {
+            AppBuildType.RELEASE -> {
                 isMinifyEnabled = false
                 proguardFiles(
                     getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -48,7 +48,7 @@ private fun BaseExtension.setInternalBuildTypes(buildType: AppBuildTypes) = buil
     }
 }
 
-private fun BaseExtension.createNewBuildTypes(buildType: AppBuildTypes) = buildTypes {
+private fun BaseExtension.createNewBuildTypes(buildType: AppBuildType) = buildTypes {
     create(buildType.buildTypeName) {
         isDefault = buildType.isDefault
         isDebuggable = buildType.isDebuggable
@@ -56,17 +56,17 @@ private fun BaseExtension.createNewBuildTypes(buildType: AppBuildTypes) = buildT
 }
 
 private fun ApplicationBuildType.setSigning(
-    buildType: AppBuildTypes,
+    buildType: AppBuildType,
     baseAppModuleExtension: BaseAppModuleExtension
 ) = with(baseAppModuleExtension) {
-    AppSignings.getAssociatedBuildType(buildType)?.let { appSigning ->
+    AppSigning.getAssociatedBuildType(buildType)?.let { appSigning ->
         signingConfigs.find { signingConfig ->
             signingConfig.name == appSigning.signingName
         }?.let { signing -> signingConfig = signing }
     }
 }
 
-private fun ApplicationBuildType.setAppName(buildType: AppBuildTypes) = buildType.getApplicationIdSuffix(
+private fun ApplicationBuildType.setAppName(buildType: AppBuildType) = buildType.getApplicationIdSuffix(
     onRelease = {
         manifestPlaceholders["appName"] = AppConfig.APP_NAME
     },
@@ -78,14 +78,14 @@ private fun ApplicationBuildType.setAppName(buildType: AppBuildTypes) = buildTyp
     }
 )
 
-private fun ApplicationBuildType.setBuildConfigFields(buildType: AppBuildTypes) {
+private fun ApplicationBuildType.setBuildConfigFields(buildType: AppBuildType) {
     buildConfigField("Boolean", "DYNAMIC_COLORS", "false")
     buildConfigField("Boolean", "USE_MOCK", "false")
     when (buildType) {
-        AppBuildTypes.RELEASE -> {
+        AppBuildType.RELEASE -> {
             buildConfigField("Boolean", "DYNAMIC_COLORS", "true")
         }
-        AppBuildTypes.DEBUG -> {
+        AppBuildType.DEBUG -> {
             buildConfigField("Boolean", "USE_MOCK", "true")
         }
         else -> Unit

@@ -1,4 +1,4 @@
-import appconfig.AppModules
+import appconfig.AppModule
 import utils.includeModules
 
 plugins {
@@ -11,5 +11,5 @@ android {
 }
 
 dependencies {
-    includeModules(AppModules.CORE)
+    includeModules(AppModule.CORE)
 }

@@ -21,7 +21,7 @@ internal fun BaseAppModuleExtension.setApplicationBuildTypes() {
     }
 }
 
-internal fun Project.setAllModulesBuildTypes() = extensions.configure<BaseExtension> {
+internal fun Project.setBuildTypesAllModules() = extensions.configure<BaseExtension> {
     AppBuildTypes.values().forEach { buildType ->
         if (buildType.isInternal) {
             setInternalBuildTypes(buildType)

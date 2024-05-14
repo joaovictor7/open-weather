@@ -16,11 +16,13 @@ hiltComposeNavigation = "1.2.0"
 firebaseCrashlytics = "2.9.9"
 firebaseBom = "33.0.0"
 mockK = "1.13.10"
+ksp = "2.0.0-RC3-1.0.20"
 unspecified = "unspecified"
 
 [libraries]
 # Kotlin
 kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlin-compose-gradle-plugin = { group = "org.jetbrains.kotlin", name = "compose-compiler-gradle-plugin", version.ref = "kotlin" }
 kotlin-json-serializable = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinJsonSerialization" }
 kotlin-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinCoroutineTest" }
 
@@ -59,12 +61,16 @@ compose-navigation = { group = "androidx.navigation", name = "navigation-compose
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockK" }
 
 [plugins]
-composeTestApplication = { id = "com.composetest.application", version.ref = "unspecified" }
-composeTestLibrary = { id = "com.composetest.library", version.ref = "unspecified" }
-composeTestCompose = { id = "com.composetest.compose", version.ref = "unspecified" }
-composeTestTest = { id = "com.composetest.test", version.ref = "unspecified" }
+# Convention plugins
+composeTest-application = { id = "com.composetest.application", version.ref = "unspecified" }
+composeTest-library = { id = "com.composetest.library", version.ref = "unspecified" }
+composeTest-compose = { id = "com.composetest.compose", version.ref = "unspecified" }
+composeTest-test = { id = "com.composetest.test", version.ref = "unspecified" }
+
+# Another plugins
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 googleServices = { id = "com.google.gms.google-services", version.ref = "googleServices" }
 firebaseCrashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlytics" }
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

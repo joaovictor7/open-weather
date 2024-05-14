@@ -2,9 +2,9 @@ import appconfig.AppModules
 import utils.includeModules
 
 plugins {
-    alias(libs.plugins.composeTestLibrary)
-    alias(libs.plugins.composeTestCompose)
-    alias(libs.plugins.composeTestTest)
+    alias(libs.plugins.composeTest.library)
+    alias(libs.plugins.composeTest.compose)
+    alias(libs.plugins.composeTest.test)
 }
 
 android {

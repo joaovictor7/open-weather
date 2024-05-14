@@ -25,8 +25,8 @@ internal class ApplicationConventionPlugin : Plugin<Project> {
                 apply("com.google.gms.google-services")
                 apply("com.google.firebase.crashlytics")
             }
+            configureAndroid()
             extensions.configure<BaseAppModuleExtension> {
-                configureAndroid(this@with, this)
                 defaultConfig {
                     versionCode = AppConfig.CODE_VERSION
                     versionName = AppConfig.NAME_VERSION
@@ -36,7 +36,7 @@ internal class ApplicationConventionPlugin : Plugin<Project> {
                     }
                 }
                 signingConfigs {
-                    createSigning(this@with, this, AppSignings.RELEASE)
+                    createSigning(this, AppSignings.RELEASE)
                 }
                 buildFeatures {
                     buildConfig = true
@@ -57,11 +57,10 @@ internal class ApplicationConventionPlugin : Plugin<Project> {
         }
     }
 
-    private fun createSigning(
-        project: Project,
+    private fun Project.createSigning(
         apkSigningConfig: NamedDomainObjectContainer<out ApkSigningConfig>,
         name: AppSignings
-    ) = with(project) {
+    ) {
         val propertyFile = file("../${name.signingName}-signing.properties")
         if (propertyFile.exists()) {
             val property = Properties().apply { propertyFile.inputStream().use { load(it) } }

@@ -14,8 +14,8 @@ internal fun DependencyHandlerScope.testImplementation(dependencyNotation: Any) 
 internal fun DependencyHandlerScope.testRuntimeOnly(dependencyNotation: Any) =
     implement("testRuntimeOnly", dependencyNotation)
 
-internal fun DependencyHandlerScope.kapt(dependencyNotation: Any) =
-    implement("kapt", dependencyNotation)
+internal fun DependencyHandlerScope.ksp(dependencyNotation: Any) =
+    implement("ksp", dependencyNotation)
 
 private fun DependencyHandlerScope.implement(configurationName: String, dependencyNotation: Any) =
     add(configurationName, dependencyNotation)

@@ -1,61 +1,48 @@
 package modularization
 
 import appconfig.AppConfig
-import com.android.build.api.dsl.CommonExtension
+import com.android.build.gradle.BaseExtension
 import extensions.findLibrary
 import extensions.implementation
-import extensions.kapt
+import extensions.ksp
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.plugin.KaptExtension
-import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-internal fun configureAndroid(
-    project: Project,
-    commonExtension: CommonExtension<*, *, *, *, *, *>
-) {
-    project.configure()
-    commonExtension.configure()
-}
-
-private fun Project.configure() {
+internal fun Project.configureAndroid() {
     with(pluginManager) {
         apply("org.jetbrains.kotlin.android")
         apply("org.jetbrains.kotlin.plugin.serialization")
+        apply("com.google.devtools.ksp")
         apply("kotlin-parcelize")
-        apply("kotlin-kapt")
     }
-    tasks.withType<KotlinJvmCompile> {
+    configure<BaseExtension> {
+        compileSdkVersion(AppConfig.COMPILE_SDK_VERSION)
+        defaultConfig {
+            minSdk = AppConfig.MIN_SDK_VERSION
+            testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        }
+        compileOptions {
+            sourceCompatibility = JavaVersion.VERSION_19
+            targetCompatibility = JavaVersion.VERSION_19
+        }
+    }
+    tasks.withType<KotlinCompile> {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_19)
         }
     }
-    extensions.getByType<KaptExtension>().apply {
-        correctErrorTypes = true
-    }
-    setAllModulesBuildTypes()
+    setBuildTypesAllModules()
     dependencies {
+        implementation(platform(findLibrary("firebase.bom")))
         implementation(findLibrary("androidx.core.ktx"))
         implementation(findLibrary("androidx.lifecycle.runtime.ktx"))
         implementation(findLibrary("kotlin.json.serializable"))
         implementation(findLibrary("android.hilt"))
-        implementation(platform(findLibrary("firebase.bom")))
-        kapt(findLibrary("android.hilt.compiler"))
-    }
-}
-
-private fun CommonExtension<*, *, *, *, *, *>.configure() {
-    compileSdk = AppConfig.COMPILE_SDK_VERSION
-    defaultConfig {
-        minSdk = AppConfig.MIN_SDK_VERSION
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_19
-        targetCompatibility = JavaVersion.VERSION_19
+        ksp(findLibrary("android.hilt.compiler"))
     }
 }

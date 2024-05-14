@@ -2,6 +2,7 @@
 .gradle
 /local.properties
 .idea/
+.kotlin/
 !/.idea/compiler.xml
 .DS_Store
 **/build

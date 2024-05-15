@@ -3,10 +3,10 @@ package com.composetest.feature.login.viewmodels
 import com.composetest.core.domain.models.BuildConfigModel
 import com.composetest.core.providers.BuildConfigProvider
 import com.composetest.core.test.shared.CourotineExtension
+import com.composetest.core.ui.providers.AppThemeProvider
 import com.composetest.feature.login.data.datasources.LoginDataSource
 import com.composetest.feature.login.data.repositories.LoginRepository
 import com.composetest.feature.login.domain.usecases.LoginUseCase
-import com.composetest.feature.login.domain.models.LoginModel
 import com.composetest.feature.login.ui.login.LoginEvent
 import com.composetest.feature.login.ui.login.LoginState
 import com.composetest.feature.login.ui.login.LoginViewModel
@@ -44,7 +44,8 @@ class LoginViewModelTest {
     @BeforeEach
     fun before() {
         viewModel = LoginViewModel(
-            navigationProvider = mockk(),
+            appThemeProvider = AppThemeProvider(),
+            navigationProvider = mockk(relaxed = true),
             buildConfigProvider = buildConfigProvider,
             loginUseCase = loginUseCase
         )
@@ -53,7 +54,10 @@ class LoginViewModelTest {
     @Test
     fun `initial state`() {
         assertEquals(
-            LoginState(versionName = buildConfigModelMock.versionNameForView),
+            LoginState(
+                versionName = buildConfigModelMock.versionNameForView,
+                enableLoginButton = true
+            ),
             viewModel.state.value
         )
     }
@@ -61,14 +65,15 @@ class LoginViewModelTest {
     @Test
     fun `misleanding login`() {
         coEvery {
-            loginDataSource.login(LoginModel("teste@teste.com", "password"))
-        } returns(flow { throw Exception() })
+            loginDataSource.login(any())
+        } returns (flow { throw Exception() })
         viewModel.handleEvent(LoginEvent.WriteData("teste@teste.com", "password"))
         viewModel.handleEvent(LoginEvent.Login)
         assertEquals(
             LoginState(
                 versionName = buildConfigModelMock.versionNameForView,
-                loginError = true
+                loginError = true,
+                enableLoginButton = true
             ),
             viewModel.state.value
         )
@@ -77,13 +82,14 @@ class LoginViewModelTest {
     @Test
     fun `success login`() {
         coEvery {
-            loginDataSource.login(LoginModel("teste@teste.com", "password"))
+            loginDataSource.login(any())
         } returns flow { emit(true) }
         viewModel.handleEvent(LoginEvent.WriteData("teste@teste.com", "password"))
         viewModel.handleEvent(LoginEvent.Login)
         assertEquals(
             LoginState(
                 versionName = buildConfigModelMock.versionNameForView,
+                enableLoginButton = true,
                 loginError = false
             ),
             viewModel.state.value

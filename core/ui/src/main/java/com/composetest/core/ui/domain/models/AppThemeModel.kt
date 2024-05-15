@@ -5,6 +5,8 @@ import androidx.activity.SystemBarStyle
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import com.composetest.core.ui.domain.enums.AppTheme
+import com.composetest.core.ui.domain.models.AppThemeModel.DefaultThemeColors.defaultDarkScrim
+import com.composetest.core.ui.domain.models.AppThemeModel.DefaultThemeColors.defaultLightScrim
 
 data class AppThemeModel(
     val theme: AppTheme = AppTheme.AUTO,
@@ -28,7 +30,8 @@ data class AppThemeModel(
                 SystemBarStyle.auto(defaultLightScrim, defaultLightScrim) { false }
         }
 
-    private companion object {
+    private object DefaultThemeColors {
+        // Same that `EdgeToEdge.kt`
         val defaultLightScrim = Color.argb(0xe6, 0xFF, 0xFF, 0xFF)
         val defaultDarkScrim = Color.argb(0x80, 0x1b, 0x1b, 0x1b)
     }

@@ -15,7 +15,7 @@ class HomeViewModel @Inject constructor(
 ) : BaseViewModel<HomeEvent, HomeState>(HomeState()) {
 
     init {
-        val e = navigationProvider.getParam<HomeDestination>()
+        val e = navigationProvider.getParam<HomeDestination>(HomeDestination.navTypes)
         updateState { it.copy(t = e.innerHome.teste) }
     }
 

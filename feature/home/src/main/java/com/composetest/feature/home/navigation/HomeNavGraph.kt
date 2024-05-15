@@ -11,12 +11,10 @@ import com.composetest.feature.home.ui.home2.Home2Screen
 import com.composetest.feature.home.ui.home2.Home2ViewModel
 import com.composetest.router.navigation.home.Home2Destination
 import com.composetest.router.navigation.home.HomeDestination
-import com.composetest.router.navigation.home.navtypes.InnerHome
-import com.composetest.router.utils.navType
 
 fun NavGraphBuilder.homeNavGraph() {
     composable<HomeDestination>(
-        typeMap = mapOf(navType<InnerHome>())
+        typeMap = HomeDestination.navTypes
     ) {
         val viewModel = hiltViewModel<HomeViewModel>()
         val state by viewModel.state.collectAsStateWithLifecycle()

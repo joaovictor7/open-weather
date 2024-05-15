@@ -3,9 +3,11 @@ package com.composetest.router.providers
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavDestination
 import androidx.navigation.NavOptions
+import androidx.navigation.NavType
 import androidx.navigation.toRoute
 import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject
+import kotlin.reflect.KType
 
 @ViewModelScoped
 class NavigationProvider @Inject constructor(
@@ -39,8 +41,9 @@ class NavigationProvider @Inject constructor(
         navController?.popBackStack()
     }
 
-    inline fun <reified Destination> getParam(): Destination =
-        savedStateHandle.toRoute<Destination>()
+    inline fun <reified Destination : Any> getParam(
+        typeMap: Map<KType, NavType<*>> = emptyMap()
+    ): Destination = savedStateHandle.toRoute<Destination>(typeMap)
 
     private inner class NavOptionsBuilder {
 

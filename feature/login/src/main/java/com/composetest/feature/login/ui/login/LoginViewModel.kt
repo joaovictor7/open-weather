@@ -1,14 +1,14 @@
 package com.composetest.feature.login.ui.login
 
-import com.composetest.core.providers.BuildConfigProvider
-import com.composetest.core.ui.bases.BaseViewModel
+import com.composetest.common.utility.providers.BuildConfigProvider
+import com.composetest.core.ui.domain.bases.BaseViewModel
 import com.composetest.core.ui.domain.enums.AppTheme
 import com.composetest.core.ui.providers.AppThemeProvider
 import com.composetest.feature.login.domain.models.LoginModel
 import com.composetest.feature.login.domain.usecases.LoginUseCase
-import com.composetest.router.navigation.home.HomeDestination
-import com.composetest.router.navigation.home.navtypes.InnerHome
-import com.composetest.router.providers.NavigationProvider
+import com.composetest.core.router.navigation.home.HomeDestination
+import com.composetest.core.router.navigation.home.navtypes.InnerHome
+import com.composetest.core.router.providers.NavigationProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

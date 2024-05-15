@@ -1,6 +1,6 @@
 package com.composetest.di
 
-import com.composetest.core.providers.BuildConfigProvider
+import com.composetest.common.utility.providers.BuildConfigProvider
 import com.composetest.providers.BuildConfigProviderImpl
 import dagger.Binds
 import dagger.Module

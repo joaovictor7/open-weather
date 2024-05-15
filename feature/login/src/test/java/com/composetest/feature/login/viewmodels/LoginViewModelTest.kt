@@ -1,11 +1,11 @@
 package com.composetest.feature.login.viewmodels
 
-import com.composetest.core.domain.models.BuildConfigModel
-import com.composetest.core.providers.BuildConfigProvider
-import com.composetest.core.test.shared.CourotineExtension
+import com.composetest.common.utility.domain.models.BuildConfigModel
+import com.composetest.common.utility.providers.BuildConfigProvider
+import com.composetest.core.test.extensions.CoroutineExtension
 import com.composetest.core.ui.providers.AppThemeProvider
-import com.composetest.feature.login.data.datasources.LoginDataSource
-import com.composetest.feature.login.data.repositories.LoginRepository
+import com.composetest.core.data.datasources.remote.LoginDataSource
+import com.composetest.core.data.repositories.LoginRepository
 import com.composetest.feature.login.domain.usecases.LoginUseCase
 import com.composetest.feature.login.ui.login.LoginEvent
 import com.composetest.feature.login.ui.login.LoginState
@@ -19,18 +19,19 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import java.lang.Exception
 
-@ExtendWith(CourotineExtension::class)
+@ExtendWith(CoroutineExtension::class)
 class LoginViewModelTest {
 
-    private val buildConfigModelMock = BuildConfigModel(
-        applicationId = "app",
-        versionName = "1.0.0",
-        versionCode = 0,
-        buildType = "debug",
-        flavor = "app",
-        dynamicColors = false,
-        useMock = true
-    )
+    private val buildConfigModelMock =
+        BuildConfigModel(
+            applicationId = "app",
+            versionName = "1.0.0",
+            versionCode = 0,
+            buildType = "debug",
+            flavor = "app",
+            dynamicColors = false,
+            useMock = true
+        )
 
     private val buildConfigProvider: BuildConfigProvider = object : BuildConfigProvider {
         override val buildConfigModel: BuildConfigModel = buildConfigModelMock
@@ -66,7 +67,7 @@ class LoginViewModelTest {
     fun `misleanding login`() {
         coEvery {
             loginDataSource.login(any())
-        } returns (flow { throw Exception() })
+        } returns flow { throw Exception() }
         viewModel.handleEvent(LoginEvent.WriteData("teste@teste.com", "password"))
         viewModel.handleEvent(LoginEvent.Login)
         assertEquals(

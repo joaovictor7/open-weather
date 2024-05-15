@@ -11,5 +11,5 @@ android {
 }
 
 dependencies {
-    includeModules(AppModule.CORE)
+    includeModules(AppModule.COMMON_UTILITY)
 }

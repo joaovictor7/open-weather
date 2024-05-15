@@ -20,8 +20,8 @@ import com.composetest.core.ui.providers.AppThemeProvider
 import com.composetest.core.ui.theme.ComposeTestTheme
 import com.composetest.feature.login.navigation.loginNavGraph
 import com.composetest.feature.home.navigation.homeNavGraph
-import com.composetest.router.navigation.login.LoginDestination
-import com.composetest.router.providers.NavControllerProvider
+import com.composetest.core.router.navigation.login.LoginDestination
+import com.composetest.core.router.providers.NavControllerProvider
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,14 +20,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import com.composetest.common.designsystem.components.buttons.Button
+import com.composetest.common.designsystem.components.textfields.OutlinedTextField
+import com.composetest.common.designsystem.components.textfields.params.TextFieldTrailingIconParam
 import com.composetest.core.ui.dimensions.spacings
 import com.composetest.core.ui.domain.enums.textfield.TextFieldIcons
-import com.composetest.core.ui.components.textfields.params.TextFieldTrailingIconParam
 import com.composetest.core.ui.R
-import com.composetest.core.ui.components.buttons.Button
-import com.composetest.core.ui.components.cards.ElevatedCard
-import com.composetest.core.ui.components.textfields.OutlinedTextField
-import com.composetest.core.ui.extensions.modifiers.verticalTopBackgroundBrush
+import com.composetest.common.utility.extensions.modifiers.verticalTopBackgroundBrush
 import com.composetest.core.ui.theme.ComposeTestTheme
 
 @Composable

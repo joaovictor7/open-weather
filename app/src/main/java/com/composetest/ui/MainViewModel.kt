@@ -1,6 +1,6 @@
 package com.composetest.ui
 
-import com.composetest.core.ui.bases.BaseViewModel
+import com.composetest.core.ui.domain.bases.BaseViewModel
 import com.composetest.core.ui.domain.models.AppThemeModel
 import com.composetest.core.ui.providers.AppThemeProvider
 import dagger.hilt.android.lifecycle.HiltViewModel

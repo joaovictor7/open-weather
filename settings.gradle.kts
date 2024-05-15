@@ -22,9 +22,11 @@ dependencyResolutionManagement {
 
 rootProject.name = "Compose Test"
 include(":app")
-include(":core")
 include(":core:test")
 include(":core:ui")
-include(":router")
+include(":core:router")
+include(":common:designsystem")
+include(":common:utility")
+include(":core:data")
 include(":feature:login")
 include(":feature:home")

@@ -9,8 +9,8 @@ import com.composetest.feature.home.ui.home.HomeScreen
 import com.composetest.feature.home.ui.home.HomeViewModel
 import com.composetest.feature.home.ui.home2.Home2Screen
 import com.composetest.feature.home.ui.home2.Home2ViewModel
-import com.composetest.router.navigation.home.Home2Destination
-import com.composetest.router.navigation.home.HomeDestination
+import com.composetest.core.router.navigation.home.Home2Destination
+import com.composetest.core.router.navigation.home.HomeDestination
 
 fun NavGraphBuilder.homeNavGraph() {
     composable<HomeDestination>(

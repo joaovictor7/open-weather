@@ -7,7 +7,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.composetest.feature.login.ui.login.LoginScreen
 import com.composetest.feature.login.ui.login.LoginViewModel
-import com.composetest.router.navigation.login.LoginDestination
+import com.composetest.core.router.navigation.login.LoginDestination
 
 fun NavGraphBuilder.loginNavGraph() {
     composable<LoginDestination> {

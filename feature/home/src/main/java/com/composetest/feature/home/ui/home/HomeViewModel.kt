@@ -1,11 +1,13 @@
 package com.composetest.feature.home.ui.home
 
+import androidx.lifecycle.viewModelScope
 import com.composetest.core.ui.domain.bases.BaseViewModel
 import com.composetest.core.ui.providers.AppThemeProvider
 import com.composetest.core.router.navigation.home.Home2Destination
 import com.composetest.core.router.navigation.home.HomeDestination
 import com.composetest.core.router.providers.NavigationProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,12 +31,14 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun handleAppTheme(event: HomeEvent.AppThemeHandle) {
-        when {
-            event.appTheme != null -> {
-                appThemeProvider.setAppTheme(event.appTheme)
-            }
-            event.dynamicColors != null -> {
-                appThemeProvider.setDynamicColors(event.dynamicColors)
+        viewModelScope.launch {
+            when {
+                event.appTheme != null -> {
+                    appThemeProvider.setAppTheme(event.appTheme)
+                }
+                event.dynamicColors != null -> {
+                    appThemeProvider.setDynamicColors(event.dynamicColors)
+                }
             }
         }
     }

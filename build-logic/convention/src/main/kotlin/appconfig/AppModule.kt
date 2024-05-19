@@ -5,8 +5,8 @@ enum class AppModule(val moduleName: String) {
     CORE_UI(":core:ui"),
     CORE_ROUTER(":core:router"),
     CORE_DATA(":core:data"),
-    COMMON_DESIGNSYSTEM(":common:designsystem"),
-    COMMON_UTILITY(":common:utility"),
+    CORE_DESIGNSYSTEM(":core:designsystem"),
+    CORE_UTILITY(":core:utility"),
     FEATURE_LOGIN(":feature:login"),
     FEATURE_HOME(":feature:home")
 }

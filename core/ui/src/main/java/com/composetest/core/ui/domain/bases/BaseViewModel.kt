@@ -24,7 +24,7 @@ abstract class BaseViewModel<Event, State>(stateInstance: State) : ViewModel() {
         _state.update(newState)
     }
 
-    protected fun <T> asyncFlowTask(
+    protected fun <T> lazyFlowTask(
         showLoading: Boolean = false,
         flowTask: Flow<T>,
         onErrorTask: (e: Throwable) -> Unit = ::handleError,

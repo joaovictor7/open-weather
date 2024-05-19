@@ -1,6 +1,6 @@
 package com.composetest.feature.login.ui.login
 
-import com.composetest.common.utility.providers.BuildConfigProvider
+import com.composetest.core.utility.providers.BuildConfigProvider
 import com.composetest.core.ui.domain.bases.BaseViewModel
 import com.composetest.core.ui.domain.enums.AppTheme
 import com.composetest.core.ui.providers.AppThemeProvider
@@ -21,7 +21,6 @@ internal class LoginViewModel @Inject constructor(
 ) : BaseViewModel<LoginEvent, LoginState>(LoginState()) {
 
     private var loginModel: LoginModel = LoginModel()
-    private val buildConfigModel get() = buildConfigProvider.buildConfigModel
     private val currentAppTheme get() = appThemeProvider.currentAppTheme
 
     init {
@@ -42,7 +41,7 @@ internal class LoginViewModel @Inject constructor(
     }
 
     private fun login() {
-        asyncFlowTask(
+        lazyFlowTask(
             flowTask = loginUseCase.login(loginModel),
             onSuccessTask = ::processLoginResponse,
             onErrorTask = ::errorLogin
@@ -65,14 +64,14 @@ internal class LoginViewModel @Inject constructor(
     }
 
     private fun loginButtonManager() {
-        updateState { it.setEnableLoginButton(loginModel.loginAlready || buildConfigModel.useMock) }
+        updateState { it.setEnableLoginButton(loginModel.loginAlready || buildConfigProvider.get.isDebug) }
     }
 
     private fun initState() {
         updateState {
             it.initState(
-                versionName = buildConfigModel.versionNameForView,
-                enableLoginButton = buildConfigModel.useMock
+                versionName = buildConfigProvider.get.versionNameForView,
+                enableLoginButton = buildConfigProvider.get.isDebug
             )
         }
     }

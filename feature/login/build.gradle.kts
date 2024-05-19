@@ -17,7 +17,7 @@ dependencies {
         AppModule.CORE_UI,
         AppModule.CORE_ROUTER,
         AppModule.CORE_DATA,
-        AppModule.COMMON_UTILITY,
-        AppModule.COMMON_DESIGNSYSTEM
+        AppModule.CORE_UTILITY,
+        AppModule.CORE_DESIGNSYSTEM
     )
 }

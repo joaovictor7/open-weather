@@ -13,7 +13,7 @@ android {
 
 dependencies {
     includeModules(
-        AppModule.COMMON_UTILITY,
+        AppModule.CORE_UTILITY,
         AppModule.CORE_UI,
         AppModule.CORE_ROUTER
     )

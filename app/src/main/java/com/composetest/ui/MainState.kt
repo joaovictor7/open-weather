@@ -4,17 +4,10 @@ import androidx.activity.SystemBarStyle
 import com.composetest.core.ui.domain.models.AppThemeModel
 
 data class MainState(
-    val appTheme: AppThemeModel = AppThemeModel(),
-    val statusBarStyle: SystemBarStyle? = null,
-    val navigationBarStyle: SystemBarStyle? = null
+    val appTheme: AppThemeModel = AppThemeModel()
 ) {
-    fun initState(
-        appTheme: AppThemeModel,
-        statusBarStyle: SystemBarStyle,
-        navigationBarStyle: SystemBarStyle
-    ) = copy(
-        appTheme = appTheme,
-        statusBarStyle = statusBarStyle,
-        navigationBarStyle = navigationBarStyle
-    )
+    val statusBarStyle get() = appTheme.systemBarStyles.first
+    val navigationBarStyle get() = appTheme.systemBarStyles.second
+
+    fun initState(appTheme: AppThemeModel) = copy(appTheme = appTheme)
 }

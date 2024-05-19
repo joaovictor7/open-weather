@@ -20,13 +20,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
-import com.composetest.common.designsystem.components.buttons.Button
-import com.composetest.common.designsystem.components.textfields.OutlinedTextField
-import com.composetest.common.designsystem.components.textfields.params.TextFieldTrailingIconParam
+import com.composetest.core.designsystem.components.buttons.Button
+import com.composetest.core.designsystem.components.textfields.OutlinedTextField
+import com.composetest.core.designsystem.components.textfields.params.TextFieldTrailingIconParam
 import com.composetest.core.ui.dimensions.spacings
-import com.composetest.core.ui.domain.enums.textfield.TextFieldIcons
+import com.composetest.core.designsystem.domain.emuns.TextFieldIcons
 import com.composetest.core.ui.R
-import com.composetest.common.utility.extensions.modifiers.verticalTopBackgroundBrush
+import com.composetest.core.designsystem.extensions.modifiers.verticalTopBackgroundBrush
 import com.composetest.core.ui.theme.ComposeTestTheme
 
 @Composable

@@ -10,6 +10,7 @@ android {
 }
 
 dependencies {
-    includeModules(AppModule.COMMON_UTILITY)
+    includeModules(AppModule.CORE_UTILITY)
     implementation(libs.firebase.auth)
+    implementation(libs.androidx.dataStore)
 }

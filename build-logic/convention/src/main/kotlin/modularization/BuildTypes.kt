@@ -77,17 +77,3 @@ private fun ApplicationBuildType.setAppName(buildType: AppBuildType) = buildType
         applicationIdSuffix = ".$suffixId"
     }
 )
-
-private fun ApplicationBuildType.setBuildConfigFields(buildType: AppBuildType) {
-    buildConfigField("Boolean", "DYNAMIC_COLORS", "false")
-    buildConfigField("Boolean", "USE_MOCK", "false")
-    when (buildType) {
-        AppBuildType.RELEASE -> {
-            buildConfigField("Boolean", "DYNAMIC_COLORS", "true")
-        }
-        AppBuildType.DEBUG -> {
-            buildConfigField("Boolean", "USE_MOCK", "true")
-        }
-        else -> Unit
-    }
-}

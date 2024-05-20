@@ -1,8 +1,8 @@
 package com.composetest.feature.home.ui.home
 
 import androidx.lifecycle.viewModelScope
-import com.composetest.core.ui.domain.bases.BaseViewModel
-import com.composetest.core.ui.providers.AppThemeProvider
+import com.composetest.core.designsystem.domain.bases.BaseViewModel
+import com.composetest.core.designsystem.providers.AppThemeProvider
 import com.composetest.core.router.navigation.home.Home2Destination
 import com.composetest.core.router.navigation.home.HomeDestination
 import com.composetest.core.router.providers.NavigationProvider

@@ -1,7 +1,6 @@
 package com.composetest.ui
 
-import androidx.activity.SystemBarStyle
-import com.composetest.core.ui.domain.models.AppThemeModel
+import com.composetest.core.designsystem.domain.models.AppThemeModel
 
 data class MainState(
     val appTheme: AppThemeModel = AppThemeModel()

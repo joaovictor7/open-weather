@@ -1,9 +1,9 @@
 package com.composetest.feature.login.ui.login
 
 import com.composetest.core.utility.providers.BuildConfigProvider
-import com.composetest.core.ui.domain.bases.BaseViewModel
-import com.composetest.core.ui.domain.enums.AppTheme
-import com.composetest.core.ui.providers.AppThemeProvider
+import com.composetest.core.designsystem.domain.bases.BaseViewModel
+import com.composetest.core.designsystem.domain.emuns.AppTheme
+import com.composetest.core.designsystem.providers.AppThemeProvider
 import com.composetest.feature.login.domain.models.LoginModel
 import com.composetest.feature.login.domain.usecases.LoginUseCase
 import com.composetest.core.router.navigation.home.HomeDestination

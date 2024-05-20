@@ -1,7 +1,7 @@
 package com.composetest.core.designsystem.domain.emuns
 
 import androidx.annotation.DrawableRes
-import com.composetest.core.ui.R
+import com.composetest.core.designsystem.R
 
 enum class TextFieldIcons(@DrawableRes val iconId: Int) {
     CLEAR_TEXT(R.drawable.ic_cancel),

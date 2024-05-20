@@ -1,6 +1,6 @@
 package com.composetest.feature.home.ui.home
 
-import com.composetest.core.ui.domain.enums.AppTheme
+import com.composetest.core.designsystem.domain.emuns.AppTheme
 
 sealed interface HomeEvent {
     data object ReturnLogin: HomeEvent

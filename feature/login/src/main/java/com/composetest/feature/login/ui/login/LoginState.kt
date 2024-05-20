@@ -1,6 +1,6 @@
 package com.composetest.feature.login.ui.login
 
-import com.composetest.core.ui.domain.models.AppThemeModel
+import com.composetest.core.designsystem.domain.models.AppThemeModel
 
 data class LoginState(
     val appTheme: AppThemeModel = AppThemeModel(),

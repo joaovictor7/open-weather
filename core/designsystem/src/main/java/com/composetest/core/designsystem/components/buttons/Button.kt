@@ -5,7 +5,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import com.composetest.core.ui.theme.ComposeTestTheme
+import com.composetest.core.designsystem.theme.ComposeTestTheme
 
 @Composable
 fun Button(

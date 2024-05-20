@@ -8,6 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import com.composetest.core.designsystem.theme.ComposeTestTheme
 import com.composetest.core.utility.extensions.opacity
 
 @Composable
@@ -36,7 +37,7 @@ fun OutlinedButton(
 @Composable
 @PreviewLightDark
 private fun Preview() {
-    com.composetest.core.ui.theme.ComposeTestTheme {
+    ComposeTestTheme {
         OutlinedButton(text = "Label") { }
     }
 }

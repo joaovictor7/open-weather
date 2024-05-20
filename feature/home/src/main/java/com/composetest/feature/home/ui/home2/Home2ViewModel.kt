@@ -1,6 +1,6 @@
 package com.composetest.feature.home.ui.home2
 
-import com.composetest.core.ui.domain.bases.BaseViewModel
+import com.composetest.core.designsystem.domain.bases.BaseViewModel
 import com.composetest.core.router.navigation.home.Home2Destination
 import com.composetest.core.router.navigation.home.HomeDestination
 import com.composetest.core.router.navigation.home.navtypes.InnerHome

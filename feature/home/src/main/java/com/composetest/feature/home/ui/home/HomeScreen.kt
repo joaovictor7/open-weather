@@ -8,8 +8,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.composetest.core.ui.domain.enums.AppTheme
-import com.composetest.core.ui.theme.ComposeTestTheme
+import com.composetest.core.designsystem.domain.emuns.AppTheme
+import com.composetest.core.designsystem.theme.ComposeTestTheme
 
 @Composable
 fun HomeScreen(state: HomeState, onHandleEvent: (HomeEvent) -> Unit) {

@@ -14,7 +14,7 @@ android {
 dependencies {
     includeModules(
         AppModule.CORE_UTILITY,
-        AppModule.CORE_UI,
-        AppModule.CORE_ROUTER
+        AppModule.CORE_ROUTER,
+        AppModule.CORE_DESIGNSYSTEM
     )
 }

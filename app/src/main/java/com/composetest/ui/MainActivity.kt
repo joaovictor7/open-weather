@@ -12,11 +12,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.composetest.core.ui.theme.ComposeTestTheme
+import com.composetest.core.designsystem.theme.ComposeTestTheme
 import com.composetest.feature.login.navigation.loginNavGraph
 import com.composetest.feature.home.navigation.homeNavGraph
 import com.composetest.core.router.navigation.login.LoginDestination
@@ -54,12 +54,8 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun setEdgeToEdge() = lifecycleScope.launch {
-        repeatOnLifecycle(Lifecycle.State.STARTED) {
-            viewModel.state.collect { state ->
-                if (state.statusBarStyle != null && state.navigationBarStyle != null) {
-                    enableEdgeToEdge(state.statusBarStyle, state.navigationBarStyle)
-                }
-            }
+        viewModel.state.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED).collect { state ->
+            enableEdgeToEdge(state.statusBarStyle, state.navigationBarStyle)
         }
     }
 }

@@ -1,9 +1,9 @@
 package com.composetest.ui
 
 import androidx.lifecycle.viewModelScope
-import com.composetest.core.ui.domain.bases.BaseViewModel
-import com.composetest.core.ui.domain.models.AppThemeModel
-import com.composetest.core.ui.providers.AppThemeProvider
+import com.composetest.core.designsystem.domain.bases.BaseViewModel
+import com.composetest.core.designsystem.domain.models.AppThemeModel
+import com.composetest.core.designsystem.providers.AppThemeProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

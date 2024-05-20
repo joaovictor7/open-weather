@@ -23,11 +23,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.composetest.core.designsystem.components.buttons.Button
 import com.composetest.core.designsystem.components.textfields.OutlinedTextField
 import com.composetest.core.designsystem.components.textfields.params.TextFieldTrailingIconParam
-import com.composetest.core.ui.dimensions.spacings
+import com.composetest.core.designsystem.dimensions.spacings
 import com.composetest.core.designsystem.domain.emuns.TextFieldIcons
-import com.composetest.core.ui.R
 import com.composetest.core.designsystem.extensions.modifiers.verticalTopBackgroundBrush
-import com.composetest.core.ui.theme.ComposeTestTheme
+import com.composetest.core.designsystem.theme.ComposeTestTheme
+import com.composetest.feature.login.R
 
 @Composable
 fun LoginScreen(

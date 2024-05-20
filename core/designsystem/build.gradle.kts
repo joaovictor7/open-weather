@@ -12,7 +12,8 @@ android {
 
 dependencies {
     includeModules(
-        AppModule.CORE_UI,
-        AppModule.CORE_UTILITY
+        AppModule.CORE_UTILITY,
+        AppModule.CORE_DATA,
     )
+    implementation(libs.androidx.dataStore)
 }

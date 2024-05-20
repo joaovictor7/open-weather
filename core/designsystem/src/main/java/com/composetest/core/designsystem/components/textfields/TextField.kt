@@ -19,6 +19,7 @@ import com.composetest.core.designsystem.components.textfields.utils.textFieldHe
 import com.composetest.core.designsystem.components.textfields.utils.trailingIcon
 import com.composetest.core.designsystem.components.textfields.params.TextFieldTrailingIconParam
 import com.composetest.core.designsystem.domain.emuns.TextFieldIcons
+import com.composetest.core.designsystem.theme.ComposeTestTheme
 import com.composetest.core.utility.extensions.opacity
 
 @Composable
@@ -75,7 +76,7 @@ fun TextField(
 @Composable
 @Preview
 private fun Preview() {
-    com.composetest.core.ui.theme.ComposeTestTheme {
+    ComposeTestTheme {
         TextField(
             enabled = true,
             labelText = "Label",

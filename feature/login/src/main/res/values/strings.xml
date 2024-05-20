@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feature_login_login" translatable="false">Login</string>
+    <string name="feature_login_email" translatable="false">E-mail</string>
+    <string name="feature_login_password">Password</string>
+    <string name="feature_login_enter">Enter</string>
+    <string name="feature_login_email_placeholder" translatable="false">narutinho123@gmail.com</string>
+    <string name="feature_login_invalid_email">You don\'t insert a e-mail 🤔</string>
+</resources>

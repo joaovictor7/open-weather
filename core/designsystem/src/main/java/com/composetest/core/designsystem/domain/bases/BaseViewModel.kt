@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-abstract class BaseViewModel<Event, State>(stateInstance: State) : ViewModel() {
+abstract class BaseViewModel<Event, State : BaseState>(stateInstance: State) : ViewModel() {
 
     private val _state = MutableStateFlow(stateInstance)
     val state = _state.asStateFlow()
@@ -43,7 +43,7 @@ abstract class BaseViewModel<Event, State>(stateInstance: State) : ViewModel() {
         }
     }
 
-    private fun handleError(e: Throwable) {
+    protected open fun handleError(e: Throwable) {
 
     }
 }

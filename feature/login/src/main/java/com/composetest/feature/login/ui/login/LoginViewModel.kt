@@ -32,6 +32,7 @@ internal class LoginViewModel @Inject constructor(
         is LoginEvent.CheckShowInvalidEmailMsg -> showInvalidEmailMsg()
         is LoginEvent.Login -> login()
         is LoginEvent.WriteData -> writeData(event)
+        is LoginEvent.DismissErrorAlertDialog -> errorAlertDialog(null)
     }
 
     private fun showInvalidEmailMsg() {
@@ -44,7 +45,7 @@ internal class LoginViewModel @Inject constructor(
         lazyFlowTask(
             flowTask = loginUseCase.login(loginModel),
             onSuccessTask = ::processLoginResponse,
-            onErrorTask = ::errorLogin
+            onErrorTask = ::errorAlertDialog
         )
     }
 
@@ -93,7 +94,9 @@ internal class LoginViewModel @Inject constructor(
         }
     }
 
-    private fun errorLogin(error: Throwable) {
-        updateState { it.setError() }
+    private fun errorAlertDialog(error: Throwable?) {
+        updateState {
+            it.setError(error)
+        }
     }
 }

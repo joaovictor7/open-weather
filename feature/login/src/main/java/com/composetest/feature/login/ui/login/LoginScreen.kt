@@ -20,9 +20,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import com.composetest.core.designsystem.components.alerts.ErrorAlertDialog
 import com.composetest.core.designsystem.components.buttons.Button
 import com.composetest.core.designsystem.components.textfields.OutlinedTextField
 import com.composetest.core.designsystem.components.textfields.params.TextFieldTrailingIconParam
+import com.composetest.core.designsystem.domain.emuns.ErrorAlertDialogType
 import com.composetest.core.designsystem.dimensions.spacings
 import com.composetest.core.designsystem.domain.emuns.TextFieldIcons
 import com.composetest.core.designsystem.extensions.modifiers.verticalTopBackgroundBrush
@@ -97,6 +99,9 @@ fun LoginScreen(
         )
     }
     HandleEffects(onHandleEvent = onHandleEvent)
+    HandleErrorAlerts(errorType = state.alertErrorDialogType) {
+        onHandleEvent.invoke(LoginEvent.DismissErrorAlertDialog)
+    }
 }
 
 @Composable
@@ -109,6 +114,11 @@ private fun HandleEffects(onHandleEvent: (LoginEvent) -> Unit) {
             onHandleEvent.invoke(LoginEvent.SetCustomTheme(false))
         }
     }
+}
+
+@Composable
+private fun HandleErrorAlerts(errorType: ErrorAlertDialogType, onDismiss: () -> Unit) {
+    ErrorAlertDialog(errorType = errorType, onClickDismiss = onDismiss)
 }
 
 @Composable

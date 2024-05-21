@@ -5,4 +5,5 @@ sealed interface LoginEvent {
     data class SetCustomTheme(val enterScreen: Boolean) : LoginEvent
     data object CheckShowInvalidEmailMsg : LoginEvent
     data object Login : LoginEvent
+    data object DismissErrorAlertDialog: LoginEvent
 }

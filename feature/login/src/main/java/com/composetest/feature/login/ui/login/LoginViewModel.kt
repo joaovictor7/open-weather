@@ -3,12 +3,14 @@ package com.composetest.feature.login.ui.login
 import com.composetest.core.utility.providers.BuildConfigProvider
 import com.composetest.core.designsystem.domain.bases.BaseViewModel
 import com.composetest.core.designsystem.domain.emuns.AppTheme
+import com.composetest.core.designsystem.domain.emuns.ErrorAlertDialogType.Companion.getErrorAlertDialogType
 import com.composetest.core.designsystem.providers.AppThemeProvider
 import com.composetest.feature.login.domain.models.LoginModel
 import com.composetest.feature.login.domain.usecases.LoginUseCase
 import com.composetest.core.router.navigation.home.HomeDestination
 import com.composetest.core.router.navigation.home.navtypes.InnerHome
 import com.composetest.core.router.providers.NavigationProvider
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -32,7 +34,7 @@ internal class LoginViewModel @Inject constructor(
         is LoginEvent.CheckShowInvalidEmailMsg -> showInvalidEmailMsg()
         is LoginEvent.Login -> login()
         is LoginEvent.WriteData -> writeData(event)
-        is LoginEvent.DismissErrorAlertDialog -> errorAlertDialog(null)
+        is LoginEvent.DismissErrorAlertDialog -> handleLoginError(null)
     }
 
     private fun showInvalidEmailMsg() {
@@ -44,8 +46,8 @@ internal class LoginViewModel @Inject constructor(
     private fun login() {
         lazyFlowTask(
             flowTask = loginUseCase.login(loginModel),
-            onSuccessTask = ::processLoginResponse,
-            onErrorTask = ::errorAlertDialog
+            onSuccess = ::handleLoginSuccess,
+            onError = ::handleLoginError
         )
     }
 
@@ -61,11 +63,14 @@ internal class LoginViewModel @Inject constructor(
                 loginModel = loginModel.copy(password = action.password)
             }
         }
-        loginButtonManager()
+        resetViewState()
     }
 
-    private fun loginButtonManager() {
-        updateState { it.setEnableLoginButton(loginModel.loginAlready || buildConfigProvider.get.isDebug) }
+    private fun resetViewState() {
+        updateState {
+            it.setEnableLoginButton(loginModel.loginAlready || buildConfigProvider.get.isDebug)
+                .setInvalidCredentialError(false)
+        }
     }
 
     private fun initState() {
@@ -88,15 +93,19 @@ internal class LoginViewModel @Inject constructor(
         updateState { it.setAppTheme(currentAppTheme) }
     }
 
-    private fun processLoginResponse(success: Boolean) {
+    private fun handleLoginSuccess(success: Boolean) {
         if (success) {
             navigationProvider.navigate(HomeDestination("teste", InnerHome("te", "23232")))
         }
     }
 
-    private fun errorAlertDialog(error: Throwable?) {
+    private fun handleLoginError(error: Throwable?) {
         updateState {
-            it.setError(error)
+            if (error is FirebaseAuthInvalidCredentialsException) {
+                it.setInvalidCredentialError(true)
+            } else {
+                it.setAlertDialogError(error.getErrorAlertDialogType())
+            }
         }
     }
 }

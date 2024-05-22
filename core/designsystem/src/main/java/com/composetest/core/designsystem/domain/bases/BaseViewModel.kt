@@ -27,8 +27,8 @@ abstract class BaseViewModel<Event, State : BaseState>(stateInstance: State) : V
     protected fun <T> lazyFlowTask(
         showLoading: Boolean = false,
         flowTask: Flow<T>,
-        onErrorTask: (e: Throwable) -> Unit = ::handleError,
-        onSuccessTask: (param: T) -> Unit,
+        onError: (e: Throwable) -> Unit = ::handleError,
+        onSuccess: (param: T) -> Unit,
     ) {
         viewModelScope.launch {
             flowTask.onStart {
@@ -36,9 +36,9 @@ abstract class BaseViewModel<Event, State : BaseState>(stateInstance: State) : V
             }.onCompletion {
                 //showLoading(false)
             }.catch {
-                onErrorTask.invoke(it)
+                onError.invoke(it)
             }.collect {
-                onSuccessTask.invoke(it)
+                onSuccess.invoke(it)
             }
         }
     }

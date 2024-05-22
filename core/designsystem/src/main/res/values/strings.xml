@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Alert Error Dialogs -->
     <string name="error_alert_dialog_generic_title">It went bad 😥</string>
     <string name="error_alert_dialog_generic_text">Something unexpected happened. We haven\'t appropriate response now.</string>
     <string name="error_alert_dialog_network_title">You isn\'t online ☹️</string>

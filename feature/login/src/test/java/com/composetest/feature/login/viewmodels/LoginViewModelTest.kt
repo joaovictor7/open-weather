@@ -68,7 +68,7 @@ class LoginViewModelTest {
         assertEquals(
             LoginState(
                 versionName = buildConfigModelMock.versionNameForView,
-                loginError = true,
+                invalidCredentials = true,
                 enableLoginButton = true
             ),
             viewModel.state.value
@@ -86,7 +86,7 @@ class LoginViewModelTest {
             LoginState(
                 versionName = buildConfigModelMock.versionNameForView,
                 enableLoginButton = true,
-                loginError = false
+                invalidCredentials = false
             ),
             viewModel.state.value
         )

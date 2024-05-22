@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.composetest.core.designsystem.components.alerts.ErrorAlertDialog
 import com.composetest.core.designsystem.components.buttons.Button
@@ -47,47 +48,8 @@ fun LoginScreen(
                 .align(Alignment.Center)
                 .padding(spacings.sixteen)
         ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.padding(spacings.twelve)
-            ) {
-                Text(
-                    text = stringResource(R.string.feature_login_login),
-                    style = MaterialTheme.typography.headlineLarge
-                )
-                Spacer(modifier = Modifier.height(spacings.fourteen))
-                OutlinedTextField(
-                    labelText = stringResource(R.string.feature_login_email),
-                    placeholderText = stringResource(R.string.feature_login_email_placeholder),
-                    supportingText = if (state.invalidEmail)
-                        stringResource(R.string.feature_login_invalid_email) else null,
-                    imeAction = ImeAction.Next,
-                    trailingIconParam = if (state.invalidEmail)
-                        TextFieldTrailingIconParam(iconType = TextFieldIcons.ERROR) else null,
-                    modifier = Modifier.fillMaxWidth(),
-                    onFocusChanged = {
-                        if (!it.hasFocus) onHandleEvent.invoke(LoginEvent.CheckShowInvalidEmailMsg)
-                    }
-                ) { email ->
-                    onHandleEvent.invoke(LoginEvent.WriteData(email = email))
-                }
-                Spacer(modifier = Modifier.height(spacings.fourteen))
-                OutlinedTextField(
-                    labelText = stringResource(R.string.feature_login_password),
-                    keyboardInput = KeyboardType.Password,
-                    trailingIconParam = TextFieldTrailingIconParam(
-                        iconType = TextFieldIcons.SEARCH
-                    ),
-                    modifier = Modifier.fillMaxWidth()
-                ) { password ->
-                    onHandleEvent.invoke(LoginEvent.WriteData(password = password))
-                }
-                Spacer(modifier = Modifier.height(spacings.twentyTwo))
-                Button(
-                    text = stringResource(R.string.feature_login_enter),
-                    modifier = Modifier.fillMaxWidth(),
-                    enabled = state.enableLoginButton
-                ) { onHandleEvent.invoke(LoginEvent.Login) }
+            Column(modifier = Modifier.padding(spacings.twelve)) {
+                LoginForm(state = state, onHandleEvent = onHandleEvent)
             }
         }
         Text(
@@ -102,6 +64,60 @@ fun LoginScreen(
     HandleErrorAlerts(errorType = state.alertErrorDialogType) {
         onHandleEvent.invoke(LoginEvent.DismissErrorAlertDialog)
     }
+}
+
+@Composable
+private fun LoginForm(
+    state: LoginState,
+    onHandleEvent: (LoginEvent) -> Unit
+) {
+    Text(
+        text = stringResource(R.string.feature_login_login),
+        style = MaterialTheme.typography.headlineLarge,
+        modifier = Modifier.fillMaxWidth(),
+        textAlign = TextAlign.Center
+    )
+    Spacer(Modifier.height(spacings.fourteen))
+    OutlinedTextField(
+        labelText = stringResource(R.string.feature_login_email),
+        placeholderText = stringResource(R.string.feature_login_email_placeholder),
+        supportingText = if (state.invalidEmail)
+            stringResource(R.string.feature_login_invalid_email) else null,
+        imeAction = ImeAction.Next,
+        trailingIconParam = if (state.invalidEmail)
+            TextFieldTrailingIconParam(iconType = TextFieldIcons.ERROR) else null,
+        modifier = Modifier.fillMaxWidth(),
+        onFocusChanged = {
+            if (!it.hasFocus) onHandleEvent.invoke(LoginEvent.CheckShowInvalidEmailMsg)
+        }
+    ) { email ->
+        onHandleEvent.invoke(LoginEvent.WriteData(email = email))
+    }
+    Spacer(Modifier.height(spacings.fourteen))
+    OutlinedTextField(
+        labelText = stringResource(R.string.feature_login_password),
+        keyboardInput = KeyboardType.Password,
+        trailingIconParam = TextFieldTrailingIconParam(
+            iconType = TextFieldIcons.SEARCH
+        ),
+        modifier = Modifier.fillMaxWidth()
+    ) { password ->
+        onHandleEvent.invoke(LoginEvent.WriteData(password = password))
+    }
+    Spacer(Modifier.height(spacings.eighteen))
+    if (state.invalidCredentials) {
+        Text(
+            text = stringResource(R.string.feature_login_invalid_credentials),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.error
+        )
+        Spacer(Modifier.height(spacings.ten))
+    }
+    Button(
+        text = stringResource(R.string.feature_login_enter),
+        modifier = Modifier.fillMaxWidth(),
+        enabled = state.enableLoginButton
+    ) { onHandleEvent.invoke(LoginEvent.Login) }
 }
 
 @Composable
@@ -125,6 +141,11 @@ private fun HandleErrorAlerts(errorType: ErrorAlertDialogType, onDismiss: () -> 
 @Preview
 private fun Preview() {
     ComposeTestTheme {
-        LoginScreen(LoginState(versionName = "Version")) { }
+        LoginScreen(
+            LoginState(
+                versionName = "Version",
+                invalidCredentials = false
+            )
+        ) { }
     }
 }

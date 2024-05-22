@@ -8,7 +8,6 @@ open class Spacing {
     open val two = 2.dp
     open val four = 4.dp
     open val six = 6.dp
-    open val seven = 8.dp
     open val eight = 8.dp
     open val ten = 10.dp
     open val twelve = 12.dp

@@ -55,7 +55,7 @@ internal class LoginViewModel @Inject constructor(
         when {
             action.email != null -> {
                 loginModel = loginModel.copy(email = action.email)
-                if (stateValue.invalidEmail) {
+                if (state.value.invalidEmail) {
                     updateState { it.setInvalidEmail(false) }
                 }
             }

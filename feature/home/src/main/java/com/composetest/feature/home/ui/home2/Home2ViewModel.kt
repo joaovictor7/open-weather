@@ -6,6 +6,7 @@ import com.composetest.core.router.navigation.home.HomeDestination
 import com.composetest.core.router.navigation.home.navtypes.InnerHome
 import com.composetest.core.router.providers.NavigationProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel

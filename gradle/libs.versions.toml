@@ -3,7 +3,6 @@ agp = "8.4.1"
 kotlin = "2.0.0"
 kotlinJsonSerialization = "1.6.3"
 kotlinCoroutineTest = "1.8.1"
-coreKtx = "1.13.1"
 junit5 = "5.10.2"
 lifecycleRuntime = "2.8.0"
 activityCompose = "1.9.0"
@@ -16,7 +15,7 @@ hiltComposeNavigation = "1.2.0"
 firebaseCrashlytics = "3.0.1"
 firebaseBom = "33.0.0"
 mockK = "1.13.11"
-ksp = "2.0.0-RC3-1.0.20"
+ksp = "2.0.0-1.0.21"
 unspecified = "unspecified"
 
 [libraries]
@@ -30,7 +29,6 @@ kotlin-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coro
 android-tools-build-gradle = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
 
 # AndroidX
-androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntime" }
 androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycleRuntime" }
 androidx-dataStore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidDataStore" }

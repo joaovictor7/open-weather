@@ -1,8 +1,10 @@
+import com.android.build.gradle.BaseExtension
 import extensions.debugImplementation
 import extensions.findLibrary
 import extensions.implementation
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 
 internal class ComposeConventionPlugin : Plugin<Project> {
@@ -11,6 +13,9 @@ internal class ComposeConventionPlugin : Plugin<Project> {
         with(target) {
             with(pluginManager) {
                 apply("org.jetbrains.kotlin.plugin.compose")
+            }
+            extensions.configure<BaseExtension> {
+                buildFeatures.compose = true
             }
             dependencies {
                 implementation(platform(findLibrary("compose.bom")))

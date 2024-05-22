@@ -38,7 +38,6 @@ internal fun Project.configureAndroid() {
     setBuildTypesAllModules()
     dependencies {
         implementation(platform(findLibrary("firebase.bom")))
-        implementation(findLibrary("androidx.core.ktx"))
         implementation(findLibrary("androidx.lifecycle.runtime.ktx"))
         implementation(findLibrary("kotlin.json.serializable"))
         implementation(findLibrary("android.hilt"))

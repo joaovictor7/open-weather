@@ -1,6 +1,6 @@
 package com.composetest.feature.login.ui.login
 
-import com.composetest.core.data.domain.throwable.InvalidCredentialsThrowable
+import com.composetest.core.data.domain.throwables.InvalidCredentialsThrowable
 import com.composetest.core.utility.providers.BuildConfigProvider
 import com.composetest.core.designsystem.domain.bases.BaseViewModel
 import com.composetest.core.designsystem.domain.emuns.Theme

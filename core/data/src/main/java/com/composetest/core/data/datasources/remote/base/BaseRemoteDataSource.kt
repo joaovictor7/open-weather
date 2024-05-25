@@ -1,9 +1,9 @@
-package com.composetest.core.data.domain.models.bases
+package com.composetest.core.data.datasources.remote.base
 
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import com.composetest.core.data.domain.throwable.RemoteNetworkThrowable
+import com.composetest.core.data.domain.throwables.RemoteNetworkThrowable
 
 internal open class BaseRemoteDataSource(private val context: Context) {
     protected suspend fun <T> safeRemoteCall(

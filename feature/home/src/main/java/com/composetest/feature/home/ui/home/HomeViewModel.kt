@@ -33,8 +33,8 @@ class HomeViewModel @Inject constructor(
     private fun handleAppTheme(event: HomeEvent.AppThemeHandle) {
         viewModelScope.launch {
             when {
-                event.appTheme != null -> {
-                    appThemeProvider.setAppTheme(event.appTheme)
+                event.theme != null -> {
+                    appThemeProvider.setAppTheme(event.theme)
                 }
                 event.dynamicColors != null -> {
                     appThemeProvider.setDynamicColors(event.dynamicColors)

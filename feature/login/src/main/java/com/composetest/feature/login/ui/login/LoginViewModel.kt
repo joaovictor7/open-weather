@@ -3,7 +3,7 @@ package com.composetest.feature.login.ui.login
 import com.composetest.core.data.domain.throwable.InvalidCredentialsThrowable
 import com.composetest.core.utility.providers.BuildConfigProvider
 import com.composetest.core.designsystem.domain.bases.BaseViewModel
-import com.composetest.core.designsystem.domain.emuns.AppTheme
+import com.composetest.core.designsystem.domain.emuns.Theme
 import com.composetest.core.designsystem.domain.emuns.ErrorAlertDialogType.Companion.getErrorAlertDialogType
 import com.composetest.core.designsystem.providers.AppThemeProvider
 import com.composetest.feature.login.domain.models.LoginModel
@@ -84,8 +84,8 @@ internal class LoginViewModel @Inject constructor(
 
     private fun setCustomTheme(event: LoginEvent.SetCustomTheme) {
         appThemeProvider.setCustomTheme(
-            if (event.enterScreen && appThemeProvider.get.theme != AppTheme.DARK) {
-                AppTheme.DARK
+            if (event.enterScreen && appThemeProvider.get.theme != Theme.DARK) {
+                Theme.DARK
             } else {
                 null
             }

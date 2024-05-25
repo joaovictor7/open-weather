@@ -1,9 +1,8 @@
 package com.composetest.core.designsystem.providers
 
-import com.composetest.core.utility.extensions.orFalse
-import com.composetest.core.data.domain.constants.preferencedata.PreferencesDataKeys
-import com.composetest.core.data.repositories.PreferencesDataRepository
-import com.composetest.core.designsystem.domain.emuns.AppTheme
+import com.composetest.core.data.repositories.AppThemeRepository
+import com.composetest.core.designsystem.domain.converters.AppThemeModelConverter
+import com.composetest.core.designsystem.domain.emuns.Theme
 import com.composetest.core.designsystem.domain.models.AppThemeModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -16,7 +15,8 @@ import javax.inject.Singleton
 
 @Singleton
 class AppThemeProvider @Inject constructor(
-    private val preferencesDataRepository: PreferencesDataRepository
+    private val appThemeRepository: AppThemeRepository,
+    private val appThemeModelConverter: AppThemeModelConverter
 ) {
 
     private val _appThemeState = MutableStateFlow(AppThemeModel())
@@ -28,23 +28,24 @@ class AppThemeProvider @Inject constructor(
         getAppTheme()
     }
 
-    suspend fun setAppTheme(theme: AppTheme) {
-        preferencesDataRepository.setData(PreferencesDataKeys.appTheme, theme.name)
+    suspend fun setAppTheme(theme: Theme) {
+        appThemeRepository.setTheme(theme.name)
     }
 
     suspend fun setDynamicColors(dynamicColors: Boolean) {
-        preferencesDataRepository.setData(PreferencesDataKeys.dynamicColor, dynamicColors)
+        appThemeRepository.setDynamicColor(dynamicColors)
     }
 
-    fun setCustomTheme(customTheme: AppTheme?) =
+    fun setCustomTheme(customTheme: Theme?) =
         _appThemeState.update { it.copy(customTheme = customTheme) }
 
     private fun getAppTheme() {
         CoroutineScope(Dispatchers.IO).launch {
-            preferencesDataRepository.getData { preferences ->
-                appThemeState.value.copy(
-                    theme = AppTheme.getAppTheme(preferences[PreferencesDataKeys.appTheme]),
-                    dynamicColors = preferences[PreferencesDataKeys.dynamicColor].orFalse
+            appThemeRepository.getAppTheme { theme, dynamicColor ->
+                appThemeModelConverter.convertTo(
+                    theme,
+                    dynamicColor,
+                    appThemeState.value.customTheme
                 )
             }.collect { appThemeModel ->
                 _appThemeState.update { appThemeModel }

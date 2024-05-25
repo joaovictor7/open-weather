@@ -2,8 +2,8 @@ package com.composetest.core.data.di
 
 import com.composetest.core.data.repositories.LoginRepository
 import com.composetest.core.data.repositories.LoginRepositoryImpl
-import com.composetest.core.data.repositories.PreferencesDataRepository
-import com.composetest.core.data.repositories.PreferencesDataRepositoryImpl
+import com.composetest.core.data.repositories.AppThemeRepository
+import com.composetest.core.data.repositories.AppThemeRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -16,5 +16,5 @@ internal abstract class RepositoryModule {
     abstract fun loginRepository(loginRepositoryImpl: LoginRepositoryImpl): LoginRepository
 
     @Binds
-    abstract fun preferencesDataRepository1(preferencesDataRepositoryImpl: PreferencesDataRepositoryImpl): PreferencesDataRepository
+    abstract fun appThemeRepository(appThemeRepositoryImpl: AppThemeRepositoryImpl): AppThemeRepository
 }

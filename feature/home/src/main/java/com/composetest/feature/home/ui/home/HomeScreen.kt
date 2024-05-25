@@ -8,7 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.composetest.core.designsystem.domain.emuns.AppTheme
+import com.composetest.core.designsystem.domain.emuns.Theme
 import com.composetest.core.designsystem.theme.ComposeTestTheme
 
 @Composable
@@ -22,13 +22,13 @@ fun HomeScreen(state: HomeState, onHandleEvent: (HomeEvent) -> Unit) {
             Text(text = state.t)
         }
         Text(text = "Home1")
-        Button(onClick = { onHandleEvent(HomeEvent.AppThemeHandle(AppTheme.AUTO)) }) {
+        Button(onClick = { onHandleEvent(HomeEvent.AppThemeHandle(Theme.AUTO)) }) {
             Text(text = "Auto")
         }
-        Button(onClick = { onHandleEvent(HomeEvent.AppThemeHandle(AppTheme.LIGHT)) }) {
+        Button(onClick = { onHandleEvent(HomeEvent.AppThemeHandle(Theme.LIGHT)) }) {
             Text(text = "Light")
         }
-        Button(onClick = { onHandleEvent(HomeEvent.AppThemeHandle(AppTheme.DARK)) }) {
+        Button(onClick = { onHandleEvent(HomeEvent.AppThemeHandle(Theme.DARK)) }) {
             Text(text = "Dark")
         }
         Button(onClick = { onHandleEvent(HomeEvent.AppThemeHandle(dynamicColors = true)) }) {

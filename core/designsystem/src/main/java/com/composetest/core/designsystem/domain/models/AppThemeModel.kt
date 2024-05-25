@@ -4,29 +4,29 @@ import android.graphics.Color
 import androidx.activity.SystemBarStyle
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
-import com.composetest.core.designsystem.domain.emuns.AppTheme
+import com.composetest.core.designsystem.domain.emuns.Theme
 import com.composetest.core.designsystem.domain.models.AppThemeModel.DefaultThemeColors.defaultDarkScrim
 import com.composetest.core.designsystem.domain.models.AppThemeModel.DefaultThemeColors.defaultLightScrim
 
 data class AppThemeModel(
-    val theme: AppTheme = AppTheme.AUTO,
+    val theme: Theme = Theme.AUTO,
     val dynamicColors: Boolean = false,
-    val customTheme: AppTheme? = null
+    val customTheme: Theme? = null
 ) {
     val isDarkMode
-        @Composable get() = if (theme == AppTheme.AUTO) {
+        @Composable get() = if (theme == Theme.AUTO) {
             isSystemInDarkTheme()
         } else {
-            theme == AppTheme.DARK
+            theme == Theme.DARK
         }
 
     val systemBarStyles
         get() = when (customTheme ?: theme) {
-            AppTheme.AUTO -> SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT) to
+            Theme.AUTO -> SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT) to
                 SystemBarStyle.auto(defaultLightScrim, defaultDarkScrim)
-            AppTheme.DARK -> SystemBarStyle.dark(Color.TRANSPARENT) to
+            Theme.DARK -> SystemBarStyle.dark(Color.TRANSPARENT) to
                 SystemBarStyle.auto(defaultLightScrim, defaultDarkScrim) { true }
-            AppTheme.LIGHT -> SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT) to
+            Theme.LIGHT -> SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT) to
                 SystemBarStyle.auto(defaultLightScrim, defaultLightScrim) { false }
         }
 

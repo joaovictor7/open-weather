@@ -1,9 +1,9 @@
 package com.composetest.core.data.di
 
 import android.content.Context
-import com.composetest.core.data.datasources.remote.LoginDataSource
-import com.composetest.core.data.datasources.remote.LoginDataSourceFakeImpl
-import com.composetest.core.data.datasources.remote.LoginDataSourceImpl
+import com.composetest.core.data.datasources.remote.FirebaseAuthDataSource
+import com.composetest.core.data.datasources.remote.FirebaseAuthDataSourceFakeImpl
+import com.composetest.core.data.datasources.remote.FirebaseAuthDataSourceImpl
 import com.composetest.core.data.providers.DataSourceProvider
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
@@ -16,12 +16,12 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 internal object DataSourceModule {
     @Provides
-    fun loginDataSource(
+    fun firebaseAuthDataSource(
         @ApplicationContext context: Context,
         dataSourceProvider: DataSourceProvider,
         firebaseAuth: FirebaseAuth
-    ): LoginDataSource = dataSourceProvider.getDataSource(
-        dataSource = LoginDataSourceImpl(firebaseAuth, context),
-        fakeDataSource = LoginDataSourceFakeImpl(context)
+    ): FirebaseAuthDataSource = dataSourceProvider.getDataSource(
+        dataSource = FirebaseAuthDataSourceImpl(firebaseAuth, context),
+        fakeDataSource = FirebaseAuthDataSourceFakeImpl(context)
     )
 }

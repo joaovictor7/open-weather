@@ -2,7 +2,7 @@ package com.composetest.core.designsystem.domain.emuns
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import com.composetest.core.data.domain.exceptions.RemoteNetworkException
+import com.composetest.core.data.domain.throwable.RemoteNetworkThrowable
 import com.composetest.core.designsystem.R
 
 enum class ErrorAlertDialogType(
@@ -25,7 +25,7 @@ enum class ErrorAlertDialogType(
     companion object {
         fun Throwable?.getErrorAlertDialogType() = when (this) {
             null -> NONE
-            is RemoteNetworkException -> NETWORK
+            is RemoteNetworkThrowable -> NETWORK
             else -> GENERIC
         }
     }

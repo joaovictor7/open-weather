@@ -1,17 +1,26 @@
 package com.composetest.core.data.repositories
 
-import android.content.Context
-import com.composetest.core.data.datasources.remote.LoginDataSource
+import com.composetest.core.data.datasources.remote.FirebaseAuthDataSource
 import com.composetest.core.data.domain.models.requests.LoginRequest
-import com.composetest.core.data.datasources.base.BaseRemoteDataSource
-import dagger.hilt.android.qualifiers.ApplicationContext
+import com.composetest.core.data.domain.throwable.InvalidCredentialsThrowable
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.transform
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 internal class LoginRepositoryImpl @Inject constructor(
-    @ApplicationContext context: Context,
-    private val loginDataSource: LoginDataSource
-) : BaseRemoteDataSource(context), LoginRepository {
-    override fun login(login: LoginRequest) = loginDataSource.login(login)
+    private val firebaseAuthDataSource: FirebaseAuthDataSource
+) : LoginRepository {
+
+    override fun login(login: LoginRequest) =
+        firebaseAuthDataSource.login(login).catch {
+            when (it) {
+                is FirebaseAuthInvalidCredentialsException -> throw InvalidCredentialsThrowable()
+                else -> throw it
+            }
+        }.transform {
+            emit(true)
+        }
 }

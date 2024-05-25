@@ -22,7 +22,7 @@ class AppThemeProvider @Inject constructor(
     private val _appThemeState = MutableStateFlow(AppThemeModel())
     val appThemeState = _appThemeState.asStateFlow()
 
-    val currentAppTheme get() = appThemeState.value
+    val get get() = appThemeState.value
 
     init {
         getAppTheme()

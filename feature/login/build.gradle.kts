@@ -19,5 +19,4 @@ dependencies {
         AppModule.CORE_UTILITY,
         AppModule.CORE_DESIGNSYSTEM
     )
-    implementation(libs.firebase.auth)
 }

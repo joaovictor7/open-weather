@@ -1,15 +1,15 @@
-package com.composetest.core.data.datasources.base
+package com.composetest.core.data.domain.models.bases
 
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import com.composetest.core.data.domain.exceptions.RemoteNetworkException
+import com.composetest.core.data.domain.throwable.RemoteNetworkThrowable
 
-internal open class BaseRemoteDataSource(
-    private val context: Context
-) {
-    suspend fun <T> remoteCall(onRemoteCall: suspend () -> T) = when {
-        !checkNetworkConnection() -> throw RemoteNetworkException()
+internal open class BaseRemoteDataSource(private val context: Context) {
+    protected suspend fun <T> safeRemoteCall(
+        onRemoteCall: suspend () -> T
+    ) = when {
+        !checkNetworkConnection() -> throw RemoteNetworkThrowable()
         else -> onRemoteCall.invoke()
     }
 

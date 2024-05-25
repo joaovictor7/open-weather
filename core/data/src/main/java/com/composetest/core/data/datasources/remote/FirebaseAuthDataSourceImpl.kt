@@ -1,20 +1,21 @@
 package com.composetest.core.data.datasources.remote
 
 import android.content.Context
-import com.composetest.core.data.datasources.base.BaseRemoteDataSource
+import com.composetest.core.data.domain.models.bases.BaseRemoteDataSource
 import com.composetest.core.data.domain.models.requests.LoginRequest
+import com.composetest.core.data.domain.models.responses.LoginResponse
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 
-internal class LoginDataSourceImpl(
+internal class FirebaseAuthDataSourceImpl(
     private val firebaseAuth: FirebaseAuth,
     context: Context
-): BaseRemoteDataSource(context), LoginDataSource {
+): BaseRemoteDataSource(context), FirebaseAuthDataSource {
     override fun login(login: LoginRequest) = flow {
-        remoteCall {
+        val result = safeRemoteCall {
             firebaseAuth.signInWithEmailAndPassword(login.login, login.password).await()
         }
-        emit(true)
+        emit(LoginResponse(result?.user?.email.orEmpty()))
     }
 }

@@ -10,7 +10,8 @@ data class LoginState(
     val invalidEmail: Boolean = false,
     val enableLoginButton: Boolean = false,
     val invalidCredentials: Boolean = false,
-    override val alertErrorDialogType: ErrorAlertDialogType = ErrorAlertDialogType.NONE
+    val isLoading: Boolean = false,
+    override val errorAlertDialogType: ErrorAlertDialogType = ErrorAlertDialogType.NONE
 ): BaseState {
     fun initState(
         versionName: String,
@@ -21,9 +22,16 @@ data class LoginState(
     )
     fun setAppTheme(appTheme: AppThemeModel) = copy(appTheme = appTheme)
     fun setInvalidEmail(invalid: Boolean) = copy(invalidEmail = invalid)
-    fun setEnableLoginButton(enable: Boolean) = copy(enableLoginButton = enable)
-    fun setInvalidCredentialError(error: Boolean) = copy(invalidCredentials = error)
+    fun resetStateView(enableLoginButton: Boolean) = copy(
+        enableLoginButton = enableLoginButton,
+        invalidCredentials = false,
+    )
+    fun setShowInvalidCredentialsMsg() = copy(invalidCredentials = true)
+    fun setLoading(isLoading: Boolean) = copy(
+        isLoading = isLoading,
+        invalidCredentials = false
+    )
     fun setAlertDialogError(alertErrorDialogType: ErrorAlertDialogType) = copy(
-        alertErrorDialogType = alertErrorDialogType
+        errorAlertDialogType = alertErrorDialogType
     )
 }

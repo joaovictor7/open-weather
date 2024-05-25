@@ -2,12 +2,14 @@ package com.composetest.feature.login.ui.login
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -46,9 +48,9 @@ fun LoginScreen(
         ElevatedCard(
             modifier = Modifier
                 .align(Alignment.Center)
-                .padding(spacings.sixteen)
+                .padding(spacings.eighteen)
         ) {
-            Column(modifier = Modifier.padding(spacings.twelve)) {
+            Column(modifier = Modifier.padding(spacings.twenty)) {
                 LoginForm(state = state, onHandleEvent = onHandleEvent)
             }
         }
@@ -61,13 +63,13 @@ fun LoginScreen(
         )
     }
     HandleEffects(onHandleEvent = onHandleEvent)
-    HandleErrorAlerts(errorType = state.alertErrorDialogType) {
+    HandleErrorAlert(errorType = state.errorAlertDialogType) {
         onHandleEvent.invoke(LoginEvent.DismissErrorAlertDialog)
     }
 }
 
 @Composable
-private fun LoginForm(
+private fun ColumnScope.LoginForm(
     state: LoginState,
     onHandleEvent: (LoginEvent) -> Unit
 ) {
@@ -113,11 +115,17 @@ private fun LoginForm(
         )
         Spacer(Modifier.height(spacings.ten))
     }
-    Button(
-        text = stringResource(R.string.feature_login_enter),
-        modifier = Modifier.fillMaxWidth(),
-        enabled = state.enableLoginButton
-    ) { onHandleEvent.invoke(LoginEvent.Login) }
+    if (!state.isLoading) {
+        Button(
+            text = stringResource(R.string.feature_login_enter),
+            modifier = Modifier.fillMaxWidth(),
+            enabled = state.enableLoginButton
+        ) { onHandleEvent.invoke(LoginEvent.Login) }
+    } else {
+        CircularProgressIndicator(
+            modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
+        )
+    }
 }
 
 @Composable
@@ -133,7 +141,7 @@ private fun HandleEffects(onHandleEvent: (LoginEvent) -> Unit) {
 }
 
 @Composable
-private fun HandleErrorAlerts(errorType: ErrorAlertDialogType, onDismiss: () -> Unit) {
+private fun HandleErrorAlert(errorType: ErrorAlertDialogType, onDismiss: () -> Unit) {
     ErrorAlertDialog(errorType = errorType, onClickDismiss = onDismiss)
 }
 
@@ -144,7 +152,8 @@ private fun Preview() {
         LoginScreen(
             LoginState(
                 versionName = "Version",
-                invalidCredentials = false
+                invalidCredentials = false,
+                isLoading = true
             )
         ) { }
     }

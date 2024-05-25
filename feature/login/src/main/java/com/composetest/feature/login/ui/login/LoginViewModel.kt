@@ -1,5 +1,6 @@
 package com.composetest.feature.login.ui.login
 
+import com.composetest.core.data.domain.throwable.InvalidCredentialsThrowable
 import com.composetest.core.utility.providers.BuildConfigProvider
 import com.composetest.core.designsystem.domain.bases.BaseViewModel
 import com.composetest.core.designsystem.domain.emuns.AppTheme
@@ -10,7 +11,6 @@ import com.composetest.feature.login.domain.usecases.LoginUseCase
 import com.composetest.core.router.navigation.home.HomeDestination
 import com.composetest.core.router.navigation.home.navtypes.InnerHome
 import com.composetest.core.router.providers.NavigationProvider
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -23,7 +23,6 @@ internal class LoginViewModel @Inject constructor(
 ) : BaseViewModel<LoginEvent, LoginState>(LoginState()) {
 
     private var loginModel: LoginModel = LoginModel()
-    private val currentAppTheme get() = appThemeProvider.currentAppTheme
 
     init {
         initState()
@@ -44,10 +43,12 @@ internal class LoginViewModel @Inject constructor(
     }
 
     private fun login() {
-        lazyFlowTask(
+        asyncFlowTask(
             flowTask = loginUseCase.login(loginModel),
-            onSuccess = ::handleLoginSuccess,
-            onError = ::handleLoginError
+            onStart = { updateState { it.setLoading(true) } },
+            onCompletion = { updateState { it.setLoading(false) } },
+            onError = ::handleLoginError,
+            onSuccess = { handleLoginSuccess() }
         )
     }
 
@@ -68,8 +69,7 @@ internal class LoginViewModel @Inject constructor(
 
     private fun resetViewState() {
         updateState {
-            it.setEnableLoginButton(loginModel.loginAlready || buildConfigProvider.get.isDebug)
-                .setInvalidCredentialError(false)
+            it.resetStateView(loginModel.loginAlready || buildConfigProvider.get.isDebug)
         }
     }
 
@@ -84,25 +84,23 @@ internal class LoginViewModel @Inject constructor(
 
     private fun setCustomTheme(event: LoginEvent.SetCustomTheme) {
         appThemeProvider.setCustomTheme(
-            if (event.enterScreen && currentAppTheme.theme != AppTheme.DARK) {
+            if (event.enterScreen && appThemeProvider.get.theme != AppTheme.DARK) {
                 AppTheme.DARK
             } else {
                 null
             }
         )
-        updateState { it.setAppTheme(currentAppTheme) }
+        updateState { it.setAppTheme(appThemeProvider.get) }
     }
 
-    private fun handleLoginSuccess(success: Boolean) {
-        if (success) {
-            navigationProvider.navigate(HomeDestination("teste", InnerHome("te", "23232")))
-        }
+    private fun handleLoginSuccess() {
+        navigationProvider.navigate(HomeDestination("teste", InnerHome("te", "23232")))
     }
 
     private fun handleLoginError(error: Throwable?) {
         updateState {
-            if (error is FirebaseAuthInvalidCredentialsException) {
-                it.setInvalidCredentialError(true)
+            if (error is InvalidCredentialsThrowable) {
+                it.setShowInvalidCredentialsMsg()
             } else {
                 it.setAlertDialogError(error.getErrorAlertDialogType())
             }

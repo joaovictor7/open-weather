@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.composetest.core.database.appdatabase.AppDatabase
 import com.composetest.core.database.domain.constants.DatabaseConfig
+import com.composetest.core.security.providers.SqlCipherProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,10 +16,11 @@ import dagger.hilt.components.SingletonComponent
 internal object DatabaseModule {
     @Provides
     fun database(
-        @ApplicationContext context: Context
+        @ApplicationContext context: Context,
+        sqlCipherProvider: SqlCipherProvider
     ): AppDatabase = Room.databaseBuilder(
         context,
         AppDatabase::class.java,
         DatabaseConfig.DATABASE_NAME
-    ).build()
+    ).openHelperFactory(sqlCipherProvider.getFactory()).build()
 }

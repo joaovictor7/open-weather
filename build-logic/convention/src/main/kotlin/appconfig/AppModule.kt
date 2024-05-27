@@ -6,6 +6,7 @@ enum class AppModule(val moduleName: String) {
     CORE_DATA(":core:data"),
     CORE_DATABASE(":core:database"),
     CORE_DESIGNSYSTEM(":core:designsystem"),
+    CORE_SECURITY(":core:security"),
     CORE_UTILITY(":core:utility"),
     FEATURE_LOGIN(":feature:login"),
     FEATURE_HOME(":feature:home")

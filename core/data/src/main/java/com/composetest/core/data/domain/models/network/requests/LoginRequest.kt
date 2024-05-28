@@ -1,4 +1,4 @@
-package com.composetest.core.data.domain.remote.requests
+package com.composetest.core.data.domain.models.network.requests
 
 data class LoginRequest(
     val login: String,

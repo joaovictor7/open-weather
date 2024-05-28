@@ -2,8 +2,8 @@ package com.composetest.core.data.datasources.remote
 
 import android.content.Context
 import com.composetest.core.data.datasources.remote.base.BaseRemoteDataSource
-import com.composetest.core.data.domain.remote.requests.LoginRequest
-import com.composetest.core.data.domain.remote.responses.UserResponse
+import com.composetest.core.data.domain.models.network.requests.LoginRequest
+import com.composetest.core.data.domain.models.network.responses.UserResponse
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await

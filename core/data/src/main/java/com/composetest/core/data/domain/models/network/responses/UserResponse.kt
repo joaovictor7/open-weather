@@ -1,4 +1,4 @@
-package com.composetest.core.data.domain.remote.responses
+package com.composetest.core.data.domain.models.network.responses
 
 data class UserResponse(
     val id: String,

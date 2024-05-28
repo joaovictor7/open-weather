@@ -1,6 +1,6 @@
 package com.composetest.feature.login.domain.usecases
 
-import com.composetest.core.data.domain.remote.requests.LoginRequest
+import com.composetest.core.data.domain.models.network.requests.LoginRequest
 import com.composetest.core.data.repositories.LoginRepository
 import com.composetest.feature.login.domain.models.LoginModel
 import dagger.hilt.android.scopes.ViewModelScoped

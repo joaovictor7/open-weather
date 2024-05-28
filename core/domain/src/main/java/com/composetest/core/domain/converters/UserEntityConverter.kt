@@ -1,6 +1,6 @@
-package com.composetest.core.data.domain.converters
+package com.composetest.core.domain.converters
 
-import com.composetest.core.data.domain.remote.responses.UserResponse
+import com.composetest.core.data.domain.models.network.responses.UserResponse
 import com.composetest.core.database.entities.UserEntity
 import javax.inject.Inject
 import javax.inject.Singleton

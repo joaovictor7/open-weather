@@ -2,7 +2,7 @@ package com.composetest.core.designsystem.domain.emuns
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import com.composetest.core.data.domain.throwables.RemoteNetworkThrowable
+import com.composetest.core.data.throwables.RemoteNetworkThrowable
 import com.composetest.core.designsystem.R
 
 enum class ErrorAlertDialogType(

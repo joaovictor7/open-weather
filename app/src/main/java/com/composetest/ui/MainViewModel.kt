@@ -5,7 +5,6 @@ import com.composetest.core.designsystem.domain.bases.BaseViewModel
 import com.composetest.core.designsystem.domain.models.AppThemeModel
 import com.composetest.core.designsystem.providers.AppThemeProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

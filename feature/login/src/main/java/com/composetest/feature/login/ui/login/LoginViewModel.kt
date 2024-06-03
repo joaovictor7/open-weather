@@ -1,13 +1,13 @@
 package com.composetest.feature.login.ui.login
 
-import com.composetest.core.data.domain.throwables.InvalidCredentialsThrowable
+import com.composetest.core.data.throwables.InvalidCredentialsThrowable
 import com.composetest.core.utility.providers.BuildConfigProvider
 import com.composetest.core.designsystem.domain.bases.BaseViewModel
 import com.composetest.core.designsystem.domain.emuns.Theme
 import com.composetest.core.designsystem.domain.emuns.ErrorAlertDialogType.Companion.getErrorAlertDialogType
 import com.composetest.core.designsystem.providers.AppThemeProvider
-import com.composetest.feature.login.domain.models.LoginModel
-import com.composetest.feature.login.domain.usecases.LoginUseCase
+import com.composetest.feature.login.domain.models.LoginFormModel
+import com.composetest.feature.login.domain.usecases.AuthenticationUseCase
 import com.composetest.core.router.navigation.home.HomeDestination
 import com.composetest.core.router.navigation.home.navtypes.InnerHome
 import com.composetest.core.router.providers.NavigationProvider
@@ -19,10 +19,10 @@ internal class LoginViewModel @Inject constructor(
     private val appThemeProvider: AppThemeProvider,
     private val navigationProvider: NavigationProvider,
     private val buildConfigProvider: BuildConfigProvider,
-    private val loginUseCase: LoginUseCase
+    private val authenticationUseCase: AuthenticationUseCase
 ) : BaseViewModel<LoginEvent, LoginState>(LoginState()) {
 
-    private var loginModel: LoginModel = LoginModel()
+    private var loginFormModel: LoginFormModel = LoginFormModel()
 
     init {
         initState()
@@ -37,14 +37,14 @@ internal class LoginViewModel @Inject constructor(
     }
 
     private fun showInvalidEmailMsg() {
-        if (loginModel.emailIsEmpty) {
-            updateState { it.setInvalidEmail(!loginModel.emailIsValid) }
+        if (loginFormModel.emailIsEmpty) {
+            updateState { it.setInvalidEmail(!loginFormModel.emailIsValid) }
         }
     }
 
     private fun login() {
         asyncFlowTask(
-            flowTask = loginUseCase.login(loginModel),
+            flowTask = authenticationUseCase.authentication(loginFormModel),
             onStart = { updateState { it.setLoading(true) } },
             onCompletion = { updateState { it.setLoading(false) } },
             onError = ::handleLoginError,
@@ -55,13 +55,13 @@ internal class LoginViewModel @Inject constructor(
     private fun writeData(action: LoginEvent.WriteData) {
         when {
             action.email != null -> {
-                loginModel = loginModel.copy(email = action.email)
+                loginFormModel = loginFormModel.copy(email = action.email)
                 if (state.value.invalidEmail) {
                     updateState { it.setInvalidEmail(false) }
                 }
             }
             action.password != null -> {
-                loginModel = loginModel.copy(password = action.password)
+                loginFormModel = loginFormModel.copy(password = action.password)
             }
         }
         resetViewState()
@@ -69,7 +69,7 @@ internal class LoginViewModel @Inject constructor(
 
     private fun resetViewState() {
         updateState {
-            it.resetStateView(loginModel.loginAlready || buildConfigProvider.get.isDebug)
+            it.resetStateView(loginFormModel.loginAlready || buildConfigProvider.get.isDebug)
         }
     }
 

@@ -1,6 +1,3 @@
-import appconfig.AppModule
-import utils.includeModules
-
 plugins {
     alias(libs.plugins.composeTest.library)
 }
@@ -10,11 +7,11 @@ android {
 }
 
 dependencies {
-    implementation(libs.firebase.auth)
+    implementation(projects.core.utility)
+    implementation(projects.core.database)
     implementation(libs.androidx.dataStore)
+    implementation(libs.androidx.workManager)
+    implementation(libs.firebase.auth)
     implementation(libs.room)
-    includeModules(
-        AppModule.CORE_UTILITY,
-        AppModule.CORE_DATABASE
-    )
+    implementation(libs.mockk)
 }

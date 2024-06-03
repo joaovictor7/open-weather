@@ -2,7 +2,7 @@ package com.composetest.feature.login.domain.models
 
 import androidx.core.util.PatternsCompat
 
-internal data class LoginModel(
+internal data class LoginFormModel(
     val email: String = String(),
     val password: String = String()
 ) {

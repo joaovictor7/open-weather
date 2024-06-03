@@ -2,7 +2,8 @@ package com.composetest.core.database.di
 
 import android.content.Context
 import androidx.room.Room
-import com.composetest.core.database.appdatabase.AppDatabase
+import com.composetest.core.database.converters.LocalDateTimeConverter
+import com.composetest.core.database.database.AppDatabase
 import com.composetest.core.database.domain.constants.DatabaseConfig
 import com.composetest.core.security.providers.SqlCipherProvider
 import dagger.Module
@@ -22,5 +23,7 @@ internal object DatabaseModule {
         context,
         AppDatabase::class.java,
         DatabaseConfig.DATABASE_NAME
-    ).openHelperFactory(sqlCipherProvider.getFactory()).build()
+    ).openHelperFactory(sqlCipherProvider.getFactory())
+        .addTypeConverter(LocalDateTimeConverter())
+        .build()
 }

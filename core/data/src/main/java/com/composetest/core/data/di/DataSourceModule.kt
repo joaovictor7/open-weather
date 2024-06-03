@@ -4,6 +4,7 @@ import android.content.Context
 import com.composetest.core.data.datasources.remote.FirebaseAuthDataSource
 import com.composetest.core.data.datasources.remote.FirebaseAuthDataSourceFakeImpl
 import com.composetest.core.data.datasources.remote.FirebaseAuthDataSourceImpl
+import com.composetest.core.data.domain.converters.AuthenticationResponseConverter
 import com.composetest.core.data.providers.DataSourceProvider
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
@@ -19,9 +20,14 @@ internal object DataSourceModule {
     fun firebaseAuthDataSource(
         @ApplicationContext context: Context,
         dataSourceProvider: DataSourceProvider,
-        firebaseAuth: FirebaseAuth
+        firebaseAuth: FirebaseAuth,
+        authenticationResponseConverter: AuthenticationResponseConverter
     ): FirebaseAuthDataSource = dataSourceProvider.getDataSource(
-        dataSource = FirebaseAuthDataSourceImpl(firebaseAuth, context),
+        dataSource = FirebaseAuthDataSourceImpl(
+            firebaseAuth,
+            authenticationResponseConverter,
+            context
+        ),
         fakeDataSource = FirebaseAuthDataSourceFakeImpl(context)
     )
 }

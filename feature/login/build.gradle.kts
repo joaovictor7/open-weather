@@ -1,6 +1,3 @@
-import appconfig.AppModule
-import utils.includeModules
-
 plugins {
     alias(libs.plugins.composeTest.library)
     alias(libs.plugins.composeTest.compose)
@@ -12,11 +9,10 @@ android {
 }
 
 dependencies {
-    includeModules(
-        AppModule.CORE_TEST,
-        AppModule.CORE_ROUTER,
-        AppModule.CORE_DATA,
-        AppModule.CORE_UTILITY,
-        AppModule.CORE_DESIGNSYSTEM
-    )
+    implementation(projects.core.test)
+    implementation(projects.core.router)
+    implementation(projects.core.data)
+    implementation(projects.core.domain)
+    implementation(projects.core.utility)
+    implementation(projects.core.designsystem)
 }

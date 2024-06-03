@@ -2,9 +2,9 @@ package com.composetest.feature.login.viewmodels
 
 import com.composetest.core.utility.providers.BuildConfigProvider
 import com.composetest.core.test.extensions.CoroutineExtension
-import com.composetest.core.data.repositories.LoginRepository
+import com.composetest.core.data.repositories.AuthenticationRepository
 import com.composetest.core.utility.domain.models.BuildConfigFieldsModel
-import com.composetest.feature.login.domain.usecases.LoginUseCase
+import com.composetest.feature.login.domain.usecases.AuthenticationUseCase
 import com.composetest.feature.login.ui.login.LoginEvent
 import com.composetest.feature.login.ui.login.LoginState
 import com.composetest.feature.login.ui.login.LoginViewModel
@@ -32,8 +32,8 @@ class LoginViewModelTest {
     private val buildConfigProvider: BuildConfigProvider = object : BuildConfigProvider {
         override val get: BuildConfigFieldsModel = buildConfigModelMock
     }
-    private val loginRepository: LoginRepository = mockk()
-    private val loginUseCase = LoginUseCase(loginRepository)
+    private val authenticationRepository: AuthenticationRepository = mockk()
+    private val authenticationUseCase = AuthenticationUseCase(authenticationRepository)
 
     private lateinit var viewModel: LoginViewModel
 
@@ -43,7 +43,7 @@ class LoginViewModelTest {
             appThemeProvider = mockk(),
             navigationProvider = mockk(relaxed = true),
             buildConfigProvider = buildConfigProvider,
-            loginUseCase = loginUseCase
+            authenticationUseCase = authenticationUseCase
         )
     }
 
@@ -61,7 +61,7 @@ class LoginViewModelTest {
     @Test
     fun `misleanding login`() {
         coEvery {
-            loginRepository.login(any())
+            authenticationRepository.authentication(any())
         } returns flow { throw Exception() }
         viewModel.handleEvent(LoginEvent.WriteData("teste@teste.com", "password"))
         viewModel.handleEvent(LoginEvent.Login)
@@ -78,7 +78,7 @@ class LoginViewModelTest {
     @Test
     fun `success login`() {
         coEvery {
-            loginRepository.login(any())
+            authenticationRepository.authentication(any())
         } returns flow { emit(true) }
         viewModel.handleEvent(LoginEvent.WriteData("teste@teste.com", "password"))
         viewModel.handleEvent(LoginEvent.Login)

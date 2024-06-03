@@ -1,16 +1,17 @@
 package com.composetest.core.data.datasources.remote
 
 import android.content.Context
-import com.composetest.core.data.datasources.remote.base.BaseRemoteDataSource
-import com.composetest.core.data.domain.models.network.requests.LoginRequest
-import com.composetest.core.data.domain.models.network.responses.UserResponse
+import com.composetest.core.data.domain.bases.BaseRemoteDataSource
+import com.composetest.core.data.domain.models.network.requests.AuthenticationRequest
+import com.composetest.core.data.domain.models.network.responses.AuthenticationResponse
 import kotlinx.coroutines.flow.flow
 
 internal class FirebaseAuthDataSourceFakeImpl(context: Context) :
-    BaseRemoteDataSource(context), FirebaseAuthDataSource {
+    BaseRemoteDataSource(context),
+    FirebaseAuthDataSource {
 
-    override fun login(login: LoginRequest) = flow {
+    override fun authentication(request: AuthenticationRequest) = flow {
         safeRemoteCall {}
-        emit(UserResponse(String(), String()))
+        emit(AuthenticationResponse())
     }
 }

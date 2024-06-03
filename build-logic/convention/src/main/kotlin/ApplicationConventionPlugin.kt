@@ -1,5 +1,4 @@
 import appconfig.AppConfig
-import appconfig.AppModule
 import appconfig.AppSigning
 import com.android.build.api.dsl.ApkSigningConfig
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
@@ -13,7 +12,6 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
-import utils.includeModules
 import java.util.Properties
 
 internal class ApplicationConventionPlugin : Plugin<Project> {
@@ -50,7 +48,6 @@ internal class ApplicationConventionPlugin : Plugin<Project> {
                 setFlavors()
             }
             dependencies {
-                includeModules(*AppModule.values())
                 implementation(findLibrary("firebase.analytics"))
                 implementation(findLibrary("firebase.crashlytics"))
             }

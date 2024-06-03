@@ -1,5 +1,7 @@
 package com.composetest.core.data.repositories
 
-interface UserRepository {
+import com.composetest.core.database.domain.entities.UserEntity
 
+interface UserRepository {
+    fun insert(user: UserEntity)
 }

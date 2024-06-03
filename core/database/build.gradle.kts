@@ -1,6 +1,3 @@
-import appconfig.AppModule
-import utils.includeModules
-
 plugins {
     alias(libs.plugins.composeTest.library)
 }
@@ -10,7 +7,7 @@ android {
 }
 
 dependencies {
+    implementation(projects.core.security)
     implementation(libs.room)
     ksp(libs.roomCompile)
-    includeModules(AppModule.CORE_SECURITY)
 }

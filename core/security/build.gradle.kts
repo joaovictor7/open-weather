@@ -1,6 +1,3 @@
-import appconfig.AppModule
-import utils.includeModules
-
 plugins {
     alias(libs.plugins.composeTest.library)
 }
@@ -10,8 +7,8 @@ android {
 }
 
 dependencies {
+    implementation(projects.core.utility)
     implementation(libs.androidx.securityCrypto)
     implementation(libs.sqlCipher)
     implementation(libs.sqLite)
-    includeModules(AppModule.CORE_UTILITY)
 }

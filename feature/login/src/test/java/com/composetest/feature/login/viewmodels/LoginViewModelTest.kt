@@ -40,7 +40,7 @@ class LoginViewModelTest {
     @BeforeEach
     fun before() {
         viewModel = LoginViewModel(
-            appThemeProvider = mockk(),
+            appThemeUseCase = mockk(),
             navigationProvider = mockk(relaxed = true),
             buildConfigProvider = buildConfigProvider,
             authenticationUseCase = authenticationUseCase

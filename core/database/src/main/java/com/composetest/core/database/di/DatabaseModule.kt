@@ -5,7 +5,7 @@ import androidx.room.Room
 import com.composetest.core.database.converters.LocalDateTimeConverter
 import com.composetest.core.database.database.AppDatabase
 import com.composetest.core.database.domain.constants.DatabaseConfig
-import com.composetest.core.security.providers.SqlCipherProvider
+import com.composetest.core.database.providers.SqlCipherProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,7 +16,7 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 internal object DatabaseModule {
     @Provides
-    fun database(
+    fun appDatabase(
         @ApplicationContext context: Context,
         sqlCipherProvider: SqlCipherProvider
     ): AppDatabase = Room.databaseBuilder(

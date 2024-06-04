@@ -1,8 +1,8 @@
 package com.composetest.feature.login.ui.login
 
-import com.composetest.core.designsystem.domain.bases.BaseState
+import com.composetest.core.designsystem.ui.bases.BaseState
 import com.composetest.core.designsystem.domain.emuns.ErrorAlertDialogType
-import com.composetest.core.designsystem.domain.models.AppThemeModel
+import com.composetest.core.domain.models.AppThemeModel
 
 data class LoginState(
     val appTheme: AppThemeModel = AppThemeModel(),
@@ -20,7 +20,6 @@ data class LoginState(
         versionName = versionName,
         enableLoginButton = enableLoginButton
     )
-    fun setAppTheme(appTheme: AppThemeModel) = copy(appTheme = appTheme)
     fun setInvalidEmail(invalid: Boolean) = copy(invalidEmail = invalid)
     fun resetStateView(enableLoginButton: Boolean) = copy(
         enableLoginButton = enableLoginButton,

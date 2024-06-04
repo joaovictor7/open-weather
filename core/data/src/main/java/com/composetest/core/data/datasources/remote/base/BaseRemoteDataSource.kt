@@ -1,4 +1,4 @@
-package com.composetest.core.data.domain.bases
+package com.composetest.core.data.datasources.remote.base
 
 import android.content.Context
 import com.composetest.core.data.throwables.RemoteNetworkThrowable

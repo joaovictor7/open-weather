@@ -1,8 +1,8 @@
 package com.composetest.feature.home.ui.home
 
 import androidx.lifecycle.viewModelScope
-import com.composetest.core.designsystem.domain.bases.BaseViewModel
-import com.composetest.core.designsystem.providers.AppThemeProvider
+import com.composetest.core.designsystem.ui.bases.BaseViewModel
+import com.composetest.core.domain.usecases.AppThemeUseCase
 import com.composetest.core.router.navigation.home.Home2Destination
 import com.composetest.core.router.navigation.home.HomeDestination
 import com.composetest.core.router.providers.NavigationProvider
@@ -13,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val navigationProvider: NavigationProvider,
-    private val appThemeProvider: AppThemeProvider
+    private val appThemeUseCase: AppThemeUseCase
 ) : BaseViewModel<HomeEvent, HomeState>(HomeState()) {
 
     init {
@@ -34,10 +34,10 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             when {
                 event.theme != null -> {
-                    appThemeProvider.setAppTheme(event.theme)
+                    appThemeUseCase.setAppTheme(event.theme)
                 }
                 event.dynamicColors != null -> {
-                    appThemeProvider.setDynamicColors(event.dynamicColors)
+                    appThemeUseCase.setDynamicColors(event.dynamicColors)
                 }
             }
         }

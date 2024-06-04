@@ -2,10 +2,10 @@ package com.composetest.feature.login.ui.login
 
 import com.composetest.core.data.throwables.InvalidCredentialsThrowable
 import com.composetest.core.utility.providers.BuildConfigProvider
-import com.composetest.core.designsystem.domain.bases.BaseViewModel
-import com.composetest.core.designsystem.domain.emuns.Theme
+import com.composetest.core.designsystem.ui.bases.BaseViewModel
+import com.composetest.core.domain.models.enums.Theme
 import com.composetest.core.designsystem.domain.emuns.ErrorAlertDialogType.Companion.getErrorAlertDialogType
-import com.composetest.core.designsystem.providers.AppThemeProvider
+import com.composetest.core.domain.usecases.AppThemeUseCase
 import com.composetest.feature.login.domain.models.LoginFormModel
 import com.composetest.feature.login.domain.usecases.AuthenticationUseCase
 import com.composetest.core.router.navigation.home.HomeDestination
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class LoginViewModel @Inject constructor(
-    private val appThemeProvider: AppThemeProvider,
+    private val appThemeUseCase: AppThemeUseCase,
     private val navigationProvider: NavigationProvider,
     private val buildConfigProvider: BuildConfigProvider,
     private val authenticationUseCase: AuthenticationUseCase
@@ -48,7 +48,7 @@ internal class LoginViewModel @Inject constructor(
             onStart = { updateState { it.setLoading(true) } },
             onCompletion = { updateState { it.setLoading(false) } },
             onError = ::handleLoginError,
-            onSuccess = { handleLoginSuccess() }
+            onCollect = { handleLoginSuccess() }
         )
     }
 
@@ -83,14 +83,10 @@ internal class LoginViewModel @Inject constructor(
     }
 
     private fun setCustomTheme(event: LoginEvent.SetCustomTheme) {
-        appThemeProvider.setCustomTheme(
-            if (event.enterScreen && appThemeProvider.get.theme != Theme.DARK) {
-                Theme.DARK
-            } else {
-                null
-            }
-        )
-        updateState { it.setAppTheme(appThemeProvider.get) }
+        val theme = if (event.enterScreen && appThemeUseCase.currentAppTheme.theme != Theme.DARK)
+            Theme.DARK
+        else null
+        appThemeUseCase.setCustomTheme(theme)
     }
 
     private fun handleLoginSuccess() {

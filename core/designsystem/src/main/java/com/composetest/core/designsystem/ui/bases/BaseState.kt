@@ -1,4 +1,4 @@
-package com.composetest.core.designsystem.domain.bases
+package com.composetest.core.designsystem.ui.bases
 
 import com.composetest.core.designsystem.domain.emuns.ErrorAlertDialogType
 

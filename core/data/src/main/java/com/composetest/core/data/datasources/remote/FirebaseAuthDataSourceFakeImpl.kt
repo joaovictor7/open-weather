@@ -1,7 +1,7 @@
 package com.composetest.core.data.datasources.remote
 
 import android.content.Context
-import com.composetest.core.data.domain.bases.BaseRemoteDataSource
+import com.composetest.core.data.datasources.remote.base.BaseRemoteDataSource
 import com.composetest.core.data.domain.models.network.requests.AuthenticationRequest
 import com.composetest.core.data.domain.models.network.responses.AuthenticationResponse
 import kotlinx.coroutines.flow.flow

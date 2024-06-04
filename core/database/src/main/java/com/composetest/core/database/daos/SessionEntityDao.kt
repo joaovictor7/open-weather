@@ -17,7 +17,7 @@ interface SessionEntityDao {
     @Query(
         "SELECT * FROM user " +
             "JOIN session ON user.id = session.userId " +
-            "WHERE endDate is null " +
+            "WHERE endDate IS NULL " +
             "LIMIT 1"
     )
     fun getCurrentSessionAndUser(): UserEntityAndSessionEntity

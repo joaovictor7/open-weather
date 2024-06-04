@@ -1,7 +1,8 @@
-package com.composetest.core.security.providers
+package com.composetest.core.database.providers
 
 import androidx.sqlite.db.SupportSQLiteOpenHelper
-import com.composetest.core.security.domain.enums.SecureKey
+import com.composetest.core.security.domain.enums.SecureSharedPreferenceKey
+import com.composetest.core.security.providers.SecureSharedPreferencesProvider
 import com.composetest.core.security.utils.getRandomAlphanumericKey
 import com.composetest.core.utility.providers.BuildConfigProvider
 import net.zetetic.database.sqlcipher.SupportOpenHelperFactory
@@ -9,33 +10,33 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SqlCipherProvider @Inject constructor(
+internal class SqlCipherProvider @Inject constructor(
     private val secureSharedPreferencesProvider: SecureSharedPreferencesProvider,
     private val buildConfigProvider: BuildConfigProvider
 ) {
 
-    private val encryptionActivated get() = buildConfigProvider.get.isRelease
+    private val cipherActivated get() = buildConfigProvider.get.isRelease
 
     init {
         loadCipherLibrary()
     }
 
-    fun getFactory(): SupportSQLiteOpenHelper.Factory? = if (encryptionActivated) {
+    fun getFactory(): SupportSQLiteOpenHelper.Factory? = if (cipherActivated) {
         val cipherPassword = getSqlCipherPassword()
         SupportOpenHelperFactory(cipherPassword.toByteArray())
     } else null
 
     private fun getSqlCipherPassword() =
-        if (!secureSharedPreferencesProvider.valueExists(SecureKey.SQLITE_CIPHER_KEY)) {
+        if (!secureSharedPreferencesProvider.valueExists(SecureSharedPreferenceKey.SQLITE_CIPHER_KEY)) {
             getRandomAlphanumericKey().also {
-                secureSharedPreferencesProvider.setValue(SecureKey.SQLITE_CIPHER_KEY, it)
+                secureSharedPreferencesProvider.setValue(SecureSharedPreferenceKey.SQLITE_CIPHER_KEY, it)
             }
         } else {
-            secureSharedPreferencesProvider.getString(SecureKey.SQLITE_CIPHER_KEY).orEmpty()
+            secureSharedPreferencesProvider.getString(SecureSharedPreferenceKey.SQLITE_CIPHER_KEY).orEmpty()
         }
 
     private fun loadCipherLibrary() {
-        if (encryptionActivated) {
+        if (cipherActivated) {
             System.loadLibrary("sqlcipher")
         }
     }

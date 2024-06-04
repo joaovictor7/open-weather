@@ -1,6 +1,6 @@
 package com.composetest.feature.home.ui.home
 
-import com.composetest.core.designsystem.domain.emuns.Theme
+import com.composetest.core.domain.models.enums.Theme
 
 sealed interface HomeEvent {
     data object ReturnLogin: HomeEvent

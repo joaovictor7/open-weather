@@ -5,7 +5,7 @@ import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
-import com.composetest.core.security.domain.enums.SecureKey
+import com.composetest.core.security.domain.enums.SecureSharedPreferenceKey
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -14,6 +14,7 @@ import javax.inject.Singleton
 class SecureSharedPreferencesProvider @Inject constructor(
     @ApplicationContext context: Context
 ) {
+
     private val keyGenParameterSpec = KeyGenParameterSpec.Builder(
         KEY_STORE_ALIAS,
         KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
@@ -34,9 +35,9 @@ class SecureSharedPreferencesProvider @Inject constructor(
         EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
     )
 
-    fun valueExists(key: SecureKey) = preferences.contains(key.name)
+    fun valueExists(key: SecureSharedPreferenceKey) = preferences.contains(key.name)
 
-    fun setValue(key: SecureKey, value: Any) {
+    fun setValue(key: SecureSharedPreferenceKey, value: Any) {
         val edit = preferences.edit()
         when (value) {
             is String -> edit.putString(key.name, value)
@@ -48,19 +49,19 @@ class SecureSharedPreferencesProvider @Inject constructor(
         edit.apply()
     }
 
-    fun getString(key: SecureKey, defaultValue: String = String()) =
+    fun getString(key: SecureSharedPreferenceKey, defaultValue: String = String()) =
         preferences.getString(key.name, defaultValue)
 
-    fun getLong(key: SecureKey, defaultValue: Long = 0L) =
+    fun getLong(key: SecureSharedPreferenceKey, defaultValue: Long = 0L) =
         preferences.getLong(key.name, defaultValue)
 
-    fun getInt(key: SecureKey, defaultValue: Int = 0) =
+    fun getInt(key: SecureSharedPreferenceKey, defaultValue: Int = 0) =
         preferences.getInt(key.name, defaultValue)
 
-    fun getBoolean(key: SecureKey, defaultValue: Boolean = false) =
+    fun getBoolean(key: SecureSharedPreferenceKey, defaultValue: Boolean = false) =
         preferences.getBoolean(key.name, defaultValue)
 
-    fun getFloat(key: SecureKey, defaultValue: Float = 0f) =
+    fun getFloat(key: SecureSharedPreferenceKey, defaultValue: Float = 0f) =
         preferences.getFloat(key.name, defaultValue)
 
     private companion object {

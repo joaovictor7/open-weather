@@ -1,4 +1,4 @@
-package com.composetest.core.designsystem.domain.bases
+package com.composetest.core.designsystem.ui.bases
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -26,7 +26,7 @@ abstract class BaseViewModel<Event, State : BaseState>(stateInstance: State) : V
 
     protected fun <T> asyncFlowTask(
         flowTask: Flow<T>,
-        onSuccess: (param: T) -> Unit,
+        onCollect: (param: T) -> Unit,
         onError: ((e: Throwable) -> Unit)? = null,
         onStart: (() -> Unit)? = null,
         onCompletion: (() -> Unit)? = null
@@ -37,7 +37,7 @@ abstract class BaseViewModel<Event, State : BaseState>(stateInstance: State) : V
                 .onStart { onStart?.invoke() }
                 .onCompletion { onCompletion?.invoke() }
                 .catch { onError?.invoke(it) }
-                .collect { onSuccess.invoke(it) }
+                .collect { onCollect.invoke(it) }
         }
     }
 }

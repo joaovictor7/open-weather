@@ -41,7 +41,7 @@ class MainActivity : ComponentActivity() {
             val state by viewModel.state.collectAsStateWithLifecycle()
             ComposeTestTheme(
                 dynamicColor = state.appTheme.dynamicColors,
-                darkTheme = state.appTheme.isDarkMode
+                theme = state.appTheme.theme
             ) {
                 Column(modifier = Modifier.fillMaxSize()) {
                     Navigation(

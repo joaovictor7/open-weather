@@ -27,9 +27,11 @@ import com.composetest.core.designsystem.components.alerts.ErrorAlertDialog
 import com.composetest.core.designsystem.components.buttons.Button
 import com.composetest.core.designsystem.components.textfields.OutlinedTextField
 import com.composetest.core.designsystem.components.textfields.params.TextFieldTrailingIconParam
+import com.composetest.core.designsystem.compositions.LocalThemeProvider
 import com.composetest.core.designsystem.domain.emuns.ErrorAlertDialogType
 import com.composetest.core.designsystem.dimensions.spacings
 import com.composetest.core.designsystem.domain.emuns.TextFieldIcons
+import com.composetest.core.designsystem.extensions.isDarkMode
 import com.composetest.core.designsystem.extensions.modifiers.verticalTopBackgroundBrush
 import com.composetest.core.designsystem.theme.ComposeTestTheme
 import com.composetest.feature.login.R
@@ -41,7 +43,7 @@ fun LoginScreen(
 ) {
     Box(
         modifier = Modifier
-            .verticalTopBackgroundBrush(state.appTheme.isDarkMode)
+            .verticalTopBackgroundBrush(LocalThemeProvider.current.isDarkMode)
             .fillMaxSize()
             .safeDrawingPadding()
     ) {

@@ -1,7 +1,7 @@
 package com.composetest.ui
 
-import com.composetest.core.designsystem.domain.bases.BaseState
-import com.composetest.core.designsystem.domain.models.AppThemeModel
+import com.composetest.core.designsystem.ui.bases.BaseState
+import com.composetest.core.domain.models.AppThemeModel
 
 data class MainState(
     val appTheme: AppThemeModel = AppThemeModel()
@@ -9,5 +9,5 @@ data class MainState(
     val statusBarStyle get() = appTheme.systemBarStyles.first
     val navigationBarStyle get() = appTheme.systemBarStyles.second
 
-    fun initState(appTheme: AppThemeModel) = copy(appTheme = appTheme)
+    fun setAppTheme(appTheme: AppThemeModel) = copy(appTheme = appTheme)
 }

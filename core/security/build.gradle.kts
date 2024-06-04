@@ -9,6 +9,5 @@ android {
 dependencies {
     implementation(projects.core.utility)
     implementation(libs.androidx.securityCrypto)
-    implementation(libs.sqlCipher)
     implementation(libs.sqLite)
 }

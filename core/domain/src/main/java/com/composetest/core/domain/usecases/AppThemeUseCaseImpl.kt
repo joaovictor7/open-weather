@@ -1,9 +1,9 @@
-package com.composetest.core.designsystem.providers
+package com.composetest.core.domain.usecases
 
 import com.composetest.core.data.repositories.AppThemeRepository
-import com.composetest.core.designsystem.domain.converters.AppThemeModelConverter
-import com.composetest.core.designsystem.domain.emuns.Theme
-import com.composetest.core.designsystem.domain.models.AppThemeModel
+import com.composetest.core.domain.converters.AppThemeModelConverter
+import com.composetest.core.domain.models.AppThemeModel
+import com.composetest.core.domain.models.enums.Theme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,29 +14,29 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AppThemeProvider @Inject constructor(
+internal class AppThemeUseCaseImpl @Inject constructor(
     private val appThemeRepository: AppThemeRepository,
     private val appThemeModelConverter: AppThemeModelConverter
-) {
+) : AppThemeUseCase {
 
     private val _appThemeState = MutableStateFlow(AppThemeModel())
-    val appThemeState = _appThemeState.asStateFlow()
+    override val appThemeState = _appThemeState.asStateFlow()
 
-    val get get() = appThemeState.value
+    override val currentAppTheme get() = appThemeState.value
 
     init {
         getAppTheme()
     }
 
-    suspend fun setAppTheme(theme: Theme) {
+    override suspend fun setAppTheme(theme: Theme) {
         appThemeRepository.setTheme(theme.name)
     }
 
-    suspend fun setDynamicColors(dynamicColors: Boolean) {
+    override suspend fun setDynamicColors(dynamicColors: Boolean) {
         appThemeRepository.setDynamicColor(dynamicColors)
     }
 
-    fun setCustomTheme(customTheme: Theme?) =
+    override fun setCustomTheme(customTheme: Theme?) =
         _appThemeState.update { it.copy(customTheme = customTheme) }
 
     private fun getAppTheme() {

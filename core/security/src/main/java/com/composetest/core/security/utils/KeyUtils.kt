@@ -2,9 +2,7 @@ package com.composetest.core.security.utils
 
 import kotlin.random.Random
 
-private val charPool = ('a'..'z') +
-    ('A'..'Z') +
-    ('0'..'9') +
+private val charPool = ('a'..'z') + ('A'..'Z') + ('0'..'9') +
     arrayOf(
         '#', '$', '&', '?', '*', '!', '+', '<', '>', '.', '§', '@', '+', '-', '=', ',', '_', '~',
         '^', '(', ')', '%'

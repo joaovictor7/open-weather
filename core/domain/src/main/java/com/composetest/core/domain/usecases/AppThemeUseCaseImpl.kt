@@ -45,7 +45,7 @@ internal class AppThemeUseCaseImpl @Inject constructor(
                 appThemeModelConverter.convertTo(
                     theme,
                     dynamicColor,
-                    appThemeState.value.customTheme
+                    currentAppTheme.customTheme
                 )
             }.collect { appThemeModel ->
                 _appThemeState.update { appThemeModel }

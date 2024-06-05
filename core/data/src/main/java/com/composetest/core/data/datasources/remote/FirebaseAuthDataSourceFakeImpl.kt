@@ -12,6 +12,11 @@ internal class FirebaseAuthDataSourceFakeImpl(context: Context) :
 
     override fun authentication(request: AuthenticationRequest) = flow {
         safeRemoteCall {}
-        emit(AuthenticationResponse())
+        val fake = AuthenticationResponse(
+            id = "123",
+            email = "teste@teste.com",
+            name = "Teste"
+        )
+        emit(fake)
     }
 }

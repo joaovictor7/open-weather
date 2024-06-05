@@ -8,5 +8,5 @@ import com.composetest.core.database.domain.entities.UserEntity
 @Dao
 interface UserEntityDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(userEntity: UserEntity)
+    suspend fun insert(userEntity: UserEntity)
 }

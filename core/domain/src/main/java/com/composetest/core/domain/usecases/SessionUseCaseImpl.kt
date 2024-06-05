@@ -20,7 +20,7 @@ internal class SessionUseCaseImpl @Inject constructor(
     private val userModelConverter: UserModelConverter
 ) : SessionUseCase {
     
-    override fun createSession(userModel: UserModel) {
+    override suspend fun createSession(userModel: UserModel) {
         val newSession = SessionModel(
             initialDate = LocalDateTime.now(),
             user = userModel

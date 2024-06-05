@@ -12,6 +12,8 @@ dependencies {
     implementation(libs.androidx.dataStore)
     implementation(libs.androidx.workManager)
     implementation(libs.firebase.auth)
-    implementation(libs.room)
-    implementation(libs.mockk)
+    implementation(libs.ktor.client.android)
+    implementation(libs.ktor.client.negotiation)
+    implementation(libs.ktor.client.serialization)
+    implementation(libs.ktor.client.logging)
 }

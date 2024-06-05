@@ -4,6 +4,7 @@ import com.composetest.core.data.datasources.local.DatabaseDataSource
 import com.composetest.core.database.domain.entities.SessionEntity
 import com.composetest.core.database.domain.entities.UserEntity
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -12,13 +13,15 @@ internal class SessionRepositoryImpl @Inject constructor(
     private val dataSource: DatabaseDataSource
 ) : SessionRepository {
 
-    override fun insert(entity: SessionEntity) {
+    override suspend fun insert(entity: SessionEntity) {
         dataSource.appDatabase
             .sessionDao()
             .insert(entity)
     }
 
-    override fun <T> getCurrentUser(converter: (UserEntity) -> T): Flow<T> {
-        TODO("Not yet implemented")
-    }
+    override fun <T> getCurrentUser(converter: (UserEntity) -> T) =
+        dataSource.appDatabase
+            .sessionDao()
+            .getCurrentSessionAndUser()
+            .map { converter.invoke(it.user) }
 }

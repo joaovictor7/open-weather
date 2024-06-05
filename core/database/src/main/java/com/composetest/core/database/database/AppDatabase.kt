@@ -12,6 +12,7 @@ import com.composetest.core.database.domain.entities.UserEntity
 
 @Database(
     version = DatabaseConfig.DATABASE_VERSION,
+    exportSchema = false,
     entities = [
         SessionEntity::class,
         UserEntity::class

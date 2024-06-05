@@ -8,7 +8,7 @@ import com.composetest.core.database.domain.entities.UserEntity
 data class UserEntityAndSessionEntity(
     @Embedded val user: UserEntity,
     @Relation(
-        parentColumn = "id",
+        parentColumn = "userId",
         entityColumn = "userId"
     )
     val session: SessionEntity

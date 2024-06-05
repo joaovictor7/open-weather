@@ -10,7 +10,7 @@ internal class UserRepositoryImpl @Inject constructor(
     private val dataSource: DatabaseDataSource
 ) : UserRepository {
 
-    override fun insert(user: UserEntity) {
+    override suspend fun insert(user: UserEntity) {
         dataSource.appDatabase
             .userDao()
             .insert(user)

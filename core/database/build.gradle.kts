@@ -9,7 +9,7 @@ android {
 dependencies {
     implementation(projects.core.security)
     implementation(projects.core.utility)
-    implementation(libs.room)
     implementation(libs.sqlCipher)
+    api(libs.room)
     ksp(libs.roomCompile)
 }

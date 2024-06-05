@@ -39,6 +39,7 @@ internal fun Project.configureAndroid() {
     dependencies {
         implementation(platform(findLibrary("firebase.bom")))
         implementation(findLibrary("androidx.lifecycle.runtime.ktx"))
+        implementation(findLibrary("kotlin.coroutines.android"))
         implementation(findLibrary("kotlin.json.serializable"))
         implementation(findLibrary("android.hilt"))
         ksp(findLibrary("android.hilt.compiler"))

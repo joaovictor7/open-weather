@@ -2,7 +2,7 @@ package com.composetest.feature.login.domain.usecases
 
 import com.composetest.core.data.domain.models.network.requests.AuthenticationRequest
 import com.composetest.core.data.repositories.AuthenticationRepository
-import com.composetest.core.domain.converters.UserModelConverter
+import com.composetest.core.domain.converters.SessionModelConverter
 import com.composetest.core.domain.usecases.SessionUseCase
 import com.composetest.feature.login.domain.models.LoginFormModel
 import dagger.hilt.android.scopes.ViewModelScoped
@@ -14,7 +14,7 @@ import javax.inject.Inject
 internal class AuthenticationUseCase @Inject constructor(
     private val authenticationRepository: AuthenticationRepository,
     private val sessionUseCase: SessionUseCase,
-    private val converter: UserModelConverter
+    private val converter: SessionModelConverter
 ) {
 
     fun authentication(

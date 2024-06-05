@@ -9,7 +9,9 @@ import javax.inject.Singleton
 internal class SessionEntityConverter @Inject constructor() {
 
     fun convertTo(model: SessionModel) = SessionEntity(
+        token = model.token,
         initialDate = model.initialDate,
+        endDate = model.endDate,
         userId = model.user.id
     )
 }

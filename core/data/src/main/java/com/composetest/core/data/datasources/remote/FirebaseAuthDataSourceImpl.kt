@@ -6,7 +6,6 @@ import com.composetest.core.data.domain.converters.AuthenticationResponseConvert
 import com.composetest.core.data.domain.models.network.requests.AuthenticationRequest
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
 
 internal class FirebaseAuthDataSourceImpl(
@@ -16,9 +15,12 @@ internal class FirebaseAuthDataSourceImpl(
 ) : BaseRemoteDataSource(context), FirebaseAuthDataSource {
 
     override fun authentication(request: AuthenticationRequest) = flow {
-        val result = safeRemoteCall {
+        val authResult = safeRemoteCall {
             firebaseAuth.signInWithEmailAndPassword(request.login, request.password).await()
         }
-        emit(result.user)
-    }.map { converter.convertTo(it) }
+        val tokenResult = safeRemoteCall {
+            authResult.user?.getIdToken(false)?.await()
+        }
+        emit(converter.convertTo(authResult.user, tokenResult))
+    }
 }

@@ -8,5 +8,5 @@ import androidx.room.PrimaryKey
 data class UserEntity(
     @PrimaryKey @ColumnInfo(name = "userId") val id: String,
     val email: String,
-    val name: String?
+    val name: String? = null
 )

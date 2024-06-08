@@ -1,4 +1,4 @@
-package com.composetest.core.domain.models.enums
+package com.composetest.core.domain.enums
 
 enum class Theme {
     AUTO,

@@ -3,6 +3,7 @@ package com.composetest.feature.home.ui.home
 import androidx.lifecycle.viewModelScope
 import com.composetest.core.designsystem.ui.bases.BaseViewModel
 import com.composetest.core.domain.usecases.AppThemeUseCase
+import com.composetest.core.router.extensions.getParam
 import com.composetest.core.router.navigation.home.Home2Destination
 import com.composetest.core.router.navigation.home.HomeDestination
 import com.composetest.core.router.providers.NavigationProvider

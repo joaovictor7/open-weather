@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.composetest.core.designsystem.theme.ComposeTestTheme
-import com.composetest.core.domain.models.enums.Theme
+import com.composetest.core.domain.enums.Theme
 
 @Composable
 fun HomeScreen(state: HomeState, onHandleEvent: (HomeEvent) -> Unit) {

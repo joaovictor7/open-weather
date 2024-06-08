@@ -4,7 +4,7 @@ import android.graphics.Color
 import androidx.activity.SystemBarStyle
 import com.composetest.core.domain.models.AppThemeModel.DefaultThemeColors.defaultDarkScrim
 import com.composetest.core.domain.models.AppThemeModel.DefaultThemeColors.defaultLightScrim
-import com.composetest.core.domain.models.enums.Theme
+import com.composetest.core.domain.enums.Theme
 
 data class AppThemeModel(
     val theme: Theme = Theme.AUTO,

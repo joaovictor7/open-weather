@@ -2,7 +2,7 @@ package com.composetest.core.designsystem.extensions
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
-import com.composetest.core.domain.models.enums.Theme
+import com.composetest.core.domain.enums.Theme
 
 val Theme.isDarkMode
     @Composable get() = when (this) {

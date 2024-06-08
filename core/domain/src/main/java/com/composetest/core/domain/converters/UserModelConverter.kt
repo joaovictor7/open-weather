@@ -9,13 +9,13 @@ import javax.inject.Singleton
 @Singleton
 class UserModelConverter @Inject constructor() {
 
-    fun convertTo(response: UserResponse) = UserModel(
+    operator fun invoke(response: UserResponse) = UserModel(
         id = response.id,
         email = response.email,
         name = response.name
     )
 
-    fun convertTo(entity: UserEntity) = UserModel(
+    operator fun invoke(entity: UserEntity) = UserModel(
         id = entity.id,
         email = entity.email,
         name = entity.name

@@ -1,4 +1,5 @@
 import extensions.findLibrary
+import extensions.implementation
 import extensions.testImplementation
 import extensions.testRuntimeOnly
 import org.gradle.api.Plugin
@@ -14,6 +15,7 @@ internal class TestConventionPlugin : Plugin<Project> {
                 useJUnitPlatform()
             }
             dependencies {
+                implementation(project(":core:test"))
                 testImplementation(findLibrary("junit5"))
                 testImplementation(findLibrary("mockk"))
                 testRuntimeOnly(findLibrary("junit5.engine"))

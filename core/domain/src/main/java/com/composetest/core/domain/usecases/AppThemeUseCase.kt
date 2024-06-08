@@ -1,7 +1,7 @@
 package com.composetest.core.domain.usecases
 
 import com.composetest.core.domain.models.AppThemeModel
-import com.composetest.core.domain.models.enums.Theme
+import com.composetest.core.domain.enums.Theme
 import kotlinx.coroutines.flow.StateFlow
 
 interface AppThemeUseCase  {

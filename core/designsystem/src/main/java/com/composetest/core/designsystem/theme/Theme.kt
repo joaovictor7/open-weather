@@ -10,7 +10,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalContext
 import com.composetest.core.designsystem.compositions.LocalThemeProvider
 import com.composetest.core.designsystem.extensions.isDarkMode
-import com.composetest.core.domain.models.enums.Theme
+import com.composetest.core.domain.enums.Theme
 
 @Composable
 fun ComposeTestTheme(

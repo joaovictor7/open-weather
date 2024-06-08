@@ -21,6 +21,6 @@ internal class AuthenticationUseCase @Inject constructor(
         authentication: LoginFormModel
     ) = authenticationRepository.authentication(
         AuthenticationRequest(authentication.email, authentication.password),
-        converter::convertTo
+        converter::invoke
     ).onEach(sessionUseCase::createSession).transform { emit(true) }
 }

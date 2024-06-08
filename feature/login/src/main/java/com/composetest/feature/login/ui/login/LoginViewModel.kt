@@ -3,7 +3,7 @@ package com.composetest.feature.login.ui.login
 import com.composetest.core.data.throwables.InvalidCredentialsThrowable
 import com.composetest.core.utility.providers.BuildConfigProvider
 import com.composetest.core.designsystem.ui.bases.BaseViewModel
-import com.composetest.core.domain.models.enums.Theme
+import com.composetest.core.domain.enums.Theme
 import com.composetest.core.designsystem.domain.emuns.ErrorAlertDialogType.Companion.getErrorAlertDialogType
 import com.composetest.core.domain.usecases.AppThemeUseCase
 import com.composetest.feature.login.domain.models.LoginFormModel

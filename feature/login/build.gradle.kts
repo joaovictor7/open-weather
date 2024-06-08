@@ -9,7 +9,6 @@ android {
 }
 
 dependencies {
-    implementation(projects.core.test)
     implementation(projects.core.router)
     implementation(projects.core.data)
     implementation(projects.core.domain)

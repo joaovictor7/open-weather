@@ -16,7 +16,9 @@ dependencies {
     implementation(projects.core.designsystem)
     implementation(projects.core.utility)
     implementation(projects.core.router)
+    implementation(projects.core.data)
     implementation(projects.core.domain)
     implementation(projects.feature.login)
     implementation(projects.feature.home)
+    implementation(libs.androidx.hilt.work)
 }

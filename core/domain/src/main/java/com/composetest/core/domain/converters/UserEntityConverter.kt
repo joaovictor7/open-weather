@@ -8,7 +8,7 @@ import javax.inject.Singleton
 @Singleton
 internal class UserEntityConverter @Inject constructor() {
 
-    fun convertTo(model: UserModel) = UserEntity(
+    operator fun invoke(model: UserModel) = UserEntity(
         id = model.id,
         name = model.name,
         email = model.email

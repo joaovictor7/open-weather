@@ -1,8 +1,7 @@
 package com.composetest.feature.login.ui.login
 
-import com.composetest.core.designsystem.ui.bases.BaseState
-import com.composetest.core.designsystem.domain.emuns.ErrorAlertDialogType
-import com.composetest.core.domain.models.AppThemeModel
+import com.composetest.core.designsystem.components.alertdialogs.enums.ErrorAlertDialog
+import com.composetest.common.models.AppThemeModel
 
 data class LoginState(
     val appTheme: AppThemeModel = AppThemeModel(),
@@ -11,8 +10,8 @@ data class LoginState(
     val enableLoginButton: Boolean = false,
     val invalidCredentials: Boolean = false,
     val isLoading: Boolean = false,
-    override val errorAlertDialogType: ErrorAlertDialogType = ErrorAlertDialogType.NONE
-): BaseState {
+    val errorAlertDialog: ErrorAlertDialog = ErrorAlertDialog.NONE
+) {
     fun initState(
         versionName: String,
         enableLoginButton: Boolean
@@ -30,7 +29,7 @@ data class LoginState(
         isLoading = isLoading,
         invalidCredentials = false
     )
-    fun setAlertDialogError(alertErrorDialogType: ErrorAlertDialogType) = copy(
-        errorAlertDialogType = alertErrorDialogType
+    fun setAlertDialogError(alertErrorDialogType: ErrorAlertDialog) = copy(
+        errorAlertDialog = alertErrorDialogType
     )
 }

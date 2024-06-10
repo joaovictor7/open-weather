@@ -23,16 +23,16 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import com.composetest.core.designsystem.components.alerts.ErrorAlertDialog
+import com.composetest.core.designsystem.components.alertdialogs.ErrorAlertDialog
 import com.composetest.core.designsystem.components.buttons.Button
 import com.composetest.core.designsystem.components.textfields.OutlinedTextField
 import com.composetest.core.designsystem.components.textfields.params.TextFieldTrailingIconParam
 import com.composetest.core.designsystem.compositions.LocalThemeProvider
-import com.composetest.core.designsystem.domain.emuns.ErrorAlertDialogType
+import com.composetest.core.designsystem.components.alertdialogs.enums.ErrorAlertDialog
 import com.composetest.core.designsystem.dimensions.spacings
-import com.composetest.core.designsystem.domain.emuns.TextFieldIcons
-import com.composetest.core.designsystem.extensions.isDarkMode
-import com.composetest.core.designsystem.extensions.modifiers.verticalTopBackgroundBrush
+import com.composetest.core.designsystem.components.textfields.enums.TextFieldIcons
+import com.composetest.common.extensions.isDarkMode
+import com.composetest.core.designsystem.components.extensions.modifiers.verticalTopBackgroundBrush
 import com.composetest.core.designsystem.theme.ComposeTestTheme
 import com.composetest.feature.login.R
 
@@ -65,7 +65,7 @@ fun LoginScreen(
         )
     }
     HandleEffects(onHandleEvent = onHandleEvent)
-    HandleErrorAlert(errorType = state.errorAlertDialogType) {
+    HandleErrorAlert(errorType = state.errorAlertDialog) {
         onHandleEvent.invoke(LoginEvent.DismissErrorAlertDialog)
     }
 }
@@ -143,8 +143,8 @@ private fun HandleEffects(onHandleEvent: (LoginEvent) -> Unit) {
 }
 
 @Composable
-private fun HandleErrorAlert(errorType: ErrorAlertDialogType, onDismiss: () -> Unit) {
-    ErrorAlertDialog(errorType = errorType, onClickDismiss = onDismiss)
+private fun HandleErrorAlert(errorType: ErrorAlertDialog, onDismiss: () -> Unit) {
+    ErrorAlertDialog(error = errorType, onClickDismiss = onDismiss)
 }
 
 @Composable

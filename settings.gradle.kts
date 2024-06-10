@@ -23,10 +23,10 @@ dependencyResolutionManagement {
 rootProject.name = "ComposeTest"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(":app")
+include(":common")
 include(":core:test")
 include(":core:router")
 include(":core:designsystem")
-include(":core:utility")
 include(":core:data")
 include(":core:domain")
 include(":core:database")

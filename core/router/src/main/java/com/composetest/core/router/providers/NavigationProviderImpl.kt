@@ -3,6 +3,8 @@ package com.composetest.core.router.providers
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavDestination
 import androidx.navigation.NavOptions
+import com.composetest.common.providers.NavControllerProvider
+import com.composetest.common.providers.NavigationProvider
 import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject
 

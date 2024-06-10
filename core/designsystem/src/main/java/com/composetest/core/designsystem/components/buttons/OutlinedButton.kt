@@ -8,8 +8,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import com.composetest.common.extensions.opacity
 import com.composetest.core.designsystem.theme.ComposeTestTheme
-import com.composetest.core.utility.extensions.opacity
 
 @Composable
 fun OutlinedButton(

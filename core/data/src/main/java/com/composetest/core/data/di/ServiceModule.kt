@@ -8,7 +8,8 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
-import com.composetest.core.data.domain.constants.preferencedata.PreferencesDataSettings.SETTINGS_DATA_STORE
+import androidx.work.WorkManager
+import com.composetest.core.data.constants.preferencedata.PreferencesDataSettings.SETTINGS_DATA_STORE
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
@@ -48,7 +49,7 @@ internal object ServiceModule {
     )
 
     @Provides
-    fun ktorClient() = HttpClient(Android) {
+    fun ktorClient(): HttpClient = HttpClient(Android) {
         defaultRequest {
             header(HttpHeaders.ContentType, ContentType.Application.Json)
         }
@@ -68,4 +69,9 @@ internal object ServiceModule {
             sanitizeHeader { header -> header == HttpHeaders.Authorization }
         }
     }
+
+    @Provides
+    fun workManager(
+        @ApplicationContext context: Context
+    ): WorkManager = WorkManager.getInstance(context)
 }

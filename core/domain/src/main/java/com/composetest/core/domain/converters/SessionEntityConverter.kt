@@ -6,7 +6,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-internal class SessionEntityConverter @Inject constructor() {
+class SessionEntityConverter @Inject constructor() {
 
     operator fun invoke(model: SessionWithUserModel) = SessionEntity(
         token = model.token,

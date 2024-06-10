@@ -8,7 +8,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.res.painterResource
 import com.composetest.core.designsystem.R
 import com.composetest.core.designsystem.components.textfields.params.TextFieldTrailingIconParam
-import com.composetest.core.designsystem.domain.emuns.TextFieldIcons
+import com.composetest.core.designsystem.components.textfields.enums.TextFieldIcons
 
 internal fun trailingIcon(
     trailingIconParam: TextFieldTrailingIconParam?,

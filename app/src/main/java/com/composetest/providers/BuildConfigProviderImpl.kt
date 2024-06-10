@@ -1,8 +1,8 @@
 package com.composetest.providers
 
 import com.composetest.BuildConfig
-import com.composetest.core.utility.domain.models.BuildConfigFieldsModel
-import com.composetest.core.utility.providers.BuildConfigProvider
+import com.composetest.common.models.BuildConfigFieldsModel
+import com.composetest.common.providers.BuildConfigProvider
 import javax.inject.Inject
 import javax.inject.Singleton
 

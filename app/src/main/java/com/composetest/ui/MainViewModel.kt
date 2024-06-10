@@ -1,14 +1,14 @@
 package com.composetest.ui
 
-import com.composetest.core.designsystem.ui.bases.BaseViewModel
-import com.composetest.core.domain.models.AppThemeModel
-import com.composetest.core.domain.usecases.AppThemeUseCase
+import com.composetest.common.bases.BaseViewModel
+import com.composetest.common.models.AppThemeModel
+import com.composetest.core.domain.usecases.apptheme.GetAppThemeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val appThemeUseCase: AppThemeUseCase
+    private val getAppThemeUseCase: GetAppThemeUseCase
 ) : BaseViewModel<MainAction, MainState>(MainState()) {
 
     init {
@@ -21,7 +21,7 @@ class MainViewModel @Inject constructor(
 
     private fun initState() {
         asyncFlowTask(
-            flowTask = appThemeUseCase.appThemeState,
+            flowTask = getAppThemeUseCase(),
             onCollect = ::setSystemStyles
         )
     }

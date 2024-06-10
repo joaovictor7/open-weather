@@ -1,16 +1,15 @@
 package com.composetest.core.data.di
 
-import android.content.Context
+import com.composetest.common.providers.DataSourceProvider
 import com.composetest.core.data.datasources.remote.FirebaseAuthDataSource
 import com.composetest.core.data.datasources.remote.FirebaseAuthDataSourceFakeImpl
 import com.composetest.core.data.datasources.remote.FirebaseAuthDataSourceImpl
-import com.composetest.core.data.domain.converters.AuthenticationResponseConverter
-import com.composetest.core.data.providers.DataSourceProvider
+import com.composetest.core.data.converters.AuthenticationResponseConverter
+import com.composetest.common.providers.RemoteCallProvider
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 
 @Module
@@ -18,16 +17,16 @@ import dagger.hilt.components.SingletonComponent
 internal object DataSourceModule {
     @Provides
     fun firebaseAuthDataSource(
-        @ApplicationContext context: Context,
+        remoteCallProvider: RemoteCallProvider,
         dataSourceProvider: DataSourceProvider,
         firebaseAuth: FirebaseAuth,
         authenticationResponseConverter: AuthenticationResponseConverter
     ): FirebaseAuthDataSource = dataSourceProvider.getDataSource(
         dataSource = FirebaseAuthDataSourceImpl(
-            firebaseAuth,
-            authenticationResponseConverter,
-            context
+            firebaseAuth = firebaseAuth,
+            authenticationResponseConverter = authenticationResponseConverter,
+            remoteCallProvider = remoteCallProvider
         ),
-        fakeDataSource = FirebaseAuthDataSourceFakeImpl(context)
+        fakeDataSource = FirebaseAuthDataSourceFakeImpl(remoteCallProvider)
     )
 }

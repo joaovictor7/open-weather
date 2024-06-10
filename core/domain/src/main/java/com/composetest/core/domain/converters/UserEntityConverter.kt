@@ -6,7 +6,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-internal class UserEntityConverter @Inject constructor() {
+class UserEntityConverter @Inject constructor() {
 
     operator fun invoke(model: UserModel) = UserEntity(
         id = model.id,

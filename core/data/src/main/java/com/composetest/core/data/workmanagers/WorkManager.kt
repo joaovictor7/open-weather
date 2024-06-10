@@ -4,18 +4,18 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequest
 import androidx.work.PeriodicWorkRequest
-import com.composetest.core.data.domain.enums.WorkManagerName
+import com.composetest.core.data.enums.WorkManagerName
 
 sealed interface WorkManager {
     val work: WorkManagerName
 
     interface OneTimeWorkManager : WorkManager {
-        val request: OneTimeWorkRequest
+        val workRequest: OneTimeWorkRequest
         val existingWorkPolicy: ExistingWorkPolicy
     }
 
     interface PeriodicWorkManager : WorkManager {
-        val request: PeriodicWorkRequest
+        val workRequest: PeriodicWorkRequest
         val existingPeriodicWorkPolicy: ExistingPeriodicWorkPolicy
     }
 }

@@ -8,7 +8,5 @@ android {
 }
 
 dependencies {
-    implementation(projects.core.utility)
-    implementation(projects.core.data)
-    implementation(projects.core.domain)
+    implementation(projects.common)
 }

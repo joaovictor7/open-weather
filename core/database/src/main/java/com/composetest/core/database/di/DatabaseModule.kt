@@ -7,7 +7,7 @@ import com.composetest.core.database.converters.LocalDateTimeConverter
 import com.composetest.core.database.database.AppDatabase
 import com.composetest.core.database.domain.constants.DatabaseConfig
 import com.composetest.core.database.providers.SqlCipherProvider
-import com.composetest.core.utility.providers.BuildConfigProvider
+import com.composetest.common.providers.BuildConfigProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

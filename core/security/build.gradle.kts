@@ -7,7 +7,7 @@ android {
 }
 
 dependencies {
-    implementation(projects.core.utility)
+    implementation(projects.common)
     implementation(libs.androidx.securityCrypto)
     implementation(libs.sqLite)
 }

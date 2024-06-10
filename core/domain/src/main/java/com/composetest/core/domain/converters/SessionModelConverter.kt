@@ -1,8 +1,8 @@
 package com.composetest.core.domain.converters
 
-import com.composetest.core.data.domain.models.network.responses.AuthenticationResponse
+import com.composetest.common.extensions.secondsToLocalDateTime
+import com.composetest.core.data.network.responses.AuthenticationResponse
 import com.composetest.core.domain.models.SessionWithUserModel
-import com.composetest.core.utility.extensions.secondsToLocalDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
 

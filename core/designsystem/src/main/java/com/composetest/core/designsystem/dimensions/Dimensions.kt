@@ -1,7 +1,7 @@
 package com.composetest.core.designsystem.dimensions
 
 import androidx.compose.runtime.Composable
-import com.composetest.core.designsystem.domain.emuns.Densities
+import com.composetest.core.designsystem.dimensions.densities.Densities
 import com.composetest.core.designsystem.dimensions.densities.defaults.Component
 import com.composetest.core.designsystem.dimensions.densities.defaults.FontSize
 import com.composetest.core.designsystem.dimensions.densities.defaults.Spacing

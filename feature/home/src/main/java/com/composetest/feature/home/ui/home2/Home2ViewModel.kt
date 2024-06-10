@@ -1,11 +1,11 @@
 package com.composetest.feature.home.ui.home2
 
-import com.composetest.core.designsystem.ui.bases.BaseViewModel
+import com.composetest.common.bases.BaseViewModel
 import com.composetest.core.router.extensions.getParam
 import com.composetest.core.router.navigation.home.Home2Destination
 import com.composetest.core.router.navigation.home.HomeDestination
 import com.composetest.core.router.navigation.home.navtypes.InnerHome
-import com.composetest.core.router.providers.NavigationProvider
+import com.composetest.common.providers.NavigationProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

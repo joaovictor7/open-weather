@@ -1,20 +1,19 @@
 package com.composetest.core.data.datasources.remote
 
-import android.content.Context
-import com.composetest.core.data.datasources.remote.base.BaseRemoteDataSource
-import com.composetest.core.data.domain.models.network.requests.AuthenticationRequest
-import com.composetest.core.data.domain.models.network.responses.AuthenticationResponse
-import com.composetest.core.data.domain.models.network.responses.UserResponse
+import com.composetest.common.providers.RemoteCallProvider
+import com.composetest.core.data.network.requests.AuthenticationRequest
+import com.composetest.core.data.network.responses.AuthenticationResponse
+import com.composetest.core.data.network.responses.UserResponse
 import kotlinx.coroutines.flow.flow
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
-internal class FirebaseAuthDataSourceFakeImpl(context: Context) :
-    BaseRemoteDataSource(context),
-    FirebaseAuthDataSource {
+internal class FirebaseAuthDataSourceFakeImpl(
+    private val remoteCallProvider: RemoteCallProvider
+) : FirebaseAuthDataSource {
 
     override fun authentication(request: AuthenticationRequest) = flow {
-        safeRemoteCall {}
+        remoteCallProvider.safeRemoteCall {}
         val fake = AuthenticationResponse(
             token = "43reddcdsfe434323cdf3434",
             authenticationDate = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC),

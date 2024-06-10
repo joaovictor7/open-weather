@@ -1,24 +1,26 @@
 package com.composetest.feature.login.ui.login
 
-import com.composetest.core.data.throwables.InvalidCredentialsThrowable
-import com.composetest.core.utility.providers.BuildConfigProvider
-import com.composetest.core.designsystem.ui.bases.BaseViewModel
-import com.composetest.core.domain.enums.Theme
-import com.composetest.core.designsystem.domain.emuns.ErrorAlertDialogType.Companion.getErrorAlertDialogType
-import com.composetest.core.domain.usecases.AppThemeUseCase
-import com.composetest.feature.login.domain.models.LoginFormModel
-import com.composetest.feature.login.domain.usecases.AuthenticationUseCase
+import com.composetest.common.bases.BaseViewModel
+import com.composetest.common.enums.Theme
+import com.composetest.common.providers.BuildConfigProvider
+import com.composetest.common.throwables.InvalidCredentialsThrowable
+import com.composetest.core.designsystem.components.alertdialogs.enums.ErrorAlertDialog.Companion.getErrorAlertDialogType
+import com.composetest.feature.login.models.LoginFormModel
+import com.composetest.core.domain.usecases.AuthenticationUseCase
+import com.composetest.core.domain.usecases.apptheme.GetCurrentAppThemeUseCase
+import com.composetest.core.domain.usecases.apptheme.SetCustomThemeUseCase
 import com.composetest.core.router.navigation.home.HomeDestination
 import com.composetest.core.router.navigation.home.navtypes.InnerHome
-import com.composetest.core.router.providers.NavigationProvider
+import com.composetest.common.providers.NavigationProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 internal class LoginViewModel @Inject constructor(
-    private val appThemeUseCase: AppThemeUseCase,
     private val navigationProvider: NavigationProvider,
     private val buildConfigProvider: BuildConfigProvider,
+    private val getCurrentAppThemeUseCase: GetCurrentAppThemeUseCase,
+    private val setCustomThemeUseCase: SetCustomThemeUseCase,
     private val authenticationUseCase: AuthenticationUseCase
 ) : BaseViewModel<LoginEvent, LoginState>(LoginState()) {
 
@@ -44,7 +46,7 @@ internal class LoginViewModel @Inject constructor(
 
     private fun login() {
         asyncFlowTask(
-            flowTask = authenticationUseCase.authentication(loginFormModel),
+            flowTask = authenticationUseCase(loginFormModel.email, loginFormModel.password),
             onStart = { updateState { it.setLoading(true) } },
             onCompletion = { updateState { it.setLoading(false) } },
             onError = ::handleLoginError,
@@ -83,10 +85,10 @@ internal class LoginViewModel @Inject constructor(
     }
 
     private fun setCustomTheme(event: LoginEvent.SetCustomTheme) {
-        val theme = if (event.enterScreen && appThemeUseCase.currentAppTheme.theme != Theme.DARK)
+        val theme = if (event.enterScreen && getCurrentAppThemeUseCase().theme != Theme.DARK)
             Theme.DARK
         else null
-        appThemeUseCase.setCustomTheme(theme)
+        setCustomThemeUseCase(theme)
     }
 
     private fun handleLoginSuccess() {

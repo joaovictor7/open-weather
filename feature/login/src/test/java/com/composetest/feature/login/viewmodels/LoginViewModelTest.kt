@@ -1,10 +1,9 @@
 package com.composetest.feature.login.viewmodels
 
-import com.composetest.core.utility.providers.BuildConfigProvider
+import com.composetest.common.BuildConfigProvider
 import com.composetest.core.test.extensions.CoroutineExtension
 import com.composetest.core.data.repositories.AuthenticationRepository
-import com.composetest.core.utility.domain.models.BuildConfigFieldsModel
-import com.composetest.feature.login.domain.usecases.AuthenticationUseCase
+import com.composetest.core.domain.usecases.AuthenticationUseCase
 import com.composetest.feature.login.ui.login.LoginEvent
 import com.composetest.feature.login.ui.login.LoginState
 import com.composetest.feature.login.ui.login.LoginViewModel
@@ -21,7 +20,7 @@ import java.lang.Exception
 class LoginViewModelTest {
 
     private val buildConfigModelMock =
-        BuildConfigFieldsModel(
+        com.composetest.common.models.BuildConfigFieldsModel(
             applicationId = "app",
             versionName = "1.0.0",
             versionCode = 0,
@@ -29,8 +28,9 @@ class LoginViewModelTest {
             flavor = "app"
         )
 
-    private val buildConfigProvider: BuildConfigProvider = object : BuildConfigProvider {
-        override val get: BuildConfigFieldsModel = buildConfigModelMock
+    private val buildConfigProvider: com.composetest.common.BuildConfigProvider = object :
+        com.composetest.common.BuildConfigProvider {
+        override val get: com.composetest.common.models.BuildConfigFieldsModel = buildConfigModelMock
     }
     private val authenticationRepository: AuthenticationRepository = mockk()
     private val authenticationUseCase = AuthenticationUseCase(authenticationRepository)
@@ -40,7 +40,7 @@ class LoginViewModelTest {
     @BeforeEach
     fun before() {
         viewModel = LoginViewModel(
-            appThemeUseCase = mockk(),
+            setCustomThemeUseCase = mockk(),
             navigationProvider = mockk(relaxed = true),
             buildConfigProvider = buildConfigProvider,
             authenticationUseCase = authenticationUseCase

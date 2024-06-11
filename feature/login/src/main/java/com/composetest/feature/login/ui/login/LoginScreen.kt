@@ -32,48 +32,53 @@ import com.composetest.core.designsystem.components.alertdialogs.enums.ErrorAler
 import com.composetest.core.designsystem.dimensions.spacings
 import com.composetest.core.designsystem.components.textfields.enums.TextFieldIcons
 import com.composetest.common.extensions.isDarkMode
+import com.composetest.common.interfaces.Command
+import com.composetest.common.interfaces.Screen
 import com.composetest.core.designsystem.components.extensions.modifiers.verticalTopBackgroundBrush
 import com.composetest.core.designsystem.theme.ComposeTestTheme
 import com.composetest.feature.login.R
 
-@Composable
-fun LoginScreen(
-    state: LoginState,
-    onHandleEvent: (LoginEvent) -> Unit
-) {
-    Box(
-        modifier = Modifier
-            .verticalTopBackgroundBrush(LocalThemeProvider.current.isDarkMode)
-            .fillMaxSize()
-            .safeDrawingPadding()
-    ) {
-        ElevatedCard(
+class LoginScreen(
+    override val uiState: LoginUiState,
+    override val onExecuteCommand: (Command<LoginCommandReceiver>) -> Unit
+) : Screen<LoginUiState, LoginCommandReceiver> {
+
+    @Composable
+    override fun Screen() {
+        Box(
             modifier = Modifier
-                .align(Alignment.Center)
-                .padding(spacings.eighteen)
+                .verticalTopBackgroundBrush(LocalThemeProvider.current.isDarkMode)
+                .fillMaxSize()
+                .safeDrawingPadding()
         ) {
-            Column(modifier = Modifier.padding(spacings.twenty)) {
-                LoginForm(state = state, onHandleEvent = onHandleEvent)
+            ElevatedCard(
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .padding(spacings.eighteen)
+            ) {
+                Column(modifier = Modifier.padding(spacings.twenty)) {
+                    LoginForm(uiState = uiState, onExecuteCommand = onExecuteCommand)
+                }
             }
+            Text(
+                text = uiState.versionName,
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = spacings.twelve)
+            )
         }
-        Text(
-            text = state.versionName,
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = spacings.twelve)
-        )
-    }
-    HandleEffects(onHandleEvent = onHandleEvent)
-    HandleErrorAlert(errorType = state.errorAlertDialog) {
-        onHandleEvent.invoke(LoginEvent.DismissErrorAlertDialog)
+        HandleEffects(onExecuteCommand = onExecuteCommand)
+        HandleErrorAlert(errorType = uiState.errorAlertDialog) {
+            onExecuteCommand(HandleLoginError)
+        }
     }
 }
 
 @Composable
 private fun ColumnScope.LoginForm(
-    state: LoginState,
-    onHandleEvent: (LoginEvent) -> Unit
+    uiState: LoginUiState,
+    onExecuteCommand: (Command<LoginCommandReceiver>) -> Unit
 ) {
     Text(
         text = stringResource(R.string.feature_login_login),
@@ -85,17 +90,17 @@ private fun ColumnScope.LoginForm(
     OutlinedTextField(
         labelText = stringResource(R.string.feature_login_email),
         placeholderText = stringResource(R.string.feature_login_email_placeholder),
-        supportingText = if (state.invalidEmail)
+        supportingText = if (uiState.invalidEmail)
             stringResource(R.string.feature_login_invalid_email) else null,
         imeAction = ImeAction.Next,
-        trailingIconParam = if (state.invalidEmail)
+        trailingIconParam = if (uiState.invalidEmail)
             TextFieldTrailingIconParam(iconType = TextFieldIcons.ERROR) else null,
         modifier = Modifier.fillMaxWidth(),
         onFocusChanged = {
-            if (!it.hasFocus) onHandleEvent.invoke(LoginEvent.CheckShowInvalidEmailMsg)
+            if (!it.hasFocus) onExecuteCommand.invoke(CheckShowInvalidEmailMsg)
         }
     ) { email ->
-        onHandleEvent.invoke(LoginEvent.WriteData(email = email))
+        onExecuteCommand(WriteData(email = email))
     }
     Spacer(Modifier.height(spacings.fourteen))
     OutlinedTextField(
@@ -106,10 +111,10 @@ private fun ColumnScope.LoginForm(
         ),
         modifier = Modifier.fillMaxWidth()
     ) { password ->
-        onHandleEvent.invoke(LoginEvent.WriteData(password = password))
+        onExecuteCommand(WriteData(password = password))
     }
     Spacer(Modifier.height(spacings.eighteen))
-    if (state.invalidCredentials) {
+    if (uiState.invalidCredentials) {
         Text(
             text = stringResource(R.string.feature_login_invalid_credentials),
             style = MaterialTheme.typography.bodyMedium,
@@ -117,12 +122,12 @@ private fun ColumnScope.LoginForm(
         )
         Spacer(Modifier.height(spacings.ten))
     }
-    if (!state.isLoading) {
+    if (!uiState.isLoading) {
         Button(
             text = stringResource(R.string.feature_login_enter),
             modifier = Modifier.fillMaxWidth(),
-            enabled = state.enableLoginButton
-        ) { onHandleEvent.invoke(LoginEvent.Login) }
+            enabled = uiState.enableLoginButton
+        ) { onExecuteCommand(Login) }
     } else {
         CircularProgressIndicator(
             modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
@@ -131,13 +136,13 @@ private fun ColumnScope.LoginForm(
 }
 
 @Composable
-private fun HandleEffects(onHandleEvent: (LoginEvent) -> Unit) {
+private fun HandleEffects(onExecuteCommand: (Command<LoginCommandReceiver>) -> Unit) {
     LaunchedEffect(Unit) {
-        onHandleEvent.invoke(LoginEvent.SetCustomTheme(true))
+        onExecuteCommand(SetCustomTheme(true))
     }
     DisposableEffect(Unit) {
         onDispose {
-            onHandleEvent.invoke(LoginEvent.SetCustomTheme(false))
+            onExecuteCommand(SetCustomTheme(false))
         }
     }
 }
@@ -152,7 +157,7 @@ private fun HandleErrorAlert(errorType: ErrorAlertDialog, onDismiss: () -> Unit)
 private fun Preview() {
     ComposeTestTheme {
         LoginScreen(
-            LoginState(
+            LoginUiState(
                 versionName = "Version",
                 invalidCredentials = false,
                 isLoading = true

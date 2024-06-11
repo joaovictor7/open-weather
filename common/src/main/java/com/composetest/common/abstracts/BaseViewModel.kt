@@ -1,4 +1,4 @@
-package com.composetest.common.bases
+package com.composetest.common.abstracts
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,15 +13,13 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-abstract class BaseViewModel<Event, State>(stateInstance: State) : ViewModel() {
+abstract class BaseViewModel<UiState>(stateInstance: UiState) : ViewModel() {
 
-    private val _state = MutableStateFlow(stateInstance)
-    val state = _state.asStateFlow()
+    private val _uiState = MutableStateFlow(stateInstance)
+    val uiState = _uiState.asStateFlow()
 
-    abstract fun handleEvent(event: Event)
-
-    protected fun updateState(onNewState: (State) -> State) {
-        _state.update(onNewState)
+    protected fun updateState(onNewState: (UiState) -> UiState) {
+        _uiState.update(onNewState)
     }
 
     protected fun <T> asyncFlowTask(

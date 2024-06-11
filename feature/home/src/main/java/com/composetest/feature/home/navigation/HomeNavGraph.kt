@@ -17,12 +17,12 @@ fun NavGraphBuilder.homeNavGraph() {
         typeMap = HomeDestination.navTypes
     ) {
         val viewModel = hiltViewModel<HomeViewModel>()
-        val state by viewModel.state.collectAsStateWithLifecycle()
-        HomeScreen(state = state, onHandleEvent = viewModel::handleEvent)
+        val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+        HomeScreen(uiState = uiState, onExecuteCommand = viewModel::executeCommand)
     }
     composable<Home2Destination> {
         val viewModel = hiltViewModel<Home2ViewModel>()
-        val state by viewModel.state.collectAsStateWithLifecycle()
-        Home2Screen(state = state, onHandleEvent = viewModel::handleEvent)
+        val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+        Home2Screen(uiState = uiState, onExecuteCommand = viewModel::executeCommand)
     }
 }

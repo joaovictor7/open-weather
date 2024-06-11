@@ -38,10 +38,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setEdgeToEdge()
         setContent {
-            val state by viewModel.state.collectAsStateWithLifecycle()
+            val uiState by viewModel.uiState.collectAsStateWithLifecycle()
             ComposeTestTheme(
-                dynamicColor = state.appTheme.dynamicColors,
-                theme = state.appTheme.theme
+                dynamicColor = uiState.appTheme.dynamicColors,
+                theme = uiState.appTheme.theme
             ) {
                 Column(modifier = Modifier.fillMaxSize()) {
                     Navigation(
@@ -54,8 +54,8 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun setEdgeToEdge() = lifecycleScope.launch {
-        viewModel.state.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED).collect { state ->
-            enableEdgeToEdge(state.statusBarStyle, state.navigationBarStyle)
+        viewModel.uiState.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED).collect { uiState ->
+            enableEdgeToEdge(uiState.statusBarStyle, uiState.navigationBarStyle)
         }
     }
 }

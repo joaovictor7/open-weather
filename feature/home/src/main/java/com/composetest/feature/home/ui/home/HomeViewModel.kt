@@ -1,7 +1,8 @@
 package com.composetest.feature.home.ui.home
 
 import androidx.lifecycle.viewModelScope
-import com.composetest.common.bases.BaseViewModel
+import com.composetest.common.abstracts.BaseViewModel
+import com.composetest.common.enums.Theme
 import com.composetest.core.domain.usecases.apptheme.SetDynamicColorsUseCase
 import com.composetest.core.domain.usecases.apptheme.SetThemeUseCase
 import com.composetest.core.router.extensions.getParam
@@ -13,31 +14,29 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
+internal class HomeViewModel @Inject constructor(
     private val navigationProvider: NavigationProvider,
     private val setThemeUseCase: SetThemeUseCase,
     private val setDynamicColorsUseCase: SetDynamicColorsUseCase
-) : BaseViewModel<HomeEvent, HomeState>(HomeState()) {
+) : BaseViewModel<HomeUiState>(HomeUiState()), HomeCommandReceiver {
 
     init {
         val e = navigationProvider.getParam<HomeDestination>(HomeDestination.navTypes)
         updateState { it.copy(t = e.innerHome.teste) }
     }
 
-    override fun handleEvent(event: HomeEvent) = when (event) {
-        is HomeEvent.ReturnLogin -> navigateToHome2()
-        is HomeEvent.AppThemeHandle -> handleAppTheme(event)
-    }
-
-    private fun navigateToHome2() {
+    override fun navigateToHome2() {
         navigationProvider.navigate(Home2Destination("tessfdf", "rer"))
     }
 
-    private fun handleAppTheme(event: HomeEvent.AppThemeHandle) {
+    override fun changeAppTheme(
+        theme: Theme?,
+        dynamicColors: Boolean?
+    ) {
         viewModelScope.launch {
             when {
-                event.theme != null -> setThemeUseCase(event.theme)
-                event.dynamicColors != null -> setDynamicColorsUseCase(event.dynamicColors)
+                theme != null -> setThemeUseCase(theme)
+                dynamicColors != null -> setDynamicColorsUseCase(dynamicColors)
             }
         }
     }

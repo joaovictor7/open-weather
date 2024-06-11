@@ -12,7 +12,7 @@ import com.composetest.core.router.navigation.login.LoginDestination
 fun NavGraphBuilder.loginNavGraph() {
     composable<LoginDestination> {
         val viewModel = hiltViewModel<LoginViewModel>()
-        val state by viewModel.state.collectAsStateWithLifecycle()
-        LoginScreen(state = state, onHandleEvent = viewModel::handleEvent)
+        val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+        LoginScreen(uiState = uiState, onExecuteCommand = viewModel::executeCommand).Screen()
     }
 }

@@ -10,32 +10,40 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.composetest.core.designsystem.theme.ComposeTestTheme
 import com.composetest.common.enums.Theme
+import com.composetest.common.interfaces.Command
+import com.composetest.common.interfaces.Screen
 
-@Composable
-fun HomeScreen(state: HomeState, onHandleEvent: (HomeEvent) -> Unit) {
-    Column(
-        modifier = Modifier
-            .safeDrawingPadding()
-            .fillMaxSize()
-    ) {
-        Button(onClick = { onHandleEvent(HomeEvent.ReturnLogin) }) {
-            Text(text = state.t)
-        }
-        Text(text = "Home1")
-        Button(onClick = { onHandleEvent(HomeEvent.AppThemeHandle(Theme.AUTO)) }) {
-            Text(text = "Auto")
-        }
-        Button(onClick = { onHandleEvent(HomeEvent.AppThemeHandle(Theme.LIGHT)) }) {
-            Text(text = "Light")
-        }
-        Button(onClick = { onHandleEvent(HomeEvent.AppThemeHandle(Theme.DARK)) }) {
-            Text(text = "Dark")
-        }
-        Button(onClick = { onHandleEvent(HomeEvent.AppThemeHandle(dynamicColors = true)) }) {
-            Text(text = "Dynamic on")
-        }
-        Button(onClick = { onHandleEvent(HomeEvent.AppThemeHandle(dynamicColors = false)) }) {
-            Text(text = "Dynamic off")
+class HomeScreen(
+    override val uiState: HomeUiState,
+    override val onExecuteCommand: (Command<HomeCommandReceiver>) -> Unit
+) : Screen<HomeUiState, HomeCommandReceiver> {
+
+    @Composable
+    override fun Screen() {
+        Column(
+            modifier = Modifier
+                .safeDrawingPadding()
+                .fillMaxSize()
+        ) {
+            Button(onClick = { onExecuteCommand(NavigateToHome2) }) {
+                Text(text = uiState.t)
+            }
+            Text(text = "Home1")
+            Button(onClick = { onExecuteCommand(ChangeAppTheme(theme = Theme.AUTO)) }) {
+                Text(text = "Auto")
+            }
+            Button(onClick = { onExecuteCommand(ChangeAppTheme(theme = Theme.LIGHT)) }) {
+                Text(text = "Light")
+            }
+            Button(onClick = { onExecuteCommand(ChangeAppTheme(theme = Theme.DARK)) }) {
+                Text(text = "Dark")
+            }
+            Button(onClick = { onExecuteCommand(ChangeAppTheme(dynamicColors = true)) }) {
+                Text(text = "Dynamic on")
+            }
+            Button(onClick = { onExecuteCommand(ChangeAppTheme(dynamicColors = false)) }) {
+                Text(text = "Dynamic off")
+            }
         }
     }
 }
@@ -44,6 +52,6 @@ fun HomeScreen(state: HomeState, onHandleEvent: (HomeEvent) -> Unit) {
 @Composable
 private fun Preview() {
     ComposeTestTheme {
-        HomeScreen(state = HomeState()) { }
+        HomeScreen(uiState = HomeUiState()) { }.Screen()
     }
 }

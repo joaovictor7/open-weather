@@ -1,6 +1,6 @@
 package com.composetest.feature.login.ui.login
 
-import com.composetest.common.bases.BaseViewModel
+import com.composetest.common.abstracts.BaseViewModel
 import com.composetest.common.enums.Theme
 import com.composetest.common.providers.BuildConfigProvider
 import com.composetest.common.throwables.InvalidCredentialsThrowable
@@ -22,7 +22,7 @@ internal class LoginViewModel @Inject constructor(
     private val getCurrentAppThemeUseCase: GetCurrentAppThemeUseCase,
     private val setCustomThemeUseCase: SetCustomThemeUseCase,
     private val authenticationUseCase: AuthenticationUseCase
-) : BaseViewModel<LoginEvent, LoginState>(LoginState()) {
+) : BaseViewModel<LoginUiState>(LoginUiState()), LoginCommandReceiver {
 
     private var loginFormModel: LoginFormModel = LoginFormModel()
 
@@ -30,21 +30,13 @@ internal class LoginViewModel @Inject constructor(
         initState()
     }
 
-    override fun handleEvent(event: LoginEvent) = when (event) {
-        is LoginEvent.SetCustomTheme -> setCustomTheme(event)
-        is LoginEvent.CheckShowInvalidEmailMsg -> showInvalidEmailMsg()
-        is LoginEvent.Login -> login()
-        is LoginEvent.WriteData -> writeData(event)
-        is LoginEvent.DismissErrorAlertDialog -> handleLoginError(null)
-    }
-
-    private fun showInvalidEmailMsg() {
+    override fun checkShowInvalidEmailMsg() {
         if (loginFormModel.emailIsEmpty) {
             updateState { it.setInvalidEmail(!loginFormModel.emailIsValid) }
         }
     }
 
-    private fun login() {
+    override fun login() {
         asyncFlowTask(
             flowTask = authenticationUseCase(loginFormModel.email, loginFormModel.password),
             onStart = { updateState { it.setLoading(true) } },
@@ -54,16 +46,16 @@ internal class LoginViewModel @Inject constructor(
         )
     }
 
-    private fun writeData(action: LoginEvent.WriteData) {
+    override fun writeData(email: String?, password: String?) {
         when {
-            action.email != null -> {
-                loginFormModel = loginFormModel.copy(email = action.email)
-                if (state.value.invalidEmail) {
+            email != null -> {
+                loginFormModel = loginFormModel.copy(email = email)
+                if (uiState.value.invalidEmail) {
                     updateState { it.setInvalidEmail(false) }
                 }
             }
-            action.password != null -> {
-                loginFormModel = loginFormModel.copy(password = action.password)
+            password != null -> {
+                loginFormModel = loginFormModel.copy(password = password)
             }
         }
         resetViewState()
@@ -75,17 +67,8 @@ internal class LoginViewModel @Inject constructor(
         }
     }
 
-    private fun initState() {
-        updateState {
-            it.initState(
-                versionName = buildConfigProvider.get.versionNameForView,
-                enableLoginButton = buildConfigProvider.get.isDebug
-            )
-        }
-    }
-
-    private fun setCustomTheme(event: LoginEvent.SetCustomTheme) {
-        val theme = if (event.enterScreen && getCurrentAppThemeUseCase().theme != Theme.DARK)
+    override fun setCustomTheme(enterScreen: Boolean) {
+        val theme = if (enterScreen && getCurrentAppThemeUseCase().theme != Theme.DARK)
             Theme.DARK
         else null
         setCustomThemeUseCase(theme)
@@ -95,12 +78,21 @@ internal class LoginViewModel @Inject constructor(
         navigationProvider.navigate(HomeDestination("teste", InnerHome("te", "23232")))
     }
 
-    private fun handleLoginError(error: Throwable?) {
+    private fun initState() {
         updateState {
-            if (error is InvalidCredentialsThrowable) {
+            it.initState(
+                versionName = buildConfigProvider.get.versionNameForView,
+                enableLoginButton = buildConfigProvider.get.isDebug
+            )
+        }
+    }
+
+    override fun handleLoginError(throwable: Throwable?) {
+        updateState {
+            if (throwable is InvalidCredentialsThrowable) {
                 it.setShowInvalidCredentialsMsg()
             } else {
-                it.setAlertDialogError(error.getErrorAlertDialogType())
+                it.setAlertDialogError(throwable.getErrorAlertDialogType())
             }
         }
     }

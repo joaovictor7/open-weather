@@ -1,6 +1,6 @@
 package com.composetest.feature.home.ui.home2
 
-import com.composetest.common.bases.BaseViewModel
+import com.composetest.common.abstracts.BaseViewModel
 import com.composetest.core.router.extensions.getParam
 import com.composetest.core.router.navigation.home.Home2Destination
 import com.composetest.core.router.navigation.home.HomeDestination
@@ -12,25 +12,21 @@ import javax.inject.Inject
 @HiltViewModel
 class Home2ViewModel @Inject constructor(
     private val navigationProvider: NavigationProvider
-) : BaseViewModel<Home2Event, Home2State>(Home2State()) {
+) : BaseViewModel<Home2UiState>(Home2UiState()), Home2CommandReceiver {
 
     init {
         val e = navigationProvider.getParam<Home2Destination>()
         updateState { it.copy(t = e.teste) }
     }
 
-    override fun handleEvent(event: Home2Event) = when (event) {
-        is Home2Event.ReturnHome -> navigateToLogin()
-    }
-
-    private fun navigateToLogin() {
+    override fun returnHome() {
         navigationProvider.navigateToBack(
             HomeDestination("teste", InnerHome("rer $count", "343"))
         )
         count++
     }
 
-    companion object {
+    private companion object {
         var count = 1
     }
 }

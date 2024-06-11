@@ -9,22 +9,30 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.composetest.common.interfaces.Command
+import com.composetest.common.interfaces.Screen
 import com.composetest.core.designsystem.theme.ComposeTestTheme
 
-@Composable
-fun Home2Screen(state: Home2State, onHandleEvent: (Home2Event) -> Unit) {
-    Column(
-        modifier = Modifier
-            .safeDrawingPadding()
-            .fillMaxSize()
-    ) {
-        Button(onClick = { onHandleEvent(Home2Event.ReturnHome) }) {
-            Text(text = state.t)
+class Home2Screen(
+    override val uiState: Home2UiState,
+    override val onExecuteCommand: (Command<Home2CommandReceiver>) -> Unit
+) : Screen<Home2UiState, Home2CommandReceiver> {
+
+    @Composable
+    override fun Screen() {
+        Column(
+            modifier = Modifier
+                .safeDrawingPadding()
+                .fillMaxSize()
+        ) {
+            Button(onClick = { onExecuteCommand(ReturnHome) }) {
+                Text(text = uiState.t)
+            }
+            Text(text = "Home2")
         }
-        Text(text = "Home2")
-    }
-    BackHandler {
-        onHandleEvent(Home2Event.ReturnHome)
+        BackHandler {
+            onExecuteCommand(ReturnHome)
+        }
     }
 }
 
@@ -32,6 +40,6 @@ fun Home2Screen(state: Home2State, onHandleEvent: (Home2Event) -> Unit) {
 @Composable
 private fun Preview() {
     ComposeTestTheme {
-        Home2Screen(state = Home2State()) { }
+        Home2Screen(uiState = Home2UiState()) { }.Screen()
     }
 }

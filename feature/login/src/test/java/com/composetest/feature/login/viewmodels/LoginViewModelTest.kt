@@ -4,8 +4,7 @@ import com.composetest.common.BuildConfigProvider
 import com.composetest.core.test.extensions.CoroutineExtension
 import com.composetest.core.data.repositories.AuthenticationRepository
 import com.composetest.core.domain.usecases.AuthenticationUseCase
-import com.composetest.feature.login.ui.login.LoginEvent
-import com.composetest.feature.login.ui.login.LoginState
+import com.composetest.feature.login.ui.login.LoginUiState
 import com.composetest.feature.login.ui.login.LoginViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -48,13 +47,13 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun `initial state`() {
+    fun `initial uiState`() {
         assertEquals(
-            LoginState(
+            LoginUiState(
                 versionName = buildConfigModelMock.versionNameForView,
                 enableLoginButton = true
             ),
-            viewModel.state.value
+            viewModel.uiState.value
         )
     }
 
@@ -66,12 +65,12 @@ class LoginViewModelTest {
         viewModel.handleEvent(LoginEvent.WriteData("teste@teste.com", "password"))
         viewModel.handleEvent(LoginEvent.Login)
         assertEquals(
-            LoginState(
+            LoginUiState(
                 versionName = buildConfigModelMock.versionNameForView,
                 invalidCredentials = true,
                 enableLoginButton = true
             ),
-            viewModel.state.value
+            viewModel.uiState.value
         )
     }
 
@@ -83,12 +82,12 @@ class LoginViewModelTest {
         viewModel.handleEvent(LoginEvent.WriteData("teste@teste.com", "password"))
         viewModel.handleEvent(LoginEvent.Login)
         assertEquals(
-            LoginState(
+            LoginUiState(
                 versionName = buildConfigModelMock.versionNameForView,
                 enableLoginButton = true,
                 invalidCredentials = false
             ),
-            viewModel.state.value
+            viewModel.uiState.value
         )
     }
 }

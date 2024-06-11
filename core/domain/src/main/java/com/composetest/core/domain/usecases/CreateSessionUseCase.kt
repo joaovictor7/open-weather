@@ -1,8 +1,8 @@
 package com.composetest.core.domain.usecases
 
-import com.composetest.core.data.repositories.SessionRepository
-import com.composetest.core.data.repositories.UserRepository
-import com.composetest.core.data.repositories.WorkManagerRepository
+import com.composetest.core.data.repositories.local.SessionRepository
+import com.composetest.core.data.repositories.local.UserRepository
+import com.composetest.core.data.repositories.local.WorkManagerRepository
 import com.composetest.core.data.workmanagers.workes.SessionWorker
 import com.composetest.core.domain.converters.SessionEntityConverter
 import com.composetest.core.domain.converters.UserEntityConverter
@@ -11,6 +11,8 @@ import java.time.Duration
 import java.time.LocalDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.time.Duration.Companion.seconds
+import kotlin.time.toJavaDuration
 
 @Singleton
 class CreateSessionUseCase @Inject constructor(
@@ -30,6 +32,7 @@ class CreateSessionUseCase @Inject constructor(
 
     private fun getDateForFinishSession(initialDate: LocalDateTime): Duration {
         val maxSessionDuration = initialDate.plusWeeks(SESSION_WEEK_DURATION)
+        return 3.seconds.toJavaDuration()
         return Duration.between(initialDate, maxSessionDuration)
     }
 

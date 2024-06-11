@@ -11,7 +11,7 @@ import javax.inject.Singleton
 @Singleton
 internal class AuthenticationResponseConverter @Inject constructor() {
 
-    fun convertTo(user: FirebaseUser?, token: GetTokenResult?) = AuthenticationResponse(
+    operator fun invoke(user: FirebaseUser?, token: GetTokenResult?) = AuthenticationResponse(
         token = token?.token.orEmpty(),
         authenticationDate = token?.authTimestamp.orZero,
         user = convertTo(user)

@@ -1,4 +1,4 @@
-package com.composetest.core.data.repositories
+package com.composetest.core.data.repositories.remote
 
 import com.composetest.core.data.network.requests.AuthenticationRequest
 import com.composetest.core.data.network.responses.AuthenticationResponse

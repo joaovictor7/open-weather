@@ -2,7 +2,7 @@ package modularization
 
 import appconfig.AppConfig
 import com.android.build.gradle.BaseExtension
-import extensions.findLibrary
+import extensions.getLibrary
 import extensions.implementation
 import extensions.ksp
 import org.gradle.api.JavaVersion
@@ -37,11 +37,11 @@ internal fun Project.configureAndroid() {
     }
     setBuildTypesAllModules()
     dependencies {
-        implementation(platform(findLibrary("firebase.bom")))
-        implementation(findLibrary("androidx.lifecycle.runtime.ktx"))
-        implementation(findLibrary("kotlin.coroutines.android"))
-        implementation(findLibrary("kotlin.json.serializable"))
-        implementation(findLibrary("android.hilt"))
-        ksp(findLibrary("android.hilt.compiler"))
+        implementation(platform(getLibrary("firebase.bom")))
+        implementation(getLibrary("androidx.lifecycle.runtime.ktx"))
+        implementation(getLibrary("kotlin.coroutines.android"))
+        implementation(getLibrary("kotlin.json.serializable"))
+        implementation(getLibrary("android.hilt"))
+        ksp(getLibrary("android.hilt.compiler"))
     }
 }

@@ -38,13 +38,13 @@ import com.composetest.core.designsystem.components.extensions.modifiers.vertica
 import com.composetest.core.designsystem.theme.ComposeTestTheme
 import com.composetest.feature.login.R
 
-class LoginScreen(
-    override val uiState: LoginUiState,
-    override val onExecuteCommand: (Command<LoginCommandReceiver>) -> Unit
-) : Screen<LoginUiState, LoginCommandReceiver> {
+object LoginScreen : Screen<LoginUiState, LoginCommandReceiver> {
 
     @Composable
-    override fun Screen() {
+    override operator fun invoke(
+        uiState: LoginUiState,
+        onExecuteCommand: (Command<LoginCommandReceiver>) -> Unit
+    ) {
         Box(
             modifier = Modifier
                 .verticalTopBackgroundBrush(LocalThemeProvider.current.isDarkMode)
@@ -162,6 +162,6 @@ private fun Preview() {
                 invalidCredentials = false,
                 isLoading = true
             )
-        ) { }
+        ) {}
     }
 }

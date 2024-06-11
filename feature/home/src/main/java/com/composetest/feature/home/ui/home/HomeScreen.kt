@@ -13,13 +13,13 @@ import com.composetest.common.enums.Theme
 import com.composetest.common.interfaces.Command
 import com.composetest.common.interfaces.Screen
 
-class HomeScreen(
-    override val uiState: HomeUiState,
-    override val onExecuteCommand: (Command<HomeCommandReceiver>) -> Unit
-) : Screen<HomeUiState, HomeCommandReceiver> {
+object HomeScreen : Screen<HomeUiState, HomeCommandReceiver> {
 
     @Composable
-    override fun Screen() {
+    override fun invoke(
+        uiState: HomeUiState,
+        onExecuteCommand: (Command<HomeCommandReceiver>) -> Unit
+    ) {
         Column(
             modifier = Modifier
                 .safeDrawingPadding()
@@ -52,6 +52,6 @@ class HomeScreen(
 @Composable
 private fun Preview() {
     ComposeTestTheme {
-        HomeScreen(uiState = HomeUiState()) { }.Screen()
+        HomeScreen(uiState = HomeUiState()) { }
     }
 }

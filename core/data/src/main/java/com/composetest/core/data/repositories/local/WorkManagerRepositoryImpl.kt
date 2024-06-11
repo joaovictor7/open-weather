@@ -1,4 +1,4 @@
-package com.composetest.core.data.repositories
+package com.composetest.core.data.repositories.local
 
 import androidx.work.WorkManager
 import javax.inject.Inject

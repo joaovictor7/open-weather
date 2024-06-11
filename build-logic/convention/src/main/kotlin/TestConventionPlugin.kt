@@ -1,4 +1,4 @@
-import extensions.findLibrary
+import extensions.getLibrary
 import extensions.implementation
 import extensions.testImplementation
 import extensions.testRuntimeOnly
@@ -16,9 +16,9 @@ internal class TestConventionPlugin : Plugin<Project> {
             }
             dependencies {
                 implementation(project(":core:test"))
-                testImplementation(findLibrary("junit5"))
-                testImplementation(findLibrary("mockk"))
-                testRuntimeOnly(findLibrary("junit5.engine"))
+                testImplementation(getLibrary("junit5"))
+                testImplementation(getLibrary("mockk"))
+                testRuntimeOnly(getLibrary("junit5.engine"))
             }
         }
     }

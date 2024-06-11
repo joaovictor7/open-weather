@@ -1,6 +1,6 @@
 import com.android.build.gradle.BaseExtension
 import extensions.debugImplementation
-import extensions.findLibrary
+import extensions.getLibrary
 import extensions.implementation
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -18,14 +18,14 @@ internal class ComposeConventionPlugin : Plugin<Project> {
                 buildFeatures.compose = true
             }
             dependencies {
-                implementation(platform(findLibrary("compose.bom")))
-                implementation(findLibrary("compose.activity"))
-                implementation(findLibrary("compose.ui.tooling.preview"))
-                implementation(findLibrary("compose.material3"))
-                implementation(findLibrary("compose.navigation"))
-                implementation(findLibrary("androidx.lifecycle.runtime.compose"))
-                implementation(findLibrary("androidx.hilt.navigation.compose"))
-                debugImplementation(findLibrary("compose.ui.tooling"))
+                implementation(platform(getLibrary("compose.bom")))
+                implementation(getLibrary("compose.activity"))
+                implementation(getLibrary("compose.ui.tooling.preview"))
+                implementation(getLibrary("compose.material3"))
+                implementation(getLibrary("compose.navigation"))
+                implementation(getLibrary("androidx.lifecycle.runtime.compose"))
+                implementation(getLibrary("androidx.hilt.navigation.compose"))
+                debugImplementation(getLibrary("compose.ui.tooling"))
             }
         }
     }

@@ -13,13 +13,13 @@ import com.composetest.common.interfaces.Command
 import com.composetest.common.interfaces.Screen
 import com.composetest.core.designsystem.theme.ComposeTestTheme
 
-class Home2Screen(
-    override val uiState: Home2UiState,
-    override val onExecuteCommand: (Command<Home2CommandReceiver>) -> Unit
-) : Screen<Home2UiState, Home2CommandReceiver> {
+object Home2Screen : Screen<Home2UiState, Home2CommandReceiver> {
 
     @Composable
-    override fun Screen() {
+    override fun invoke(
+        uiState: Home2UiState,
+        onExecuteCommand: (Command<Home2CommandReceiver>) -> Unit
+    ) {
         Column(
             modifier = Modifier
                 .safeDrawingPadding()
@@ -40,6 +40,6 @@ class Home2Screen(
 @Composable
 private fun Preview() {
     ComposeTestTheme {
-        Home2Screen(uiState = Home2UiState()) { }.Screen()
+        Home2Screen(uiState = Home2UiState()) { }
     }
 }

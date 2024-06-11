@@ -1,7 +1,7 @@
 package com.composetest.core.domain.usecases
 
 import com.composetest.core.data.network.requests.AuthenticationRequest
-import com.composetest.core.data.repositories.AuthenticationRepository
+import com.composetest.core.data.repositories.remote.AuthenticationRepository
 import com.composetest.core.domain.converters.SessionModelConverter
 import com.composetest.common.throwables.InvalidCredentialsThrowable
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException

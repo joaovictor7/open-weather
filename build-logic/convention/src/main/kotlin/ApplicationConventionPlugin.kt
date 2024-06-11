@@ -2,7 +2,7 @@ import appconfig.AppConfig
 import appconfig.AppSigning
 import com.android.build.api.dsl.ApkSigningConfig
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
-import extensions.findLibrary
+import extensions.getLibrary
 import extensions.implementation
 import modularization.configureAndroid
 import modularization.setApplicationBuildTypes
@@ -48,8 +48,8 @@ internal class ApplicationConventionPlugin : Plugin<Project> {
                 setFlavors()
             }
             dependencies {
-                implementation(findLibrary("firebase.analytics"))
-                implementation(findLibrary("firebase.crashlytics"))
+                implementation(getLibrary("firebase.analytics"))
+                implementation(getLibrary("firebase.crashlytics"))
             }
         }
     }

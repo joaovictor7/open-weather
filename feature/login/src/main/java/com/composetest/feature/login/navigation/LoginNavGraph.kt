@@ -13,6 +13,6 @@ fun NavGraphBuilder.loginNavGraph() {
     composable<LoginDestination> {
         val viewModel = hiltViewModel<LoginViewModel>()
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-        LoginScreen(uiState = uiState, onExecuteCommand = viewModel::executeCommand).Screen()
+        LoginScreen(uiState = uiState, onExecuteCommand = viewModel::executeCommand)
     }
 }

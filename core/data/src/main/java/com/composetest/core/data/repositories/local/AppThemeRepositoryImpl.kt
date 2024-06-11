@@ -1,4 +1,4 @@
-package com.composetest.core.data.repositories
+package com.composetest.core.data.repositories.local
 
 import com.composetest.common.enums.Theme
 import com.composetest.common.models.AppThemeModel

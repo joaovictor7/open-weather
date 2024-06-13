@@ -1,4 +1,4 @@
-package com.composetest.core.data.converters
+package com.composetest.core.data.mappers
 
 import com.composetest.common.extensions.orZero
 import com.composetest.core.data.network.responses.AuthenticationResponse
@@ -9,7 +9,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-internal class AuthenticationResponseConverter @Inject constructor() {
+internal class AuthenticationResponseMapper @Inject constructor() {
 
     operator fun invoke(user: FirebaseUser?, token: GetTokenResult?) = AuthenticationResponse(
         token = token?.token.orEmpty(),

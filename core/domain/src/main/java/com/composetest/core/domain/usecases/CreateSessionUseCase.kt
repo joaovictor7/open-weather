@@ -4,8 +4,8 @@ import com.composetest.core.data.repositories.local.SessionRepository
 import com.composetest.core.data.repositories.local.UserRepository
 import com.composetest.core.data.repositories.local.WorkManagerRepository
 import com.composetest.core.data.workmanagers.workes.SessionWorker
-import com.composetest.core.domain.converters.SessionEntityConverter
-import com.composetest.core.domain.converters.UserEntityConverter
+import com.composetest.core.domain.mappers.SessionEntityMapper
+import com.composetest.core.domain.mappers.UserEntityMapper
 import com.composetest.core.domain.models.SessionWithUserModel
 import java.time.Duration
 import java.time.LocalDateTime
@@ -19,14 +19,14 @@ class CreateSessionUseCase @Inject constructor(
     private val sessionRepository: SessionRepository,
     private val userRepository: UserRepository,
     private val workManagerRepository: WorkManagerRepository,
-    private val sessionEntityConverter: SessionEntityConverter,
-    private val userEntityConverter: UserEntityConverter
+    private val sessionEntityMapper: SessionEntityMapper,
+    private val userEntityMapper: UserEntityMapper
 ) {
 
     suspend operator fun invoke(sessionWithUser: SessionWithUserModel) {
         val finishSession = getDateForFinishSession(sessionWithUser.initialDate)
-        userRepository.insert(userEntityConverter(sessionWithUser.user))
-        sessionRepository.insert(sessionEntityConverter(sessionWithUser))
+        userRepository.insert(userEntityMapper(sessionWithUser.user))
+        sessionRepository.insert(sessionEntityMapper(sessionWithUser))
         workManagerRepository.createOneTimeWork(SessionWorker.Builder(finishSession))
     }
 

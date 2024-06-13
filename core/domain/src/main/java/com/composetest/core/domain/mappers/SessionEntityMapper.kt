@@ -1,4 +1,4 @@
-package com.composetest.core.domain.converters
+package com.composetest.core.domain.mappers
 
 import com.composetest.core.database.domain.entities.SessionEntity
 import com.composetest.core.domain.models.SessionWithUserModel
@@ -6,7 +6,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SessionEntityConverter @Inject constructor() {
+class SessionEntityMapper @Inject constructor() {
 
     operator fun invoke(model: SessionWithUserModel) = SessionEntity(
         token = model.token,

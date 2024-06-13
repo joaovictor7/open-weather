@@ -1,6 +1,6 @@
 package com.composetest.core.data.datasources.remote
 
-import com.composetest.core.data.converters.AuthenticationResponseConverter
+import com.composetest.core.data.mappers.AuthenticationResponseMapper
 import com.composetest.core.data.network.requests.AuthenticationRequest
 import com.composetest.core.data.network.responses.AuthenticationResponse
 import com.google.firebase.auth.FirebaseAuth
@@ -11,7 +11,7 @@ import javax.inject.Singleton
 @Singleton
 internal class FirebaseAuthDataSource @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
-    private val authenticationResponseConverter: AuthenticationResponseConverter,
+    private val authenticationResponseMapper: AuthenticationResponseMapper,
 ) {
     suspend fun authentication(request: AuthenticationRequest): AuthenticationResponse {
         val user = firebaseAuth.signInWithEmailAndPassword(
@@ -19,6 +19,6 @@ internal class FirebaseAuthDataSource @Inject constructor(
             request.password
         ).await().user
         val token = user?.getIdToken(false)?.await()
-        return authenticationResponseConverter(user, token)
+        return authenticationResponseMapper(user, token)
     }
 }

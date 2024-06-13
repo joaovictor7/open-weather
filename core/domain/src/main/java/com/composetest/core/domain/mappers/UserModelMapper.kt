@@ -1,4 +1,4 @@
-package com.composetest.core.domain.converters
+package com.composetest.core.domain.mappers
 
 import com.composetest.core.data.network.responses.UserResponse
 import com.composetest.core.database.domain.entities.UserEntity
@@ -7,7 +7,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class UserModelConverter @Inject constructor() {
+class UserModelMapper @Inject constructor() {
 
     operator fun invoke(response: UserResponse) = UserModel(
         id = response.id,

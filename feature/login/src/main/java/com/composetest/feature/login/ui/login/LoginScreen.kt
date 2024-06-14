@@ -38,7 +38,7 @@ import com.composetest.core.designsystem.components.extensions.modifiers.vertica
 import com.composetest.core.designsystem.theme.ComposeTestTheme
 import com.composetest.feature.login.R
 
-object LoginScreen : Screen<LoginUiState, LoginCommandReceiver> {
+internal object LoginScreen : Screen<LoginUiState, LoginCommandReceiver> {
 
     @Composable
     override operator fun invoke(

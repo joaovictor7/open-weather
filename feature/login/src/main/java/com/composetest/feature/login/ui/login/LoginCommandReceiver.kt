@@ -3,7 +3,7 @@ package com.composetest.feature.login.ui.login
 import com.composetest.common.interfaces.Command
 import com.composetest.common.interfaces.CommandReceiver
 
-interface LoginCommandReceiver : CommandReceiver<LoginCommandReceiver> {
+internal interface LoginCommandReceiver : CommandReceiver<LoginCommandReceiver> {
     override fun executeCommand(command: Command<LoginCommandReceiver>) {
         command.execute(this)
     }

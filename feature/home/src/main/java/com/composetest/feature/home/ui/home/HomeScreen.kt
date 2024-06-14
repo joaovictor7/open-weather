@@ -13,7 +13,7 @@ import com.composetest.common.enums.Theme
 import com.composetest.common.interfaces.Command
 import com.composetest.common.interfaces.Screen
 
-object HomeScreen : Screen<HomeUiState, HomeCommandReceiver> {
+internal object HomeScreen : Screen<HomeUiState, HomeCommandReceiver> {
 
     @Composable
     override fun invoke(

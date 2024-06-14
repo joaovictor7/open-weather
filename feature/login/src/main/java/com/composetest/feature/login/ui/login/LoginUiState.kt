@@ -1,10 +1,8 @@
 package com.composetest.feature.login.ui.login
 
 import com.composetest.core.designsystem.components.alertdialogs.enums.ErrorAlertDialog
-import com.composetest.common.models.AppThemeModel
 
-data class LoginUiState(
-    val appTheme: AppThemeModel = AppThemeModel(),
+internal data class LoginUiState(
     val versionName: String = String(),
     val invalidEmail: Boolean = false,
     val enableLoginButton: Boolean = false,

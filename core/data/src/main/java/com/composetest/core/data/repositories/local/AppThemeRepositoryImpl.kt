@@ -40,9 +40,9 @@ internal class AppThemeRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun <T> getAppTheme(converter: (String?, Boolean?) -> T) = preferenceDataSource.getData { preferences ->
+    override fun <T> getAppTheme(mapper: (String?, Boolean?) -> T) = preferenceDataSource.getData { preferences ->
         val theme = preferences[PreferencesDataKeys.appTheme]
         val dynamicColors = preferences[PreferencesDataKeys.dynamicColor]
-        converter.invoke(theme, dynamicColors)
+        mapper.invoke(theme, dynamicColors)
     }
 }

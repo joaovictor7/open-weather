@@ -1,4 +1,4 @@
-package com.composetest.feature.home.ui.home2
+package com.composetest.feature.home.ui.home3
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
@@ -13,25 +13,25 @@ import com.composetest.common.interfaces.Command
 import com.composetest.common.interfaces.Screen
 import com.composetest.core.designsystem.theme.ComposeTestTheme
 
-object Home2Screen : Screen<Home2UiState, Home2CommandReceiver> {
+internal object Home3Screen : Screen<Home3UiState, Home3CommandReceiver> {
 
     @Composable
     override fun invoke(
-        uiState: Home2UiState,
-        onExecuteCommand: (Command<Home2CommandReceiver>) -> Unit
+        uiState: Home3UiState,
+        onExecuteCommand: (Command<Home3CommandReceiver>) -> Unit
     ) {
         Column(
             modifier = Modifier
                 .safeDrawingPadding()
                 .fillMaxSize()
         ) {
-            Button(onClick = { onExecuteCommand(ReturnHome) }) {
+            Button(onClick = { onExecuteCommand(ReturnLogin) }) {
                 Text(text = uiState.t)
             }
-            Text(text = "Home2")
+            Text(text = "Home3")
         }
         BackHandler {
-            onExecuteCommand(ReturnHome)
+            onExecuteCommand(ReturnLogin)
         }
     }
 }
@@ -40,6 +40,6 @@ object Home2Screen : Screen<Home2UiState, Home2CommandReceiver> {
 @Composable
 private fun Preview() {
     ComposeTestTheme {
-        Home2Screen(uiState = Home2UiState()) { }
+        Home3Screen(uiState = Home3UiState()) { }
     }
 }

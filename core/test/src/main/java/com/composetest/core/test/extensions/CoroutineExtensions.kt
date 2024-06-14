@@ -1,24 +1,17 @@
 package com.composetest.core.test.extensions
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.setMain
-import org.junit.jupiter.api.extension.AfterEachCallback
-import org.junit.jupiter.api.extension.BeforeEachCallback
-import org.junit.jupiter.api.extension.ExtensionContext
+import com.composetest.core.test.models.ObserverStateFlowModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalCoroutinesApi::class)
-class CoroutineExtension : BeforeEachCallback, AfterEachCallback {
-
-    private val testDispatcher = UnconfinedTestDispatcher()
-
-    override fun beforeEach(context: ExtensionContext?) {
-        Dispatchers.setMain(testDispatcher)
+fun <T> CoroutineScope.observerStateFlow(
+    uiStateFlow: StateFlow<T>
+): ObserverStateFlowModel<T> {
+    val collectedStates = mutableListOf<T>()
+    val job = launch {
+        uiStateFlow.toList(collectedStates)
     }
-
-    override fun afterEach(context: ExtensionContext?) {
-        Dispatchers.resetMain()
-    }
+    return ObserverStateFlowModel(job, collectedStates)
 }

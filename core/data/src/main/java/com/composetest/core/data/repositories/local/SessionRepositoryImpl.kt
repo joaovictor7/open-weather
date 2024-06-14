@@ -17,7 +17,7 @@ internal class SessionRepositoryImpl @Inject constructor(
         sessionDao.insert(entity)
     }
 
-    override fun <T> getCurrentSession(converter: (SessionEntity) -> T) = sessionDao
+    override fun <T> getCurrentSession(mapper: (SessionEntity) -> T) = sessionDao
         .getCurrentSession()
-        .map(converter::invoke)
+        .map(mapper::invoke)
 }

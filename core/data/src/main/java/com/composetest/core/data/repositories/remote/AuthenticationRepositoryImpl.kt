@@ -14,11 +14,11 @@ internal class AuthenticationRepositoryImpl(
 
     override fun <T> authentication(
         request: AuthenticationRequest,
-        converter: (AuthenticationResponse) -> T
+        mapper: (AuthenticationResponse) -> T
     ) = flow {
         val response = remoteCallProvider.safeRemoteCall {
             firebaseAuthDataSource.authentication(request)
         }
         emit(response)
-    }.map(converter::invoke)
+    }.map(mapper::invoke)
 }

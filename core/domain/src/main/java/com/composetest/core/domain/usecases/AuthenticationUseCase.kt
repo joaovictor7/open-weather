@@ -15,12 +15,12 @@ import javax.inject.Inject
 class AuthenticationUseCase @Inject constructor(
     private val authenticationRepository: AuthenticationRepository,
     private val createSessionUseCase: CreateSessionUseCase,
-    private val converter: SessionModelMapper
+    private val sessionModelMapper: SessionModelMapper
 ) {
 
     operator fun invoke(email: String, password: String) = authenticationRepository.authentication(
         AuthenticationRequest(email, password),
-        converter::invoke
+        sessionModelMapper::invoke
     ).catch {
         when (it) {
             is FirebaseAuthInvalidCredentialsException -> throw InvalidCredentialsThrowable()

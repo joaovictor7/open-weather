@@ -18,6 +18,7 @@ internal class TestConventionPlugin : Plugin<Project> {
                 implementation(project(":core:test"))
                 testImplementation(getLibrary("junit5"))
                 testImplementation(getLibrary("mockk"))
+                testImplementation(getLibrary("kotlin.coroutines.test"))
                 testRuntimeOnly(getLibrary("junit5.engine"))
             }
         }

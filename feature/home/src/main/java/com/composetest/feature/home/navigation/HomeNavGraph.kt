@@ -9,8 +9,11 @@ import com.composetest.feature.home.ui.home.HomeViewModel
 import com.composetest.feature.home.ui.home2.Home2Screen
 import com.composetest.feature.home.ui.home2.Home2ViewModel
 import com.composetest.core.router.destinations.home.Home2Destination
+import com.composetest.core.router.destinations.home.Home3Destination
 import com.composetest.core.router.destinations.home.HomeDestination
 import com.composetest.core.router.extensions.composable
+import com.composetest.feature.home.ui.home3.Home3Screen
+import com.composetest.feature.home.ui.home3.Home3ViewModel
 
 fun NavGraphBuilder.homeNavGraph() {
     composable<HomeDestination> {
@@ -22,5 +25,10 @@ fun NavGraphBuilder.homeNavGraph() {
         val viewModel = hiltViewModel<Home2ViewModel>()
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
         Home2Screen(uiState = uiState, onExecuteCommand = viewModel::executeCommand)
+    }
+    composable<Home3Destination> {
+        val viewModel = hiltViewModel<Home3ViewModel>()
+        val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+        Home3Screen(uiState = uiState, onExecuteCommand = viewModel::executeCommand)
     }
 }

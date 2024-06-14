@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface SessionRepository {
     suspend fun insert(entity: SessionEntity)
-    fun <T> getCurrentSession(converter: (SessionEntity) -> T): Flow<T>
+    fun <T> getCurrentSession(mapper: (SessionEntity) -> T): Flow<T>
 }

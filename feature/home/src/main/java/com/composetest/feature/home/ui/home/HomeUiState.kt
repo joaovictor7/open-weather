@@ -1,5 +1,5 @@
 package com.composetest.feature.home.ui.home
 
-data class HomeUiState(
+internal data class HomeUiState(
     val t: String = String()
 )

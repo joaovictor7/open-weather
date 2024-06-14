@@ -7,6 +7,6 @@ import kotlinx.coroutines.flow.Flow
 interface AuthenticationRepository {
     fun <T> authentication(
         request: AuthenticationRequest,
-        converter: (AuthenticationResponse) -> T
+        mapper: (AuthenticationResponse) -> T
     ): Flow<T>
 }

@@ -12,5 +12,5 @@ interface AppThemeRepository {
     suspend fun setTheme(theme: Theme)
     suspend fun setDynamicColor(dynamicColor: Boolean)
     fun setCustomTheme(customTheme: Theme?)
-    fun <T> getAppTheme(converter: (String?, Boolean?) -> T): Flow<T>
+    fun <T> getAppTheme(mapper: (String?, Boolean?) -> T): Flow<T>
 }

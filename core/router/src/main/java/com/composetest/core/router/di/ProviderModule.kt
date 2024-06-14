@@ -1,8 +1,8 @@
 package com.composetest.core.router.di
 
-import com.composetest.common.providers.NavControllerProvider
+import com.composetest.core.router.providers.NavControllerProvider
 import com.composetest.core.router.providers.NavControllerProviderImpl
-import com.composetest.common.providers.NavigationProvider
+import com.composetest.core.router.providers.NavigationProvider
 import com.composetest.core.router.providers.NavigationProviderImpl
 import dagger.Binds
 import dagger.Module

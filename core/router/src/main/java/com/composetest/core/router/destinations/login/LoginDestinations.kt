@@ -1,4 +1,4 @@
-package com.composetest.core.router.navigation.login
+package com.composetest.core.router.destinations.login
 
 import kotlinx.serialization.Serializable
 

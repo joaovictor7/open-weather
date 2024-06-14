@@ -1,4 +1,4 @@
-package com.composetest.core.router.navigation.home.navtypes
+package com.composetest.core.router.destinations.home.navtypes
 
 import kotlinx.serialization.Serializable
 

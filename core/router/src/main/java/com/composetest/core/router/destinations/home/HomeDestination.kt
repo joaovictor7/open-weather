@@ -1,7 +1,7 @@
-package com.composetest.core.router.navigation.home
+package com.composetest.core.router.destinations.home
 
-import com.composetest.core.router.domain.NavType
-import com.composetest.core.router.navigation.home.navtypes.InnerHome
+import com.composetest.core.router.navtype.NavType
+import com.composetest.core.router.destinations.home.navtypes.InnerHome
 import com.composetest.core.router.utils.navType
 import kotlinx.serialization.Serializable
 

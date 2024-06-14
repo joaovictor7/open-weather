@@ -1,4 +1,4 @@
-package com.composetest.core.router.domain
+package com.composetest.core.router.navtype
 
 import androidx.navigation.NavType
 import kotlin.reflect.KType

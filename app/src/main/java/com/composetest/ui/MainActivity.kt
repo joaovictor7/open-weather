@@ -19,8 +19,8 @@ import androidx.navigation.compose.rememberNavController
 import com.composetest.core.designsystem.theme.ComposeTestTheme
 import com.composetest.feature.login.navigation.loginNavGraph
 import com.composetest.feature.home.navigation.homeNavGraph
-import com.composetest.core.router.navigation.login.LoginDestination
-import com.composetest.common.providers.NavControllerProvider
+import com.composetest.core.router.destinations.login.LoginDestination
+import com.composetest.core.router.providers.NavControllerProvider
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject

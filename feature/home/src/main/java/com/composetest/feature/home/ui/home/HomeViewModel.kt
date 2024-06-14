@@ -6,9 +6,9 @@ import com.composetest.common.enums.Theme
 import com.composetest.core.domain.usecases.apptheme.SetDynamicColorsUseCase
 import com.composetest.core.domain.usecases.apptheme.SetThemeUseCase
 import com.composetest.core.router.extensions.getParam
-import com.composetest.core.router.navigation.home.Home2Destination
-import com.composetest.core.router.navigation.home.HomeDestination
-import com.composetest.common.providers.NavigationProvider
+import com.composetest.core.router.destinations.home.Home2Destination
+import com.composetest.core.router.destinations.home.HomeDestination
+import com.composetest.core.router.providers.NavigationProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,7 +21,7 @@ internal class HomeViewModel @Inject constructor(
 ) : BaseViewModel<HomeUiState>(HomeUiState()), HomeCommandReceiver {
 
     init {
-        val e = navigationProvider.getParam<HomeDestination>(HomeDestination.navTypes)
+        val e = navigationProvider.getParam<HomeDestination>()
         updateState { it.copy(t = e.innerHome.teste) }
     }
 

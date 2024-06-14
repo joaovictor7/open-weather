@@ -4,18 +4,16 @@ import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
 import com.composetest.feature.home.ui.home.HomeScreen
 import com.composetest.feature.home.ui.home.HomeViewModel
 import com.composetest.feature.home.ui.home2.Home2Screen
 import com.composetest.feature.home.ui.home2.Home2ViewModel
-import com.composetest.core.router.navigation.home.Home2Destination
-import com.composetest.core.router.navigation.home.HomeDestination
+import com.composetest.core.router.destinations.home.Home2Destination
+import com.composetest.core.router.destinations.home.HomeDestination
+import com.composetest.core.router.extensions.composable
 
 fun NavGraphBuilder.homeNavGraph() {
-    composable<HomeDestination>(
-        typeMap = HomeDestination.navTypes
-    ) {
+    composable<HomeDestination> {
         val viewModel = hiltViewModel<HomeViewModel>()
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
         HomeScreen(uiState = uiState, onExecuteCommand = viewModel::executeCommand)

@@ -9,9 +9,9 @@ import com.composetest.feature.login.models.LoginFormModel
 import com.composetest.core.domain.usecases.AuthenticationUseCase
 import com.composetest.core.domain.usecases.apptheme.GetCurrentAppThemeUseCase
 import com.composetest.core.domain.usecases.apptheme.SetCustomThemeUseCase
-import com.composetest.core.router.navigation.home.HomeDestination
-import com.composetest.core.router.navigation.home.navtypes.InnerHome
-import com.composetest.common.providers.NavigationProvider
+import com.composetest.core.router.destinations.home.HomeDestination
+import com.composetest.core.router.destinations.home.navtypes.InnerHome
+import com.composetest.core.router.providers.NavigationProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -61,12 +61,6 @@ internal class LoginViewModel @Inject constructor(
         resetViewState()
     }
 
-    private fun resetViewState() {
-        updateState {
-            it.resetStateView(loginFormModel.loginAlready || buildConfigProvider.get.isDebug)
-        }
-    }
-
     override fun setCustomTheme(enterScreen: Boolean) {
         val theme = if (enterScreen && getCurrentAppThemeUseCase().theme != Theme.DARK)
             Theme.DARK
@@ -74,8 +68,20 @@ internal class LoginViewModel @Inject constructor(
         setCustomThemeUseCase(theme)
     }
 
+    override fun handleLoginError(throwable: Throwable?) {
+        updateState {
+            if (throwable is InvalidCredentialsThrowable) {
+                it.setShowInvalidCredentialsMsg()
+            } else {
+                it.setAlertDialogError(throwable.getErrorAlertDialogType())
+            }
+        }
+    }
+
     private fun handleLoginSuccess() {
-        navigationProvider.navigate(HomeDestination("teste", InnerHome("te", "23232")))
+        navigationProvider.navigate(
+            HomeDestination("teste", InnerHome("te", "23232"))
+        )
     }
 
     private fun initState() {
@@ -87,13 +93,9 @@ internal class LoginViewModel @Inject constructor(
         }
     }
 
-    override fun handleLoginError(throwable: Throwable?) {
+    private fun resetViewState() {
         updateState {
-            if (throwable is InvalidCredentialsThrowable) {
-                it.setShowInvalidCredentialsMsg()
-            } else {
-                it.setAlertDialogError(throwable.getErrorAlertDialogType())
-            }
+            it.resetStateView(loginFormModel.loginAlready || buildConfigProvider.get.isDebug)
         }
     }
 }

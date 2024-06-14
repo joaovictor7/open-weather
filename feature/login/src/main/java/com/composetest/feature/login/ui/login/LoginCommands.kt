@@ -11,25 +11,25 @@ internal data class WriteData(
     }
 }
 
-data class SetCustomTheme(val enterScreen: Boolean) : Command<LoginCommandReceiver> {
+internal data class SetCustomTheme(val enterScreen: Boolean) : Command<LoginCommandReceiver> {
     override fun execute(receiver: LoginCommandReceiver) {
         receiver.setCustomTheme(enterScreen)
     }
 }
 
-data object CheckShowInvalidEmailMsg : Command<LoginCommandReceiver> {
+internal data object CheckShowInvalidEmailMsg : Command<LoginCommandReceiver> {
     override fun execute(receiver: LoginCommandReceiver) {
         receiver.checkShowInvalidEmailMsg()
     }
 }
 
-data object Login : Command<LoginCommandReceiver> {
+internal data object Login : Command<LoginCommandReceiver> {
     override fun execute(receiver: LoginCommandReceiver) {
         receiver.login()
     }
 }
 
-data object HandleLoginError : Command<LoginCommandReceiver> {
+internal data object HandleLoginError : Command<LoginCommandReceiver> {
     override fun execute(receiver: LoginCommandReceiver) {
         receiver.handleLoginError()
     }

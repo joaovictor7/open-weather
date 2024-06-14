@@ -2,10 +2,10 @@ package com.composetest.feature.home.ui.home2
 
 import com.composetest.common.abstracts.BaseViewModel
 import com.composetest.core.router.extensions.getParam
-import com.composetest.core.router.navigation.home.Home2Destination
-import com.composetest.core.router.navigation.home.HomeDestination
-import com.composetest.core.router.navigation.home.navtypes.InnerHome
-import com.composetest.common.providers.NavigationProvider
+import com.composetest.core.router.destinations.home.Home2Destination
+import com.composetest.core.router.destinations.home.HomeDestination
+import com.composetest.core.router.destinations.home.navtypes.InnerHome
+import com.composetest.core.router.providers.NavigationProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

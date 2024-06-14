@@ -3,8 +3,6 @@ package com.composetest.core.router.providers
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavDestination
 import androidx.navigation.NavOptions
-import com.composetest.common.providers.NavControllerProvider
-import com.composetest.common.providers.NavigationProvider
 import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject
 
@@ -24,7 +22,7 @@ internal class NavigationProviderImpl @Inject constructor(
             navigate(
                 route = destination,
                 navOptions = NavOptionsBuilder().apply {
-                    if (removeCurrentScreen) removeScreen(currentDestination) else singleLauncher()
+                    if (removeCurrentScreen) popUpScreen(currentDestination) else singleLauncher()
                 }.build()
             )
         }
@@ -34,7 +32,8 @@ internal class NavigationProviderImpl @Inject constructor(
         navController?.run {
             navigate(
                 route = destination,
-                navOptions = NavOptionsBuilder().removeScreen(previousBackStackEntry?.destination)
+                navOptions = NavOptionsBuilder()
+                    .popUpScreen(previousBackStackEntry?.destination)
                     .build()
             )
         }
@@ -52,7 +51,7 @@ internal class NavigationProviderImpl @Inject constructor(
             navOptions = navOptions.setLaunchSingleTop(true)
         }
 
-        fun removeScreen(navDestination: NavDestination?) = apply {
+        fun popUpScreen(navDestination: NavDestination?) = apply {
             navDestination?.id?.let { destinationId ->
                 navOptions = navOptions.setPopUpTo(destinationId, true)
             }

@@ -4,13 +4,13 @@ kotlin = "2.0.0"
 kotlinJsonSerialization = "1.7.0"
 kotlinCoroutine = "1.8.1"
 junit5 = "5.10.2"
-lifecycleRuntime = "2.8.1"
+lifecycleRuntime = "2.8.2"
 activityCompose = "1.9.0"
 androidDataStore = "1.1.1"
 androidHilt = "2.51.1"
 androidXHilt = "1.2.0"
-composeBom = "2024.05.00"
-composeNavigation = "2.8.0-beta02"
+composeBom = "2024.06.00"
+composeNavigation = "2.8.0-beta03"
 googleServices = "4.4.2"
 firebaseBom = "33.1.0"
 firebaseCrashlytics = "3.0.1"
@@ -28,6 +28,7 @@ unspecified = "unspecified"
 # Kotlin
 kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlin-compose-gradle-plugin = { group = "org.jetbrains.kotlin", name = "compose-compiler-gradle-plugin", version.ref = "kotlin" }
+kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin" }
 kotlin-json-serializable = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinJsonSerialization" }
 kotlin-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinCoroutine" }
 kotlin-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinCoroutine" }

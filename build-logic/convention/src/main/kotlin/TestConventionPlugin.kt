@@ -1,5 +1,4 @@
 import extensions.getLibrary
-import extensions.implementation
 import extensions.testImplementation
 import extensions.testRuntimeOnly
 import org.gradle.api.Plugin
@@ -13,12 +12,14 @@ internal class TestConventionPlugin : Plugin<Project> {
         with(target) {
             tasks.withType<Test> {
                 useJUnitPlatform()
+                jvmArgs("-Xshare:off")
             }
             dependencies {
-                implementation(project(":core:test"))
+                testImplementation(project(":core:test"))
                 testImplementation(getLibrary("junit5"))
                 testImplementation(getLibrary("mockk"))
                 testImplementation(getLibrary("kotlin.coroutines.test"))
+                testImplementation(getLibrary("slf4j.simple"))
                 testRuntimeOnly(getLibrary("junit5.engine"))
             }
         }

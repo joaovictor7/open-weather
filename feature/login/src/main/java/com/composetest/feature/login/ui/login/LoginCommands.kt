@@ -7,7 +7,7 @@ internal data class WriteData(
     val password: String? = null
 ) : Command<LoginCommandReceiver> {
     override fun execute(receiver: LoginCommandReceiver) {
-        receiver.writeData()
+        receiver.writeData(email, password)
     }
 }
 

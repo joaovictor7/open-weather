@@ -2,7 +2,7 @@ package com.composetest.common.abstracts
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,10 +15,12 @@ import kotlinx.coroutines.launch
 
 abstract class BaseViewModel<UiState>(stateInstance: UiState) : ViewModel() {
 
+    abstract val dispatcher: CoroutineDispatcher
+
     private val _uiState = MutableStateFlow(stateInstance)
     val uiState = _uiState.asStateFlow()
 
-    protected fun updateState(onNewState: (UiState) -> UiState) {
+    protected fun updateUiState(onNewState: (UiState) -> UiState) {
         _uiState.update(onNewState)
     }
 
@@ -31,7 +33,7 @@ abstract class BaseViewModel<UiState>(stateInstance: UiState) : ViewModel() {
     ) {
         viewModelScope.launch {
             flowTask
-                .flowOn(Dispatchers.IO)
+                .flowOn(dispatcher)
                 .onStart { onStart?.invoke() }
                 .onCompletion { onCompletion?.invoke() }
                 .catch { onError?.invoke(it) }

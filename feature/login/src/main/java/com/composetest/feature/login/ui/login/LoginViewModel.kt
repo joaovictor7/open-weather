@@ -1,6 +1,7 @@
 package com.composetest.feature.login.ui.login
 
 import com.composetest.common.abstracts.BaseViewModel
+import com.composetest.common.di.qualifiers.IoDispatcher
 import com.composetest.common.enums.Theme
 import com.composetest.common.providers.BuildConfigProvider
 import com.composetest.common.throwables.InvalidCredentialsThrowable
@@ -13,6 +14,7 @@ import com.composetest.core.router.destinations.home.HomeDestination
 import com.composetest.core.router.destinations.home.navtypes.InnerHome
 import com.composetest.core.router.providers.NavigationProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,7 +23,8 @@ internal class LoginViewModel @Inject constructor(
     private val buildConfigProvider: BuildConfigProvider,
     private val getCurrentAppThemeUseCase: GetCurrentAppThemeUseCase,
     private val setCustomThemeUseCase: SetCustomThemeUseCase,
-    private val authenticationUseCase: AuthenticationUseCase
+    private val authenticationUseCase: AuthenticationUseCase,
+    @IoDispatcher override val dispatcher: CoroutineDispatcher
 ) : BaseViewModel<LoginUiState>(LoginUiState()), LoginCommandReceiver {
 
     private var loginFormModel: LoginFormModel = LoginFormModel()
@@ -32,15 +35,15 @@ internal class LoginViewModel @Inject constructor(
 
     override fun checkShowInvalidEmailMsg() {
         if (loginFormModel.emailIsEmpty) {
-            updateState { it.setInvalidEmail(!loginFormModel.emailIsValid) }
+            updateUiState { it.setInvalidEmail(!loginFormModel.emailIsValid) }
         }
     }
 
     override fun login() {
         asyncFlowTask(
             flowTask = authenticationUseCase(loginFormModel.email, loginFormModel.password),
-            onStart = { updateState { it.setLoading(true) } },
-            onCompletion = { updateState { it.setLoading(false) } },
+            onStart = { updateUiState { it.setLoading(true) } },
+            onCompletion = { updateUiState { it.setLoading(false) } },
             onError = ::handleLoginError,
             onCollect = { handleLoginSuccess() }
         )
@@ -51,7 +54,7 @@ internal class LoginViewModel @Inject constructor(
             email != null -> {
                 loginFormModel = loginFormModel.copy(email = email)
                 if (uiState.value.invalidEmail) {
-                    updateState { it.setInvalidEmail(false) }
+                    updateUiState { it.setInvalidEmail(false) }
                 }
             }
             password != null -> {
@@ -69,7 +72,7 @@ internal class LoginViewModel @Inject constructor(
     }
 
     override fun handleLoginError(throwable: Throwable?) {
-        updateState {
+        updateUiState {
             if (throwable is InvalidCredentialsThrowable) {
                 it.setShowInvalidCredentialsMsg()
             } else {
@@ -85,7 +88,7 @@ internal class LoginViewModel @Inject constructor(
     }
 
     private fun initState() {
-        updateState {
+        updateUiState {
             it.initState(
                 versionName = buildConfigProvider.get.versionNameForView,
                 enableLoginButton = buildConfigProvider.get.isDebug
@@ -94,7 +97,7 @@ internal class LoginViewModel @Inject constructor(
     }
 
     private fun resetViewState() {
-        updateState {
+        updateUiState {
             it.resetStateView(loginFormModel.loginAlready || buildConfigProvider.get.isDebug)
         }
     }

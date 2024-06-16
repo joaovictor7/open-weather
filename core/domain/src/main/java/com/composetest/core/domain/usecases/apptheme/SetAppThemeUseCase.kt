@@ -6,9 +6,14 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SetThemeUseCase @Inject constructor(
+class SetAppThemeUseCase @Inject constructor(
     private val appThemeRepository: AppThemeRepository
 ) {
 
     suspend operator fun invoke(theme: Theme) = appThemeRepository.setTheme(theme)
+
+    suspend operator fun invoke(dynamicColor: Boolean) =
+        appThemeRepository.setDynamicColor(dynamicColor)
+
+    operator fun invoke(customTheme: Theme?) = appThemeRepository.setCustomTheme(customTheme)
 }

@@ -15,10 +15,7 @@ import com.composetest.feature.login.ui.login.WriteData
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.TestDispatcher
-import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -46,8 +43,8 @@ class LoginViewModelTest : CoroutineTest {
         viewModel = LoginViewModel(
             navigationProvider = mockk(relaxed = true),
             buildConfigProvider = buildConfigProvider,
-            getCurrentAppThemeUseCase = mockk(),
-            setCustomThemeUseCase = mockk(),
+            getAppThemeStateUseCase = mockk(),
+            setAppThemeUseCase = mockk(),
             authenticationUseCase = authenticationUseCase,
             dispatcher = testDispatcher
         )
@@ -133,37 +130,34 @@ class LoginViewModelTest : CoroutineTest {
         }
 
     @Test
-    fun `error network`() = runTest {
-        val collectedStates = mutableListOf<LoginUiState>()
-        val job = launch(testDispatcher) {
-            viewModel.uiState.toList(collectedStates)
+    fun `error network`() =
+        runStateFlowTest(testDispatcher, viewModel.uiState) { job, collectedStates ->
+            coEvery {
+                authenticationUseCase.invoke(any(), any())
+            } returns flow { throw RemoteNetworkThrowable() }
+
+            viewModel.executeCommand(WriteData("teste@teste.com", "password"))
+            viewModel.executeCommand(Login)
+            job.cancel()
+
+            assertEquals(
+                listOf(
+                    LoginUiState(
+                        versionName = buildConfigModelMock.versionNameForView,
+                        enableLoginButton = true
+                    ),
+                    LoginUiState(
+                        versionName = buildConfigModelMock.versionNameForView,
+                        enableLoginButton = true,
+                        isLoading = true,
+                    ),
+                    LoginUiState(
+                        versionName = buildConfigModelMock.versionNameForView,
+                        enableLoginButton = true,
+                        errorAlertDialog = ErrorAlertDialog.NETWORK,
+                    )
+                ),
+                collectedStates
+            )
         }
-        coEvery {
-            authenticationUseCase.invoke(any(), any())
-        } returns flow { throw RemoteNetworkThrowable() }
-
-        viewModel.executeCommand(WriteData("teste@teste.com", "password"))
-        viewModel.executeCommand(Login)
-        job.cancel()
-
-        assertEquals(
-            listOf(
-                LoginUiState(
-                    versionName = buildConfigModelMock.versionNameForView,
-                    enableLoginButton = true
-                ),
-                LoginUiState(
-                    versionName = buildConfigModelMock.versionNameForView,
-                    enableLoginButton = true,
-                    isLoading = true,
-                ),
-                LoginUiState(
-                    versionName = buildConfigModelMock.versionNameForView,
-                    enableLoginButton = true,
-                    errorAlertDialog = ErrorAlertDialog.NETWORK,
-                )
-            ),
-            collectedStates
-        )
-    }
 }

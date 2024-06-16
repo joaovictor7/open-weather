@@ -1,4 +1,4 @@
-package com.composetest.core.domain.mappers
+package com.composetest.core.data.mappers
 
 import com.composetest.common.models.AppThemeModel
 import com.composetest.common.enums.Theme
@@ -7,15 +7,13 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AppThemeModelMapper @Inject constructor() {
+internal class AppThemeModelMapper @Inject constructor() {
 
     operator fun invoke(
         theme: String?,
-        dynamicColor: Boolean?,
-        customTheme: Theme?
+        dynamicColor: Boolean?
     ) = AppThemeModel(
         theme = Theme.getThemeByName(theme),
-        dynamicColors = dynamicColor.orFalse,
-        customTheme = customTheme
+        dynamicColors = dynamicColor.orFalse
     )
 }

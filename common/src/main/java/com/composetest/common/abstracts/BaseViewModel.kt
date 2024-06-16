@@ -26,10 +26,10 @@ abstract class BaseViewModel<UiState>(stateInstance: UiState) : ViewModel() {
 
     protected fun <T> asyncFlowTask(
         flowTask: Flow<T>,
-        onCollect: (param: T) -> Unit,
         onError: ((e: Throwable) -> Unit)? = null,
         onStart: (() -> Unit)? = null,
-        onCompletion: (() -> Unit)? = null
+        onCompletion: (() -> Unit)? = null,
+        onCollect: (param: T) -> Unit
     ) {
         viewModelScope.launch {
             flowTask

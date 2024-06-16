@@ -4,8 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.composetest.common.abstracts.BaseViewModel
 import com.composetest.common.di.qualifiers.IoDispatcher
 import com.composetest.common.enums.Theme
-import com.composetest.core.domain.usecases.apptheme.SetDynamicColorsUseCase
-import com.composetest.core.domain.usecases.apptheme.SetThemeUseCase
+import com.composetest.core.domain.usecases.apptheme.SetAppThemeUseCase
 import com.composetest.core.router.extensions.getParam
 import com.composetest.core.router.destinations.home.Home2Destination
 import com.composetest.core.router.destinations.home.HomeDestination
@@ -18,8 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 internal class HomeViewModel @Inject constructor(
     private val navigationProvider: NavigationProvider,
-    private val setThemeUseCase: SetThemeUseCase,
-    private val setDynamicColorsUseCase: SetDynamicColorsUseCase,
+    private val setAppThemeUseCase: SetAppThemeUseCase,
     @IoDispatcher override val dispatcher: CoroutineDispatcher
 ) : BaseViewModel<HomeUiState>(HomeUiState()), HomeCommandReceiver {
 
@@ -38,8 +36,8 @@ internal class HomeViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             when {
-                theme != null -> setThemeUseCase(theme)
-                dynamicColors != null -> setDynamicColorsUseCase(dynamicColors)
+                theme != null -> setAppThemeUseCase.invoke(theme)
+                dynamicColors != null -> setAppThemeUseCase.invoke(dynamicColors)
             }
         }
     }

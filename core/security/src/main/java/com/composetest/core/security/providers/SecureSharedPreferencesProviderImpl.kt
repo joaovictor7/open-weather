@@ -12,7 +12,7 @@ import javax.inject.Singleton
 
 @Singleton
 internal class SecureSharedPreferencesProviderImpl @Inject constructor(
-    @ApplicationContext context: Context
+    @ApplicationContext private val context: Context
 ) : SecureSharedPreferencesProvider {
 
     private val keyGenParameterSpec = KeyGenParameterSpec.Builder(

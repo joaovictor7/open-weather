@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:816993168446:android:fc0d31f476f086d6e5356f",
+        "mobilesdk_app_id": "1:816993168446:android:a28644cbef7d0d79e5356f",
         "android_client_info": {
-          "package_name": "com.composetest"
+          "package_name": "com.composetest.dev"
         }
       },
       "oauth_client": [],
@@ -26,9 +26,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:816993168446:android:a28644cbef7d0d79e5356f",
+        "mobilesdk_app_id": "1:816993168446:android:64d02573510d15d5e5356f",
         "android_client_info": {
-          "package_name": "com.composetest.dev"
+          "package_name": "com.composetest.staging"
         }
       },
       "oauth_client": [],

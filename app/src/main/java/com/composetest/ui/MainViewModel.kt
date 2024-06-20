@@ -21,16 +21,19 @@ class MainViewModel @Inject constructor(
     init {
         getAppThemeFromDataStore()
         iniState()
+        getInitialData()
     }
 
     private fun getAppThemeFromDataStore() = viewModelScope.launch(dispatcher) {
         getAppThemeFromDataStoreUseCase()
     }
 
-    private fun iniState() {
-        asyncFlowTask(flowTask = getAppThemeStateUseCase()) {
-            setSystemStyles(it)
-        }
+    private fun iniState() = safeRunFlowTask(flowTask = getAppThemeStateUseCase()) {
+        setSystemStyles(it)
+    }
+
+    private fun getInitialData() = viewModelScope.launch(dispatcher) {
+        updateUiState { it.finishSplashScreen() }
     }
 
     private fun setSystemStyles(appThemeModel: AppThemeModel) {

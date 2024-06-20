@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
@@ -37,6 +38,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setEdgeToEdge()
+        setSplashScreen()
         setContent {
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
             ComposeTestTheme(
@@ -56,6 +58,12 @@ class MainActivity : ComponentActivity() {
     private fun setEdgeToEdge() = lifecycleScope.launch {
         viewModel.uiState.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED).collect { uiState ->
             enableEdgeToEdge(uiState.statusBarStyle, uiState.navigationBarStyle)
+        }
+    }
+
+    private fun setSplashScreen() {
+        installSplashScreen().setKeepOnScreenCondition {
+            viewModel.uiState.value.showSplashScreen
         }
     }
 }

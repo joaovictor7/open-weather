@@ -13,18 +13,18 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-abstract class BaseViewModel<UiState>(stateInstance: UiState) : ViewModel() {
+abstract class BaseViewModel<UiState>(uiState: UiState) : ViewModel() {
 
     abstract val dispatcher: CoroutineDispatcher
 
-    private val _uiState = MutableStateFlow(stateInstance)
+    private val _uiState = MutableStateFlow(uiState)
     val uiState = _uiState.asStateFlow()
 
-    protected fun updateUiState(onNewState: (UiState) -> UiState) {
-        _uiState.update(onNewState)
+    protected fun updateUiState(onNewUiState: (UiState) -> UiState) {
+        _uiState.update(onNewUiState)
     }
 
-    protected fun <T> asyncFlowTask(
+    protected fun <T> safeRunFlowTask(
         flowTask: Flow<T>,
         onError: ((e: Throwable) -> Unit)? = null,
         onStart: (() -> Unit)? = null,

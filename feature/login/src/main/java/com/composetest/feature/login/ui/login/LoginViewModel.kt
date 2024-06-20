@@ -40,7 +40,7 @@ internal class LoginViewModel @Inject constructor(
     }
 
     override fun login() {
-        asyncFlowTask(
+        safeRunFlowTask(
             flowTask = authenticationUseCase(loginFormModel.email, loginFormModel.password),
             onStart = { updateUiState { it.setLoading(true) } },
             onCompletion = { updateUiState { it.setLoading(false) } },

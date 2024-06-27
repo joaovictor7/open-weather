@@ -15,9 +15,11 @@ class UserModelMapper @Inject constructor() {
         name = response.name
     )
 
-    operator fun invoke(entity: UserEntity) = UserModel(
-        id = entity.id,
-        email = entity.email,
-        name = entity.name
-    )
+    operator fun invoke(entity: UserEntity?) = entity?.let {
+        UserModel(
+            id = it.id,
+            email = it.email,
+            name = it.name
+        )
+    }
 }

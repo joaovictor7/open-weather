@@ -1,6 +1,6 @@
 package com.composetest.feature.login.ui.login
 
-import com.composetest.common.interfaces.Command
+import com.composetest.core.ui.interfaces.Command
 
 internal data class WriteData(
     val email: String? = null,

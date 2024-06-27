@@ -32,7 +32,9 @@ internal object DatabaseModule {
             if (!buildConfigProvider.get.isRelease) {
                 setQueryCallback({ sqlQuery, bindArgs ->
                     Log.i("SQLite", "SQL Query: $sqlQuery")
-                    Log.i("SQLite", "SQL Args: $bindArgs")
+                    if (bindArgs.isNotEmpty()) {
+                        Log.i("SQLite", "SQL Args: $bindArgs")
+                    }
                 }, Executors.newSingleThreadExecutor())
             }
         }

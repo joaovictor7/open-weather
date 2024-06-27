@@ -1,5 +1,6 @@
 package com.composetest.providers
 
+import android.os.Build
 import com.composetest.BuildConfig
 import com.composetest.common.models.BuildConfigFieldsModel
 import com.composetest.common.providers.BuildConfigProvider
@@ -13,6 +14,7 @@ internal class BuildConfigProviderImpl @Inject constructor() : BuildConfigProvid
         versionName = BuildConfig.VERSION_NAME,
         versionCode = BuildConfig.VERSION_CODE,
         buildType = BuildConfig.BUILD_TYPE,
-        flavor = BuildConfig.FLAVOR
+        flavor = BuildConfig.FLAVOR,
+        androidSdkVersion = Build.VERSION.SDK_INT
     )
 }

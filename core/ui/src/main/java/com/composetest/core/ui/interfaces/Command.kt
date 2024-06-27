@@ -1,4 +1,4 @@
-package com.composetest.common.interfaces
+package com.composetest.core.ui.interfaces
 
 interface Command<Receiver> {
     fun execute(receiver: Receiver)

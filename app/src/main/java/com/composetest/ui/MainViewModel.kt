@@ -1,11 +1,13 @@
 package com.composetest.ui
 
 import androidx.lifecycle.viewModelScope
-import com.composetest.common.abstracts.BaseViewModel
+import com.composetest.core.ui.bases.BaseViewModel
 import com.composetest.common.di.qualifiers.IoDispatcher
 import com.composetest.common.models.AppThemeModel
+import com.composetest.core.domain.usecases.analytics.AnalyticsUseCase
 import com.composetest.core.domain.usecases.apptheme.GetAppThemeFromDataStoreUseCase
 import com.composetest.core.domain.usecases.apptheme.GetAppThemeStateUseCase
+import com.composetest.ui.analytics.MainAnalytic
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
@@ -15,8 +17,9 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val getAppThemeFromDataStoreUseCase: GetAppThemeFromDataStoreUseCase,
     private val getAppThemeStateUseCase: GetAppThemeStateUseCase,
+    override val analyticsUseCase: AnalyticsUseCase,
     @IoDispatcher override val dispatcher: CoroutineDispatcher
-) : BaseViewModel<MainUiState>(MainUiState()) {
+) : BaseViewModel<MainUiState>(MainAnalytic(), MainUiState()) {
 
     init {
         getAppThemeFromDataStore()

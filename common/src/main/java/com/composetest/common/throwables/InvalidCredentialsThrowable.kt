@@ -1,3 +1,5 @@
 package com.composetest.common.throwables
 
-class InvalidCredentialsThrowable : Throwable()
+class InvalidCredentialsThrowable : Throwable() {
+    override val message = "Invalid login credentials"
+}

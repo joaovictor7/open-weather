@@ -1,10 +1,11 @@
 package com.composetest.feature.home.ui.home
 
 import com.composetest.common.enums.Theme
-import com.composetest.common.interfaces.Command
-import com.composetest.common.interfaces.CommandReceiver
+import com.composetest.core.ui.interfaces.Command
+import com.composetest.core.ui.interfaces.CommandReceiver
 
-internal interface HomeCommandReceiver : CommandReceiver<HomeCommandReceiver> {
+internal interface HomeCommandReceiver :
+    CommandReceiver<HomeCommandReceiver> {
     override fun executeCommand(command: Command<HomeCommandReceiver>) {
         command.execute(this)
     }

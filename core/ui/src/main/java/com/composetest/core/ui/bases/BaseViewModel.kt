@@ -1,7 +1,11 @@
-package com.composetest.common.abstracts
+package com.composetest.core.ui.bases
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.composetest.common.analytics.interfaces.Analytic
+import com.composetest.common.analytics.ErrorAnalyticEvent
+import com.composetest.common.analytics.OpenScreenAnalyticEvent
+import com.composetest.core.domain.usecases.analytics.AnalyticsUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,9 +17,13 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-abstract class BaseViewModel<UiState>(uiState: UiState) : ViewModel() {
+abstract class BaseViewModel<UiState>(
+    private val analytic: Analytic,
+    uiState: UiState
+) : ViewModel() {
 
     abstract val dispatcher: CoroutineDispatcher
+    abstract val analyticsUseCase: AnalyticsUseCase
 
     private val _uiState = MutableStateFlow(uiState)
     val uiState = _uiState.asStateFlow()
@@ -24,19 +32,28 @@ abstract class BaseViewModel<UiState>(uiState: UiState) : ViewModel() {
         _uiState.update(onNewUiState)
     }
 
+    protected fun openScreenAnalytic() {
+        viewModelScope.launch(dispatcher) {
+            analyticsUseCase(OpenScreenAnalyticEvent(analytic))
+        }
+    }
+
     protected fun <T> safeRunFlowTask(
         flowTask: Flow<T>,
-        onError: ((e: Throwable) -> Unit)? = null,
-        onStart: (() -> Unit)? = null,
-        onCompletion: (() -> Unit)? = null,
-        onCollect: (param: T) -> Unit
+        onError: (suspend (e: Throwable) -> Unit)? = null,
+        onStart: (suspend () -> Unit)? = null,
+        onCompletion: (suspend () -> Unit)? = null,
+        onCollect: suspend (param: T) -> Unit
     ) {
         viewModelScope.launch {
             flowTask
                 .flowOn(dispatcher)
                 .onStart { onStart?.invoke() }
                 .onCompletion { onCompletion?.invoke() }
-                .catch { onError?.invoke(it) }
+                .catch {
+                    analyticsUseCase(ErrorAnalyticEvent(it, analytic))
+                    onError?.invoke(it)
+                }
                 .collect { onCollect.invoke(it) }
         }
     }

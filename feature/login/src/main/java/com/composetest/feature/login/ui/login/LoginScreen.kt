@@ -32,8 +32,8 @@ import com.composetest.core.designsystem.components.alertdialogs.enums.ErrorAler
 import com.composetest.core.designsystem.dimensions.spacings
 import com.composetest.core.designsystem.components.textfields.enums.TextFieldIcons
 import com.composetest.common.extensions.isDarkMode
-import com.composetest.common.interfaces.Command
-import com.composetest.common.interfaces.Screen
+import com.composetest.core.ui.interfaces.Command
+import com.composetest.core.ui.interfaces.Screen
 import com.composetest.core.designsystem.components.extensions.modifiers.verticalTopBackgroundBrush
 import com.composetest.core.designsystem.theme.ComposeTestTheme
 import com.composetest.feature.login.R

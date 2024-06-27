@@ -12,6 +12,8 @@ import com.composetest.core.data.repositories.local.UserRepository
 import com.composetest.core.data.repositories.local.UserRepositoryImpl
 import com.composetest.core.data.repositories.local.WorkManagerRepository
 import com.composetest.core.data.repositories.local.WorkManagerRepositoryImpl
+import com.composetest.core.data.repositories.remote.AnalyticsRepository
+import com.composetest.core.data.repositories.remote.AnalyticsRepositoryImpl
 import com.composetest.core.data.repositories.remote.AuthenticationRepositoryFakeImpl
 import dagger.Binds
 import dagger.Module
@@ -33,6 +35,9 @@ internal abstract class RepositoryBindModule {
 
     @Binds
     abstract fun workManagerRepository(workManagerRepositoryImpl: WorkManagerRepositoryImpl): WorkManagerRepository
+
+    @Binds
+    abstract fun analyticsRepository(analyticsRepositoryImpl: AnalyticsRepositoryImpl): AnalyticsRepository
 }
 
 @Module

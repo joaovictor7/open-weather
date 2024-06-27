@@ -1,7 +1,7 @@
 package com.composetest.feature.login.ui.login
 
-import com.composetest.common.interfaces.Command
-import com.composetest.common.interfaces.CommandReceiver
+import com.composetest.core.ui.interfaces.Command
+import com.composetest.core.ui.interfaces.CommandReceiver
 
 internal interface LoginCommandReceiver : CommandReceiver<LoginCommandReceiver> {
     override fun executeCommand(command: Command<LoginCommandReceiver>) {

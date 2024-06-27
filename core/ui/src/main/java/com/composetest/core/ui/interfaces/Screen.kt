@@ -1,4 +1,4 @@
-package com.composetest.common.interfaces
+package com.composetest.core.ui.interfaces
 
 import androidx.compose.runtime.Composable
 

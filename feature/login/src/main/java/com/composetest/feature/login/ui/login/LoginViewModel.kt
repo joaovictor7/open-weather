@@ -1,6 +1,6 @@
 package com.composetest.feature.login.ui.login
 
-import com.composetest.common.abstracts.BaseViewModel
+import com.composetest.core.ui.bases.BaseViewModel
 import com.composetest.common.di.qualifiers.IoDispatcher
 import com.composetest.common.enums.Theme
 import com.composetest.common.providers.BuildConfigProvider
@@ -8,11 +8,14 @@ import com.composetest.common.throwables.InvalidCredentialsThrowable
 import com.composetest.core.designsystem.components.alertdialogs.enums.ErrorAlertDialog.Companion.getErrorAlertDialogType
 import com.composetest.feature.login.models.LoginFormModel
 import com.composetest.core.domain.usecases.AuthenticationUseCase
+import com.composetest.core.domain.usecases.analytics.AnalyticsUseCase
 import com.composetest.core.domain.usecases.apptheme.GetAppThemeStateUseCase
 import com.composetest.core.domain.usecases.apptheme.SetAppThemeUseCase
 import com.composetest.core.router.destinations.home.HomeDestination
 import com.composetest.core.router.destinations.home.navtypes.InnerHome
 import com.composetest.core.router.providers.NavigationProvider
+import com.composetest.feature.login.ui.login.analytics.LoginAnalytic
+import com.composetest.feature.login.ui.login.analytics.LoginClickEventAnalytic
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
@@ -24,12 +27,14 @@ internal class LoginViewModel @Inject constructor(
     private val getAppThemeStateUseCase: GetAppThemeStateUseCase,
     private val setAppThemeUseCase: SetAppThemeUseCase,
     private val authenticationUseCase: AuthenticationUseCase,
-    @IoDispatcher override val dispatcher: CoroutineDispatcher
-) : BaseViewModel<LoginUiState>(LoginUiState()), LoginCommandReceiver {
+    override val analyticsUseCase: AnalyticsUseCase,
+    @IoDispatcher override val dispatcher: CoroutineDispatcher,
+) : BaseViewModel<LoginUiState>(LoginAnalytic(), LoginUiState()), LoginCommandReceiver {
 
     private var loginFormModel: LoginFormModel = LoginFormModel()
 
     init {
+        openScreenAnalytic()
         initState()
     }
 
@@ -42,7 +47,10 @@ internal class LoginViewModel @Inject constructor(
     override fun login() {
         safeRunFlowTask(
             flowTask = authenticationUseCase(loginFormModel.email, loginFormModel.password),
-            onStart = { updateUiState { it.setLoading(true) } },
+            onStart = {
+                analyticsUseCase(LoginClickEventAnalytic())
+                updateUiState { it.setLoading(true) }
+            },
             onCompletion = { updateUiState { it.setLoading(false) } },
             onError = ::handleLoginError,
             onCollect = { handleLoginSuccess() }

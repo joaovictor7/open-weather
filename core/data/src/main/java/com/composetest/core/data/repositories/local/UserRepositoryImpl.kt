@@ -17,7 +17,7 @@ internal class UserRepositoryImpl @Inject constructor(
         userDao.insert(user)
     }
 
-    override fun <T> getCurrentUser(mapper: (UserEntity) -> T) = userDao
+    override fun <T> getCurrentUser(mapper: (UserEntity?) -> T) = userDao
         .getCurrentUser()
         .map(mapper::invoke)
 }

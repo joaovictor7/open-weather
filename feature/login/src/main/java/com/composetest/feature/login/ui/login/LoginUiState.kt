@@ -20,7 +20,7 @@ internal data class LoginUiState(
     fun setInvalidEmail(invalid: Boolean) = copy(invalidEmail = invalid)
     fun resetStateView(enableLoginButton: Boolean) = copy(
         enableLoginButton = enableLoginButton,
-        invalidCredentials = false,
+        invalidCredentials = false
     )
     fun setShowInvalidCredentialsMsg() = copy(invalidCredentials = true)
     fun setLoading(isLoading: Boolean) = copy(

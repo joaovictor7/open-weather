@@ -10,8 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.composetest.core.designsystem.theme.ComposeTestTheme
 import com.composetest.common.enums.Theme
-import com.composetest.common.interfaces.Command
-import com.composetest.common.interfaces.Screen
+import com.composetest.core.ui.interfaces.Command
+import com.composetest.core.ui.interfaces.Screen
 
 internal object HomeScreen : Screen<HomeUiState, HomeCommandReceiver> {
 

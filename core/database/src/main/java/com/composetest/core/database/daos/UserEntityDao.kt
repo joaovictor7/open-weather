@@ -19,5 +19,5 @@ interface UserEntityDao {
             "ORDER BY session.sessionId DESC " +
             "LIMIT 1"
     )
-    fun getCurrentUser(): Flow<UserEntity>
+    fun getCurrentUser(): Flow<UserEntity?>
 }

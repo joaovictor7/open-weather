@@ -1,5 +1,7 @@
 package com.composetest.common.di
 
+import com.composetest.common.providers.DateTimeProvider
+import com.composetest.common.providers.DateTimeProviderImpl
 import com.composetest.common.providers.FakeInstanceProvider
 import com.composetest.common.providers.FakeInstanceProviderImpl
 import com.composetest.common.providers.RemoteCallProvider
@@ -17,4 +19,7 @@ internal abstract class ProviderModule {
 
     @Binds
     abstract fun remoteCallProvider(remoteCallProviderImpl: RemoteCallProviderImpl): RemoteCallProvider
+
+    @Binds
+    abstract fun dateTimeProvider(dateTimeProviderImpl: DateTimeProviderImpl): DateTimeProvider
 }

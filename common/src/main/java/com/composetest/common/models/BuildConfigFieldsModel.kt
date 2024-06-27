@@ -5,7 +5,8 @@ data class BuildConfigFieldsModel(
     val versionName: String,
     val versionCode: Int,
     val buildType: String,
-    val flavor: String
+    val flavor: String,
+    val androidSdkVersion: Int
 ) {
 
     val isDebug = DEBUG_BUILD_TYPE == buildType

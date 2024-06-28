@@ -4,12 +4,12 @@ import appconfig.AppBuildType
 import appconfig.AppConfig
 import appconfig.AppSigning
 import com.android.build.api.dsl.ApplicationBuildType
+import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.gradle.BaseExtension
-import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 
-internal fun BaseAppModuleExtension.setApplicationBuildTypes() {
+internal fun ApplicationExtension.setApplicationBuildTypes() {
     buildTypes {
         AppBuildType.values().forEach { buildType ->
             getByName(buildType.buildTypeName) {
@@ -57,8 +57,8 @@ private fun BaseExtension.createNewBuildTypes(buildType: AppBuildType) = buildTy
 
 private fun ApplicationBuildType.setSigning(
     buildType: AppBuildType,
-    baseAppModuleExtension: BaseAppModuleExtension
-) = with(baseAppModuleExtension) {
+    applicationExtension: ApplicationExtension
+) = with(applicationExtension) {
     AppSigning.getAssociatedBuildType(buildType)?.let { appSigning ->
         signingConfigs.find { signingConfig ->
             signingConfig.name == appSigning.signingName

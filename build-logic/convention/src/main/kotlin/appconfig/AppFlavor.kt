@@ -17,5 +17,6 @@ internal enum class AppFlavor(val flavorName: String) {
 
 private enum class Dimension(val flavors: List<AppFlavor>) {
     DISTRIBUTION(listOf(AppFlavor.FULL, AppFlavor.FREE));
+
     override fun toString() = name.lowercase()
 }

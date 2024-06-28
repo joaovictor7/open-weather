@@ -1,6 +1,8 @@
+import com.android.build.gradle.LibraryExtension
 import modularization.configureAndroid
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.configure
 
 internal class LibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -8,7 +10,9 @@ internal class LibraryConventionPlugin : Plugin<Project> {
             with(pluginManager) {
                 apply("com.android.library")
             }
-            configureAndroid()
+            extensions.configure<LibraryExtension> {
+                configureAndroid(this)
+            }
         }
     }
 }

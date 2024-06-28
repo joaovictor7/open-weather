@@ -2,9 +2,10 @@ package modularization
 
 import appconfig.AppFlavor
 import appconfig.AppFlavor.Companion.allDimensions
+import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 
-internal fun BaseAppModuleExtension.setFlavors() {
+internal fun ApplicationExtension.setFlavors() {
     flavorDimensions.addAll(allDimensions)
     productFlavors {
         AppFlavor.values().forEach { flavor ->

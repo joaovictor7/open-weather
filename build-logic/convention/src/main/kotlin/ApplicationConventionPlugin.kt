@@ -1,7 +1,7 @@
 import appconfig.AppConfig
 import appconfig.AppSigning
 import com.android.build.api.dsl.ApkSigningConfig
-import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
+import com.android.build.api.dsl.ApplicationExtension
 import extensions.getLibrary
 import extensions.implementation
 import modularization.configureAndroid
@@ -23,8 +23,8 @@ internal class ApplicationConventionPlugin : Plugin<Project> {
                 apply("com.google.gms.google-services")
                 apply("com.google.firebase.crashlytics")
             }
-            configureAndroid()
-            extensions.configure<BaseAppModuleExtension> {
+            extensions.configure<ApplicationExtension> {
+                configureAndroid(this)
                 defaultConfig {
                     versionCode = AppConfig.CODE_VERSION
                     versionName = AppConfig.NAME_VERSION
@@ -41,7 +41,7 @@ internal class ApplicationConventionPlugin : Plugin<Project> {
                 }
                 packaging {
                     resources {
-                        excludes += "/META-INF/{AL2.0,LGPL2.1,LICENSE*}"
+                        excludes += "/META-INF/{AL2.0,LGPL2.1}"
                     }
                 }
                 setApplicationBuildTypes()

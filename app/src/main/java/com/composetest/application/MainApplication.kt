@@ -10,7 +10,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 @HiltAndroidApp
-class MainApplication : Application(), Configuration.Provider {
+internal class MainApplication : Application(), Configuration.Provider {
 
     @Inject
     @ApplicationContext

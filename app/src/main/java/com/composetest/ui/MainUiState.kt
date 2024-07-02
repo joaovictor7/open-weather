@@ -10,5 +10,5 @@ data class MainUiState(
     val navigationBarStyle get() = appTheme.systemBarStyles.second
 
     fun setAppTheme(appTheme: AppThemeModel) = copy(appTheme = appTheme)
-    fun finishSplashScreen() = copy(showSplashScreen = false)
+    fun splashScreenFinished() = copy(showSplashScreen = false)
 }

@@ -1,7 +1,7 @@
 package com.composetest.core.data.repositories.local
 
 import com.composetest.core.data.datasources.local.DatabaseDataSource
-import com.composetest.core.database.domain.entities.UserEntity
+import com.composetest.core.database.entities.UserEntity
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton

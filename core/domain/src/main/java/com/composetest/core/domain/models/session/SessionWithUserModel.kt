@@ -1,5 +1,6 @@
-package com.composetest.core.domain.models
+package com.composetest.core.domain.models.session
 
+import com.composetest.core.domain.models.UserModel
 import java.time.LocalDateTime
 
 data class SessionWithUserModel(

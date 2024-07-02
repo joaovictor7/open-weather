@@ -16,9 +16,11 @@ import com.composetest.feature.home.ui.home3.Home3Screen
 import com.composetest.feature.home.ui.home3.Home3ViewModel
 
 fun NavGraphBuilder.homeNavGraph() {
-    composable<HomeDestination> {
+    composable<HomeDestination> { nav ->
         val viewModel = hiltViewModel<HomeViewModel>()
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+//        val e = nav.savedStateHandle.getStateFlow("RETURN_RESULT_KEY", String()).collectAsStateWithLifecycle()
+//        val t = e.value
         HomeScreen(uiState = uiState, onExecuteCommand = viewModel::executeCommand)
     }
     composable<Home2Destination> {

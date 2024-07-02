@@ -1,6 +1,6 @@
 package com.composetest.core.data.repositories.local
 
-import com.composetest.core.database.domain.entities.UserEntity
+import com.composetest.core.database.entities.UserEntity
 import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {

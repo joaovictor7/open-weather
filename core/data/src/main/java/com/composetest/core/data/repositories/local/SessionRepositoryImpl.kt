@@ -1,7 +1,8 @@
 package com.composetest.core.data.repositories.local
 
 import com.composetest.core.data.datasources.local.DatabaseDataSource
-import com.composetest.core.database.domain.entities.SessionEntity
+import com.composetest.core.database.entities.SessionEntity
+import com.composetest.core.database.entities.partialupdate.EndDateSessionEntityUpdate
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -17,7 +18,11 @@ internal class SessionRepositoryImpl @Inject constructor(
         sessionDao.insert(entity)
     }
 
-    override fun <T> getCurrentSession(mapper: (SessionEntity) -> T) = sessionDao
+    override suspend fun update(entity: EndDateSessionEntityUpdate) {
+        sessionDao.update(entity)
+    }
+
+    override fun <T> getCurrentSession(mapper: (SessionEntity?) -> T) = sessionDao
         .getCurrentSession()
         .map(mapper::invoke)
 }

@@ -4,7 +4,7 @@ import androidx.navigation.NavHostController
 
 interface NavControllerProvider {
 
-    val navController: NavHostController?
+    val navController: NavHostController
 
     fun setNavController(navController: NavHostController)
 }

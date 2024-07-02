@@ -1,4 +1,4 @@
-package com.composetest.core.database.domain.constants
+package com.composetest.core.database.constants
 
 internal object DatabaseConfig {
     const val DATABASE_NAME = "composetest_database"

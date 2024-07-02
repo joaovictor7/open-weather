@@ -6,9 +6,9 @@ import androidx.room.TypeConverters
 import com.composetest.core.database.converters.LocalDateTimeConverter
 import com.composetest.core.database.daos.SessionEntityDao
 import com.composetest.core.database.daos.UserEntityDao
-import com.composetest.core.database.domain.constants.DatabaseConfig
-import com.composetest.core.database.domain.entities.SessionEntity
-import com.composetest.core.database.domain.entities.UserEntity
+import com.composetest.core.database.constants.DatabaseConfig
+import com.composetest.core.database.entities.SessionEntity
+import com.composetest.core.database.entities.UserEntity
 
 @Database(
     version = DatabaseConfig.DATABASE_VERSION,

@@ -7,7 +7,7 @@ import javax.inject.Singleton
 @Singleton
 internal class NavControllerProviderImpl @Inject constructor() : NavControllerProvider {
 
-    override var navController: NavHostController? = null
+    override lateinit var navController: NavHostController
         private set
 
     override fun setNavController(navController: NavHostController) {

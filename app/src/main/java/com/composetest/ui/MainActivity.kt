@@ -55,6 +55,11 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.executeCommand(VerifySession())
+    }
+
     private fun setEdgeToEdge() = lifecycleScope.launch {
         viewModel.uiState.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED).collect { uiState ->
             enableEdgeToEdge(uiState.statusBarStyle, uiState.navigationBarStyle)

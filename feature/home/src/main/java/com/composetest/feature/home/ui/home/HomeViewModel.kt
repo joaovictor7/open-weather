@@ -4,12 +4,14 @@ import androidx.lifecycle.viewModelScope
 import com.composetest.core.ui.bases.BaseViewModel
 import com.composetest.common.di.qualifiers.IoDispatcher
 import com.composetest.common.enums.Theme
-import com.composetest.core.domain.usecases.analytics.AnalyticsUseCase
+import com.composetest.core.domain.usecases.AnalyticsUseCase
 import com.composetest.core.domain.usecases.apptheme.SetAppThemeUseCase
 import com.composetest.core.router.extensions.getParam
 import com.composetest.core.router.destinations.home.Home2Destination
 import com.composetest.core.router.destinations.home.HomeDestination
+import com.composetest.core.router.extensions.getResultFlow
 import com.composetest.core.router.providers.NavigationProvider
+import com.composetest.core.router.results.Home2Result
 import com.composetest.feature.home.ui.home.analytics.HomeAnalytic
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -28,6 +30,7 @@ internal class HomeViewModel @Inject constructor(
         openScreenAnalytic()
         val e = navigationProvider.getParam<HomeDestination>()
         updateUiState { it.copy(t = e.innerHome.teste) }
+        teste()
     }
 
     override fun navigateToHome2() {
@@ -38,11 +41,17 @@ internal class HomeViewModel @Inject constructor(
         theme: Theme?,
         dynamicColors: Boolean?
     ) {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcher) {
             when {
-                theme != null -> setAppThemeUseCase.invoke(theme)
-                dynamicColors != null -> setAppThemeUseCase.invoke(dynamicColors)
+                theme != null -> setAppThemeUseCase(theme)
+                dynamicColors != null -> setAppThemeUseCase(dynamicColors)
             }
+        }
+    }
+
+    private fun teste() {
+        runSafeFlow(navigationProvider.getResultFlow<Home2Result>()) {
+            val e = it
         }
     }
 }

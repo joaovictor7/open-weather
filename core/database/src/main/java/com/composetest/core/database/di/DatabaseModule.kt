@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.room.Room
 import com.composetest.core.database.converters.LocalDateTimeConverter
 import com.composetest.core.database.database.AppDatabase
-import com.composetest.core.database.domain.constants.DatabaseConfig
+import com.composetest.core.database.constants.DatabaseConfig
 import com.composetest.core.database.providers.SqlCipherProvider
 import com.composetest.common.providers.BuildConfigProvider
 import dagger.Module

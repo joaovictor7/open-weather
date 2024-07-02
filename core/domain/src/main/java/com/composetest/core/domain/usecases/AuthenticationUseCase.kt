@@ -4,6 +4,7 @@ import com.composetest.core.data.network.requests.AuthenticationRequest
 import com.composetest.core.data.repositories.remote.AuthenticationRepository
 import com.composetest.core.domain.mappers.SessionModelMapper
 import com.composetest.common.throwables.InvalidCredentialsThrowable
+import com.composetest.core.domain.usecases.session.CreateSessionUseCase
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.flow.catch

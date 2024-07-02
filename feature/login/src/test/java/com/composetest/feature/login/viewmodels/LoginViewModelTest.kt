@@ -29,7 +29,8 @@ class LoginViewModelTest : CoroutineTest {
         versionName = "1.0.0",
         versionCode = 0,
         buildType = "debug",
-        flavor = "app"
+        flavor = "app",
+        androidSdkVersion = 34
     )
     private val buildConfigProvider: BuildConfigProvider = object : BuildConfigProvider {
         override val get: BuildConfigFieldsModel = buildConfigModelMock
@@ -46,6 +47,7 @@ class LoginViewModelTest : CoroutineTest {
             getAppThemeStateUseCase = mockk(),
             setAppThemeUseCase = mockk(),
             authenticationUseCase = authenticationUseCase,
+            analyticsUseCase = mockk(relaxed = true),
             dispatcher = testDispatcher
         )
     }

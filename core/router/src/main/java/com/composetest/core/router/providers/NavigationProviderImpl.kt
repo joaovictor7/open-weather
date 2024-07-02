@@ -1,5 +1,6 @@
 package com.composetest.core.router.providers
 
+import android.os.Parcelable
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavDestination
 import androidx.navigation.NavOptions
@@ -14,11 +15,13 @@ internal class NavigationProviderImpl @Inject constructor(
 
     private val navController get() = navControllerProvider.navController
 
+    override val currentBackStackEntryFlow get() = navController.currentBackStackEntryFlow
+
     override fun <Destination : Any> navigate(
         destination: Destination,
         removeCurrentScreen: Boolean
     ) {
-        navController?.run {
+        with(navController) {
             navigate(
                 route = destination,
                 navOptions = NavOptionsBuilder().apply {
@@ -28,19 +31,29 @@ internal class NavigationProviderImpl @Inject constructor(
         }
     }
 
-    override fun <Destination : Any> navigateToBack(destination: Destination) {
-        navController?.run {
+    override fun <Destination : Any> navigateAndClearScreenStack(destination: Destination) {
+        with(navController) {
             navigate(
                 route = destination,
-                navOptions = NavOptionsBuilder()
-                    .popUpScreen(previousBackStackEntry?.destination)
-                    .build()
+                navOptions = NavOptionsBuilder().apply {
+                    popUpScreen(currentDestination)
+                }.build()
             )
         }
     }
 
+    override fun <Result : Parcelable> navigateToBack(result: Result) {
+        with(navController) {
+            previousBackStackEntry?.savedStateHandle?.set(
+                result::class.simpleName.orEmpty(),
+                result
+            )
+            popBackStack()
+        }
+    }
+
     override fun navigateToBack() {
-        navController?.popBackStack()
+        navController.popBackStack()
     }
 
     private inner class NavOptionsBuilder {

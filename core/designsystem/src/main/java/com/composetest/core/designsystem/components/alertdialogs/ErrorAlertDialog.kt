@@ -31,7 +31,7 @@ fun ErrorAlertDialog(
         },
         confirmButton = {
             Button(
-                text = stringResource(R.string.error_alert_dialog_button_dismiss),
+                text = stringResource(R.string.global_word_close),
                 onClick = onClickDismiss
             )
         }

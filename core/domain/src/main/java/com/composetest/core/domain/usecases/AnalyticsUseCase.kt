@@ -1,4 +1,4 @@
-package com.composetest.core.domain.usecases.analytics
+package com.composetest.core.domain.usecases
 
 import com.composetest.common.analytics.interfaces.AnalyticEvent
 import com.composetest.common.analytics.ErrorAnalyticEvent

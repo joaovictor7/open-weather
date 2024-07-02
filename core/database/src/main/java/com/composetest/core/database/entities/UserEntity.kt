@@ -1,4 +1,4 @@
-package com.composetest.core.database.domain.entities
+package com.composetest.core.database.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

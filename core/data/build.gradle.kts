@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.composeTest.library)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 android {
@@ -9,6 +10,7 @@ android {
 dependencies {
     implementation(projects.common)
     implementation(projects.core.database)
+    implementation(libs.kotlin.json.serializable)
     implementation(libs.androidx.dataStore)
     implementation(libs.androidx.hilt.work)
     implementation(libs.ktor.client.android)
@@ -18,6 +20,7 @@ dependencies {
     implementation(libs.androidx.workManager)
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.crashlytics)
+
     api(libs.firebase.auth)
     ksp(libs.androidx.hilt.compiler)
 }

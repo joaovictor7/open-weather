@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.composetest.common.analytics.interfaces.Analytic
 import com.composetest.common.analytics.ErrorAnalyticEvent
 import com.composetest.common.analytics.OpenScreenAnalyticEvent
-import com.composetest.core.domain.usecases.analytics.AnalyticsUseCase
+import com.composetest.core.domain.usecases.AnalyticsUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -38,7 +38,7 @@ abstract class BaseViewModel<UiState>(
         }
     }
 
-    protected fun <T> safeRunFlowTask(
+    protected fun <T> runSafeFlow(
         flowTask: Flow<T>,
         onError: (suspend (e: Throwable) -> Unit)? = null,
         onStart: (suspend () -> Unit)? = null,

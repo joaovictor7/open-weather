@@ -8,7 +8,7 @@ import com.composetest.common.throwables.InvalidCredentialsThrowable
 import com.composetest.core.designsystem.components.alertdialogs.enums.ErrorAlertDialog.Companion.getErrorAlertDialogType
 import com.composetest.feature.login.models.LoginFormModel
 import com.composetest.core.domain.usecases.AuthenticationUseCase
-import com.composetest.core.domain.usecases.analytics.AnalyticsUseCase
+import com.composetest.core.domain.usecases.AnalyticsUseCase
 import com.composetest.core.domain.usecases.apptheme.GetAppThemeStateUseCase
 import com.composetest.core.domain.usecases.apptheme.SetAppThemeUseCase
 import com.composetest.core.router.destinations.home.HomeDestination
@@ -28,7 +28,7 @@ internal class LoginViewModel @Inject constructor(
     private val setAppThemeUseCase: SetAppThemeUseCase,
     private val authenticationUseCase: AuthenticationUseCase,
     override val analyticsUseCase: AnalyticsUseCase,
-    @IoDispatcher override val dispatcher: CoroutineDispatcher,
+    @IoDispatcher override val dispatcher: CoroutineDispatcher
 ) : BaseViewModel<LoginUiState>(LoginAnalytic(), LoginUiState()), LoginCommandReceiver {
 
     private var loginFormModel: LoginFormModel = LoginFormModel()
@@ -45,7 +45,7 @@ internal class LoginViewModel @Inject constructor(
     }
 
     override fun login() {
-        safeRunFlowTask(
+        runSafeFlow(
             flowTask = authenticationUseCase(loginFormModel.email, loginFormModel.password),
             onStart = {
                 analyticsUseCase(LoginClickEventAnalytic())
@@ -90,7 +90,7 @@ internal class LoginViewModel @Inject constructor(
     }
 
     private fun handleLoginSuccess() {
-        navigationProvider.navigate(
+        navigationProvider.navigateAndClearScreenStack(
             HomeDestination("teste", InnerHome("te", "23232"))
         )
     }

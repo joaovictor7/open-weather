@@ -45,6 +45,7 @@ internal object LoginScreen : Screen<LoginUiState, LoginCommandReceiver> {
         uiState: LoginUiState,
         onExecuteCommand: (Command<LoginCommandReceiver>) -> Unit
     ) {
+        if (!uiState.needsLogin) return
         Box(
             modifier = Modifier
                 .verticalTopBackgroundBrush(LocalThemeProvider.current.isDarkMode)

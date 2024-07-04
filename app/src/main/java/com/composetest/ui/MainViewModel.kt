@@ -7,9 +7,8 @@ import com.composetest.common.models.AppThemeModel
 import com.composetest.core.domain.usecases.AnalyticsUseCase
 import com.composetest.core.domain.usecases.apptheme.GetAppThemeFromDataStoreUseCase
 import com.composetest.core.domain.usecases.apptheme.GetAppThemeStateUseCase
-import com.composetest.core.domain.usecases.session.VerifySessionUseCase
-import com.composetest.core.router.destinations.home.HomeDestination
-import com.composetest.core.router.destinations.home.navtypes.InnerHome
+import com.composetest.core.domain.usecases.session.CheckSessionEndUseCase
+import com.composetest.core.router.destinations.login.LoginDestination
 import com.composetest.core.router.providers.NavigationProvider
 import com.composetest.ui.analytics.MainAnalytic
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +20,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val getAppThemeFromDataStoreUseCase: GetAppThemeFromDataStoreUseCase,
     private val getAppThemeStateUseCase: GetAppThemeStateUseCase,
-    private val verifySessionUseCase: VerifySessionUseCase,
+    private val checkSessionEndUseCase: CheckSessionEndUseCase,
     private val navigationProvider: NavigationProvider,
     override val analyticsUseCase: AnalyticsUseCase,
     @IoDispatcher override val dispatcher: CoroutineDispatcher
@@ -34,11 +33,11 @@ class MainViewModel @Inject constructor(
     }
 
     override fun verifySession() {
-        runSafeFlow(flowTask = verifySessionUseCase()) { validSession ->
-            if (validSession) {
-                navigationProvider.navigateAndClearScreenStack(
-                    HomeDestination("teste", InnerHome("te", "23232"))
-                )
+        viewModelScope.launch(dispatcher) {
+            val validSession = checkSessionEndUseCase()
+            val currentScreenIsLogin = navigationProvider.checkCurrentDestination(LoginDestination)
+            if (!validSession && !currentScreenIsLogin) {
+                navigationProvider.navigateAndClearScreenStack(LoginDestination)
             }
         }
     }
@@ -47,7 +46,7 @@ class MainViewModel @Inject constructor(
         getAppThemeFromDataStoreUseCase()
     }
 
-    private fun iniState() = runSafeFlow(flowTask = getAppThemeStateUseCase()) {
+    private fun iniState() = runSafeFlow(flow = getAppThemeStateUseCase()) {
         setSystemStyles(it)
     }
 

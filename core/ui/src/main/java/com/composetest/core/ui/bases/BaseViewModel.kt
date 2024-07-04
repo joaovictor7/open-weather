@@ -39,22 +39,21 @@ abstract class BaseViewModel<UiState>(
     }
 
     protected fun <T> runSafeFlow(
-        flowTask: Flow<T>,
+        flow: Flow<T>,
         onError: (suspend (e: Throwable) -> Unit)? = null,
         onStart: (suspend () -> Unit)? = null,
         onCompletion: (suspend () -> Unit)? = null,
-        onCollect: suspend (param: T) -> Unit
+        onCollect: (suspend (param: T) -> Unit)? = null
     ) {
         viewModelScope.launch {
-            flowTask
-                .flowOn(dispatcher)
+            flow.flowOn(dispatcher)
                 .onStart { onStart?.invoke() }
                 .onCompletion { onCompletion?.invoke() }
                 .catch {
                     analyticsUseCase(ErrorAnalyticEvent(it, analytic))
                     onError?.invoke(it)
                 }
-                .collect { onCollect.invoke(it) }
+                .collect { onCollect?.invoke(it) }
         }
     }
 }

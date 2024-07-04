@@ -1,5 +1,6 @@
 package com.composetest.core.data.repositories.remote
 
+import com.composetest.common.providers.DateTimeProvider
 import com.composetest.common.providers.RemoteCallProvider
 import com.composetest.core.data.network.requests.AuthenticationRequest
 import com.composetest.core.data.network.responses.AuthenticationResponse
@@ -7,12 +8,11 @@ import com.composetest.core.data.network.responses.UserResponse
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import java.time.LocalDateTime
-import java.time.ZoneOffset
 import kotlin.time.Duration.Companion.seconds
 
 internal class AuthenticationRepositoryFakeImpl(
-    private val remoteCallProvider: RemoteCallProvider
+    private val remoteCallProvider: RemoteCallProvider,
+    private val dateTimeProvider: DateTimeProvider
 ): AuthenticationRepository {
 
     override fun <T> authentication(
@@ -22,7 +22,7 @@ internal class AuthenticationRepositoryFakeImpl(
         val response = remoteCallProvider.safeRemoteCall {
             AuthenticationResponse(
                 token = "43reddcdsfe434323cdf3434",
-                authenticationDate = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC),
+                authenticationDate = dateTimeProvider.nowDateTimeInSeconds,
                 user = UserResponse(
                     id = "123",
                     name = "Teste",

@@ -1,5 +1,6 @@
 package com.composetest.feature.login.ui.login
 
+import androidx.lifecycle.viewModelScope
 import com.composetest.core.ui.bases.BaseViewModel
 import com.composetest.common.di.qualifiers.IoDispatcher
 import com.composetest.common.enums.Theme
@@ -11,6 +12,7 @@ import com.composetest.core.domain.usecases.AuthenticationUseCase
 import com.composetest.core.domain.usecases.AnalyticsUseCase
 import com.composetest.core.domain.usecases.apptheme.GetAppThemeStateUseCase
 import com.composetest.core.domain.usecases.apptheme.SetAppThemeUseCase
+import com.composetest.core.domain.usecases.session.GetNeedsLoginBySessionUseCase
 import com.composetest.core.router.destinations.home.HomeDestination
 import com.composetest.core.router.destinations.home.navtypes.InnerHome
 import com.composetest.core.router.providers.NavigationProvider
@@ -18,6 +20,7 @@ import com.composetest.feature.login.ui.login.analytics.LoginAnalytic
 import com.composetest.feature.login.ui.login.analytics.LoginClickEventAnalytic
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,6 +30,7 @@ internal class LoginViewModel @Inject constructor(
     private val getAppThemeStateUseCase: GetAppThemeStateUseCase,
     private val setAppThemeUseCase: SetAppThemeUseCase,
     private val authenticationUseCase: AuthenticationUseCase,
+    private val getNeedsLoginBySessionUseCase: GetNeedsLoginBySessionUseCase,
     override val analyticsUseCase: AnalyticsUseCase,
     @IoDispatcher override val dispatcher: CoroutineDispatcher
 ) : BaseViewModel<LoginUiState>(LoginAnalytic(), LoginUiState()), LoginCommandReceiver {
@@ -34,8 +38,7 @@ internal class LoginViewModel @Inject constructor(
     private var loginFormModel: LoginFormModel = LoginFormModel()
 
     init {
-        openScreenAnalytic()
-        initState()
+        checkNeedsLogin()
     }
 
     override fun checkShowInvalidEmailMsg() {
@@ -46,14 +49,14 @@ internal class LoginViewModel @Inject constructor(
 
     override fun login() {
         runSafeFlow(
-            flowTask = authenticationUseCase(loginFormModel.email, loginFormModel.password),
+            flow = authenticationUseCase(loginFormModel.email, loginFormModel.password),
             onStart = {
                 analyticsUseCase(LoginClickEventAnalytic())
                 updateUiState { it.setLoading(true) }
             },
             onCompletion = { updateUiState { it.setLoading(false) } },
             onError = ::handleLoginError,
-            onCollect = { handleLoginSuccess() }
+            onCollect = { navigateToHome() }
         )
     }
 
@@ -89,10 +92,13 @@ internal class LoginViewModel @Inject constructor(
         }
     }
 
-    private fun handleLoginSuccess() {
-        navigationProvider.navigateAndClearScreenStack(
-            HomeDestination("teste", InnerHome("te", "23232"))
-        )
+    private fun checkNeedsLogin() = viewModelScope.launch(dispatcher) {
+        if (getNeedsLoginBySessionUseCase()) {
+            openScreenAnalytic()
+            initState()
+        } else {
+            navigateToHome()
+        }
     }
 
     private fun initState() {
@@ -102,6 +108,12 @@ internal class LoginViewModel @Inject constructor(
                 enableLoginButton = buildConfigProvider.get.isDebug
             )
         }
+    }
+
+    private fun navigateToHome() {
+        navigationProvider.navigateAndClearScreenStack(
+            HomeDestination("teste", InnerHome("te", "23232"))
+        )
     }
 
     private fun resetViewState() {

@@ -6,7 +6,6 @@ import androidx.room.Query
 import androidx.room.Update
 import com.composetest.core.database.entities.SessionEntity
 import com.composetest.core.database.entities.partialupdate.EndDateSessionEntityUpdate
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface SessionEntityDao {
@@ -22,5 +21,5 @@ interface SessionEntityDao {
             "ORDER BY sessionId DESC " +
             "LIMIT 1"
     )
-    fun getCurrentSession(): Flow<SessionEntity?>
+    suspend fun getCurrentSession(): SessionEntity?
 }

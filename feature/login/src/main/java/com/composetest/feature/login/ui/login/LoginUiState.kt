@@ -3,6 +3,7 @@ package com.composetest.feature.login.ui.login
 import com.composetest.core.designsystem.components.alertdialogs.enums.ErrorAlertDialog
 
 internal data class LoginUiState(
+    val needsLogin: Boolean = false,
     val versionName: String = String(),
     val invalidEmail: Boolean = false,
     val enableLoginButton: Boolean = false,
@@ -14,6 +15,7 @@ internal data class LoginUiState(
         versionName: String,
         enableLoginButton: Boolean
     ) = copy(
+        needsLogin = true,
         versionName = versionName,
         enableLoginButton = enableLoginButton
     )

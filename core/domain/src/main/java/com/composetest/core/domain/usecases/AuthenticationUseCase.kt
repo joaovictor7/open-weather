@@ -8,8 +8,8 @@ import com.composetest.core.domain.usecases.session.CreateSessionUseCase
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.transform
 import javax.inject.Inject
 
 @ViewModelScoped
@@ -27,5 +27,5 @@ class AuthenticationUseCase @Inject constructor(
             is FirebaseAuthInvalidCredentialsException -> throw InvalidCredentialsThrowable()
             else -> throw it
         }
-    }.onEach(createSessionUseCase::invoke).transform { emit(true) }
+    }.onEach(createSessionUseCase::invoke).map { true }
 }

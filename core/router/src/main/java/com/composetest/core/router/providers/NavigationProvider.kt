@@ -10,6 +10,8 @@ interface NavigationProvider {
     val savedStateHandle: SavedStateHandle
     val currentBackStackEntryFlow: Flow<NavBackStackEntry>
 
+    fun checkCurrentDestination(destination: Any): Boolean
+
     fun <Destination : Any> navigate(
         destination: Destination,
         removeCurrentScreen: Boolean = false

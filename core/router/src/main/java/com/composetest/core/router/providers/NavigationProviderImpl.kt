@@ -4,6 +4,7 @@ import android.os.Parcelable
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavDestination
 import androidx.navigation.NavOptions
+import androidx.navigation.get
 import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject
 
@@ -16,6 +17,10 @@ internal class NavigationProviderImpl @Inject constructor(
     private val navController get() = navControllerProvider.navController
 
     override val currentBackStackEntryFlow get() = navController.currentBackStackEntryFlow
+
+    override fun checkCurrentDestination(destination: Any): Boolean {
+        return navController.graph[destination].id == navController.currentDestination?.id
+    }
 
     override fun <Destination : Any> navigate(
         destination: Destination,

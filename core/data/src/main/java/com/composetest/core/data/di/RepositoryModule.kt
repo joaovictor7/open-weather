@@ -1,5 +1,6 @@
 package com.composetest.core.data.di
 
+import com.composetest.common.providers.DateTimeProvider
 import com.composetest.common.providers.RemoteCallProvider
 import com.composetest.common.providers.FakeInstanceProvider
 import com.composetest.core.data.datasources.remote.FirebaseAuthDataSource
@@ -47,12 +48,16 @@ internal object RepositoryProviderModule {
     fun authenticationRepository(
         fakeInstanceProvider: FakeInstanceProvider,
         remoteCallProvider: RemoteCallProvider,
+        dateTimeProvider: DateTimeProvider,
         firebaseAuthDataSource: FirebaseAuthDataSource
     ) = fakeInstanceProvider.getInstance(
         instance = AuthenticationRepositoryImpl(
             remoteCallProvider = remoteCallProvider,
             firebaseAuthDataSource = firebaseAuthDataSource
         ),
-        fakeInstance = AuthenticationRepositoryFakeImpl(remoteCallProvider)
+        fakeInstance = AuthenticationRepositoryFakeImpl(
+            remoteCallProvider = remoteCallProvider,
+            dateTimeProvider = dateTimeProvider
+        )
     )
 }

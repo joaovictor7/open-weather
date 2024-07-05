@@ -17,9 +17,20 @@ interface NavigationProvider {
         removeCurrentScreen: Boolean = false
     )
 
-    fun <Destination : Any> navigateAndClearScreenStack(destination: Destination)
+    fun <Destination : Any> navigateAndClearStack(destination: Destination)
 
     fun <Result : Parcelable> navigateToBack(result: Result)
 
     fun navigateToBack()
+
+    suspend fun <Destination : Any> navigateAsync(
+        destination: Destination,
+        removeCurrentScreen: Boolean = false
+    )
+
+    suspend fun <Destination : Any> navigateAndClearStackAsync(destination: Destination)
+
+    suspend fun <Result : Parcelable> navigateToBackAsync(result: Result)
+
+    suspend fun navigateToBackAsync()
 }

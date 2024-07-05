@@ -48,7 +48,7 @@ internal class LoginViewModel @Inject constructor(
     }
 
     override fun login() {
-        runSafeFlow(
+        collectFlow(
             flow = authenticationUseCase(loginFormModel.email, loginFormModel.password),
             onStart = {
                 analyticsUseCase(LoginClickEventAnalytic())
@@ -110,8 +110,8 @@ internal class LoginViewModel @Inject constructor(
         }
     }
 
-    private fun navigateToHome() {
-        navigationProvider.navigateAndClearScreenStack(
+    private suspend fun navigateToHome() {
+        navigationProvider.navigateAndClearStackAsync(
             HomeDestination("teste", InnerHome("te", "23232"))
         )
     }

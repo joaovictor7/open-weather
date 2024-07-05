@@ -37,7 +37,7 @@ class MainViewModel @Inject constructor(
             val validSession = checkSessionEndUseCase()
             val currentScreenIsLogin = navigationProvider.checkCurrentDestination(LoginDestination)
             if (!validSession && !currentScreenIsLogin) {
-                navigationProvider.navigateAndClearScreenStack(LoginDestination)
+                navigationProvider.navigateAndClearStackAsync(LoginDestination)
             }
         }
     }
@@ -46,7 +46,7 @@ class MainViewModel @Inject constructor(
         getAppThemeFromDataStoreUseCase()
     }
 
-    private fun iniState() = runSafeFlow(flow = getAppThemeStateUseCase()) {
+    private fun iniState() = collectFlow(flow = getAppThemeStateUseCase()) {
         setSystemStyles(it)
     }
 

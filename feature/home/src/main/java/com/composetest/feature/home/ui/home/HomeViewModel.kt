@@ -50,7 +50,7 @@ internal class HomeViewModel @Inject constructor(
     }
 
     private fun teste() {
-        runSafeFlow(navigationProvider.getResultFlow<Home2Result>()) {
+        collectFlow(flow = navigationProvider.getResultFlow<Home2Result>()) {
             val e = it
         }
     }

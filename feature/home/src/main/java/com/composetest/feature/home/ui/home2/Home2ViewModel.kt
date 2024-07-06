@@ -5,8 +5,8 @@ import com.composetest.common.di.qualifiers.IoDispatcher
 import com.composetest.core.domain.usecases.AnalyticsUseCase
 import com.composetest.core.router.extensions.getParam
 import com.composetest.core.router.destinations.home.Home2Destination
+import com.composetest.core.router.destinations.home.Home3Destination
 import com.composetest.core.router.providers.NavigationProvider
-import com.composetest.core.router.results.Home2Result
 import com.composetest.feature.home.ui.home2.analytics.Home2Analytic
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -26,7 +26,7 @@ internal class Home2ViewModel @Inject constructor(
     }
 
     override fun returnHome() {
-        navigationProvider.navigateToBack(Home2Result("teste"))
+        navigationProvider.navigate(Home3Destination("teste", "teste"))
         count++
     }
 

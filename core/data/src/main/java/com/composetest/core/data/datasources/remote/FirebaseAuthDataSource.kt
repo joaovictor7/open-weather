@@ -15,7 +15,7 @@ internal class FirebaseAuthDataSource @Inject constructor(
 ) {
     suspend fun authentication(request: AuthenticationRequest): AuthenticationResponse {
         val user = firebaseAuth.signInWithEmailAndPassword(
-            request.login,
+            request.email,
             request.password
         ).await().user
         val token = user?.getIdToken(false)?.await()

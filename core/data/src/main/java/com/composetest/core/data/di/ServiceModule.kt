@@ -9,6 +9,8 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.work.WorkManager
+import com.composetest.common.providers.fields.buildtypes.BuildTypeFieldsProvider
+import com.composetest.core.data.constants.ktor.KtorConfig
 import com.composetest.core.data.constants.preferencedata.PreferencesDataSettings.SETTINGS_DATA_STORE
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
@@ -31,8 +33,6 @@ import io.ktor.client.plugins.logging.DEFAULT
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
-import io.ktor.client.request.header
-import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
@@ -61,12 +61,16 @@ internal object ServiceModule {
     )
 
     @Provides
-    fun ktorClient(): HttpClient = HttpClient(Android) {
+    fun ktorClient(
+        buildTypeFieldsProvider: BuildTypeFieldsProvider
+    ): HttpClient = HttpClient(Android) {
         defaultRequest {
-            header(HttpHeaders.ContentType, ContentType.Application.Json)
+//            header(HttpHeaders.ContentType, ContentType.Application.Json)
+            url(buildTypeFieldsProvider.get.baseApiUrl)
+            port = buildTypeFieldsProvider.get.baseApiPort
         }
         install(HttpTimeout) {
-            requestTimeoutMillis = 20000
+            requestTimeoutMillis = KtorConfig.TIMEOUT
         }
         install(ContentNegotiation) {
             json(Json {

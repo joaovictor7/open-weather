@@ -24,7 +24,7 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal abstract class RepositoryBindModule {
+internal abstract class RepositoryBindsModule {
     @Binds
     abstract fun appThemeRepository(appThemeRepositoryImpl: AppThemeRepositoryImpl): AppThemeRepository
 
@@ -43,7 +43,7 @@ internal abstract class RepositoryBindModule {
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal object RepositoryProviderModule {
+internal object RepositoryProvidesModule {
     @Provides
     fun authenticationRepository(
         fakeInstanceProvider: FakeInstanceProvider,

@@ -3,7 +3,6 @@ package modularization
 import appconfig.AppFlavor
 import appconfig.AppFlavor.Companion.allDimensions
 import com.android.build.api.dsl.ApplicationExtension
-import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 
 internal fun ApplicationExtension.setFlavors() {
     flavorDimensions.addAll(allDimensions)
@@ -12,7 +11,6 @@ internal fun ApplicationExtension.setFlavors() {
             create(flavor.flavorName) {
                 dimension = flavor.dimension
                 isDefault = flavor.isDefault
-                setBuildConfigFields(flavor)
             }
         }
     }

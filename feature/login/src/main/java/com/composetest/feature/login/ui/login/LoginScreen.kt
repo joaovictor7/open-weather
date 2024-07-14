@@ -28,13 +28,13 @@ import com.composetest.core.designsystem.components.buttons.Button
 import com.composetest.core.designsystem.components.textfields.OutlinedTextField
 import com.composetest.core.designsystem.components.textfields.params.TextFieldTrailingIconParam
 import com.composetest.core.designsystem.compositions.LocalThemeProvider
-import com.composetest.core.designsystem.components.alertdialogs.enums.ErrorAlertDialog
 import com.composetest.core.designsystem.dimensions.spacings
 import com.composetest.core.designsystem.components.textfields.enums.TextFieldIcons
 import com.composetest.common.extensions.isDarkMode
+import com.composetest.core.designsystem.components.alertdialogs.params.ErrorAlertDialogParam
 import com.composetest.core.ui.interfaces.Command
 import com.composetest.core.ui.interfaces.Screen
-import com.composetest.core.designsystem.components.extensions.modifiers.verticalTopBackgroundBrush
+import com.composetest.core.designsystem.extensions.modifiers.verticalTopBackgroundBrush
 import com.composetest.core.designsystem.theme.ComposeTestTheme
 import com.composetest.feature.login.R
 
@@ -70,7 +70,7 @@ internal object LoginScreen : Screen<LoginUiState, LoginCommandReceiver> {
             )
         }
         HandleEffects(onExecuteCommand = onExecuteCommand)
-        HandleErrorAlert(errorType = uiState.errorAlertDialog) {
+        HandleErrorAlert(errorAlertDialogParam = uiState.errorAlertDialogParam) {
             onExecuteCommand(HandleLoginError)
         }
     }
@@ -149,8 +149,11 @@ private fun HandleEffects(onExecuteCommand: (Command<LoginCommandReceiver>) -> U
 }
 
 @Composable
-private fun HandleErrorAlert(errorType: ErrorAlertDialog, onDismiss: () -> Unit) {
-    ErrorAlertDialog(error = errorType, onClickDismiss = onDismiss)
+private fun HandleErrorAlert(
+    errorAlertDialogParam: ErrorAlertDialogParam?,
+    onDismiss: () -> Unit
+) {
+    ErrorAlertDialog(errorParam = errorAlertDialogParam, onClickDismiss = onDismiss)
 }
 
 @Composable

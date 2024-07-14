@@ -1,10 +1,10 @@
 package com.composetest.core.domain.mappers
 
-import com.composetest.common.extensions.secondsToLocalDateTime
 import com.composetest.core.data.network.responses.AuthenticationResponse
 import com.composetest.core.database.entities.SessionEntity
 import com.composetest.core.domain.models.session.SessionModel
 import com.composetest.core.domain.models.session.SessionWithUserModel
+import java.time.LocalDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,7 +15,7 @@ class SessionModelMapper @Inject constructor(
 
     operator fun invoke(response: AuthenticationResponse) = SessionWithUserModel(
         token = response.token,
-        initialDate = response.authenticationDate.secondsToLocalDateTime,
+        initialDate = LocalDateTime.parse(response.authenticationDate),
         user = userModelMapper(response.user)
     )
 

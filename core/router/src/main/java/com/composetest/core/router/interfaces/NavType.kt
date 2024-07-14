@@ -1,4 +1,4 @@
-package com.composetest.core.router.navtype
+package com.composetest.core.router.interfaces
 
 import androidx.navigation.NavType
 import kotlin.reflect.KType

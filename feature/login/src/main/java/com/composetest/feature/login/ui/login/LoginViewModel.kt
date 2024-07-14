@@ -5,8 +5,8 @@ import com.composetest.core.ui.bases.BaseViewModel
 import com.composetest.common.di.qualifiers.IoDispatcher
 import com.composetest.common.enums.Theme
 import com.composetest.common.providers.BuildConfigProvider
-import com.composetest.common.throwables.InvalidCredentialsThrowable
-import com.composetest.core.designsystem.components.alertdialogs.enums.ErrorAlertDialog.Companion.getErrorAlertDialogType
+import com.composetest.core.designsystem.components.alertdialogs.extensions.errorAlertDialogParam
+import com.composetest.core.domain.throwables.InvalidCredentialsThrowable
 import com.composetest.feature.login.models.LoginFormModel
 import com.composetest.core.domain.usecases.AuthenticationUseCase
 import com.composetest.core.domain.usecases.AnalyticsUseCase
@@ -34,6 +34,8 @@ internal class LoginViewModel @Inject constructor(
     override val analyticsUseCase: AnalyticsUseCase,
     @IoDispatcher override val dispatcher: CoroutineDispatcher
 ) : BaseViewModel<LoginUiState>(LoginAnalytic(), LoginUiState()), LoginCommandReceiver {
+
+    override val commandReceiver = this
 
     private var loginFormModel: LoginFormModel = LoginFormModel()
 
@@ -87,7 +89,7 @@ internal class LoginViewModel @Inject constructor(
             if (throwable is InvalidCredentialsThrowable) {
                 it.setShowInvalidCredentialsMsg()
             } else {
-                it.setAlertDialogError(throwable.getErrorAlertDialogType())
+                it.setAlertDialogError(throwable.errorAlertDialogParam)
             }
         }
     }
@@ -111,7 +113,7 @@ internal class LoginViewModel @Inject constructor(
     }
 
     private suspend fun navigateToHome() {
-        navigationProvider.navigateAndClearStackAsync(
+        navigationProvider.asyncNavigateRemovePrevious(
             HomeDestination("teste", InnerHome("te", "23232"))
         )
     }

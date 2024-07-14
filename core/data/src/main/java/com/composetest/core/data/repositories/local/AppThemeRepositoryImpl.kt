@@ -2,7 +2,7 @@ package com.composetest.core.data.repositories.local
 
 import com.composetest.common.enums.Theme
 import com.composetest.common.models.AppThemeModel
-import com.composetest.core.data.datasources.local.PreferenceDataSource
+import com.composetest.core.data.datasources.local.PreferenceDataSourceImpl
 import com.composetest.core.data.constants.preferencedata.PreferencesDataKeys
 import com.composetest.core.data.mappers.AppThemeModelMapper
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +14,7 @@ import javax.inject.Singleton
 
 @Singleton
 internal class AppThemeRepositoryImpl @Inject constructor(
-    private val preferenceDataSource: PreferenceDataSource,
+    private val preferenceDataSource: PreferenceDataSourceImpl,
     private val appThemeModelMapper: AppThemeModelMapper
 ) : AppThemeRepository {
 

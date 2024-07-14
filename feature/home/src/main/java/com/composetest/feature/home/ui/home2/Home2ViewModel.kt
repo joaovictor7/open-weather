@@ -19,6 +19,8 @@ internal class Home2ViewModel @Inject constructor(
     @IoDispatcher override val dispatcher: CoroutineDispatcher
 ) : BaseViewModel<Home2UiState>(Home2Analytic(), Home2UiState()), Home2CommandReceiver {
 
+    override val commandReceiver = this
+
     init {
         openScreenAnalytic()
         val e = navigationProvider.getParam<Home2Destination>()
@@ -26,7 +28,7 @@ internal class Home2ViewModel @Inject constructor(
     }
 
     override fun returnHome() {
-        navigationProvider.navigate(Home3Destination("teste", "teste"))
+        navigationProvider.navigateRemovePrevious(Home3Destination("teste", "teste"))
         count++
     }
 

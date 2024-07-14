@@ -26,6 +26,8 @@ internal class HomeViewModel @Inject constructor(
     @IoDispatcher override val dispatcher: CoroutineDispatcher
 ) : BaseViewModel<HomeUiState>(HomeAnalytic(), HomeUiState()), HomeCommandReceiver {
 
+    override val commandReceiver = this
+
     init {
         openScreenAnalytic()
         val e = navigationProvider.getParam<HomeDestination>()

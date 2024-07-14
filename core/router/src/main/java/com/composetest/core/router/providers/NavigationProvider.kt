@@ -10,27 +10,19 @@ interface NavigationProvider {
     val savedStateHandle: SavedStateHandle
     val currentBackStackEntryFlow: Flow<NavBackStackEntry>
 
-    fun checkCurrentDestination(destination: Any): Boolean
-
+    fun currentDestinationCheck(destination: Any): Boolean
     fun <Destination : Any> navigate(
         destination: Destination,
         removeCurrentScreen: Boolean = false
     )
-
-    fun <Destination : Any> navigateAndClearStack(destination: Destination)
-
-    fun <Result : Parcelable> navigateToBack(result: Result)
-
-    fun navigateToBack()
-
-    suspend fun <Destination : Any> navigateAsync(
+    fun <Destination : Any> navigateRemovePrevious(destination: Destination)
+    fun navigateBack()
+    fun <Result : Parcelable> navigateBack(result: Result)
+    suspend fun <Destination : Any> asyncNavigate(
         destination: Destination,
         removeCurrentScreen: Boolean = false
     )
-
-    suspend fun <Destination : Any> navigateAndClearStackAsync(destination: Destination)
-
-    suspend fun <Result : Parcelable> navigateToBackAsync(result: Result)
-
-    suspend fun navigateToBackAsync()
+    suspend fun <Destination : Any> asyncNavigateRemovePrevious(destination: Destination)
+    suspend fun asyncNavigateBack()
+    suspend fun <Result : Parcelable> asyncNavigateBack(result: Result)
 }

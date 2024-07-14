@@ -1,18 +1,17 @@
 package com.composetest.core.data.repositories.local
 
-import com.composetest.core.data.datasources.local.DatabaseDataSource
+import com.composetest.core.database.database.AppDatabase
 import com.composetest.core.database.entities.SessionEntity
 import com.composetest.core.database.entities.partialupdate.EndDateSessionEntityUpdate
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 internal class SessionRepositoryImpl @Inject constructor(
-    dataSource: DatabaseDataSource
+    appDatabase: AppDatabase
 ) : SessionRepository {
 
-    private val sessionDao = dataSource.appDatabase.sessionDao()
+    private val sessionDao =  appDatabase.sessionDao()
 
     override suspend fun insert(entity: SessionEntity) {
         sessionDao.insert(entity)

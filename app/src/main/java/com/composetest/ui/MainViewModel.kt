@@ -26,6 +26,8 @@ class MainViewModel @Inject constructor(
     @IoDispatcher override val dispatcher: CoroutineDispatcher
 ) : BaseViewModel<MainUiState>(MainAnalytic(), MainUiState()), MainCommandReceiver {
 
+    override val commandReceiver = this
+
     init {
         getAppThemeFromDataStore()
         iniState()
@@ -35,9 +37,9 @@ class MainViewModel @Inject constructor(
     override fun verifySession() {
         viewModelScope.launch(dispatcher) {
             val validSession = checkSessionEndUseCase()
-            val currentScreenIsLogin = navigationProvider.checkCurrentDestination(LoginDestination)
+            val currentScreenIsLogin = navigationProvider.currentDestinationCheck(LoginDestination)
             if (!validSession && !currentScreenIsLogin) {
-                navigationProvider.navigateAndClearStackAsync(LoginDestination)
+                navigationProvider.asyncNavigateRemovePrevious(LoginDestination)
             }
         }
     }

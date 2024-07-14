@@ -17,7 +17,7 @@ import com.composetest.core.router.providers.NavigationProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.transform
-import com.composetest.core.router.navtype.NavType as NavTypes
+import com.composetest.core.router.interfaces.NavType as NavTypes
 import kotlin.reflect.KType
 import kotlin.reflect.full.companionObjectInstance
 

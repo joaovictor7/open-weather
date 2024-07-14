@@ -1,4 +1,4 @@
-package com.composetest.core.designsystem.components.extensions.modifiers
+package com.composetest.core.designsystem.extensions.modifiers
 
 import androidx.compose.foundation.background
 import androidx.compose.material3.MaterialTheme

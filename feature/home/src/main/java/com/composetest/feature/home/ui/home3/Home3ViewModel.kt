@@ -18,6 +18,8 @@ internal class Home3ViewModel @Inject constructor(
     @IoDispatcher override val dispatcher: CoroutineDispatcher
 ) : BaseViewModel<Home3UiState>(Home3Analytic(), Home3UiState()), Home3CommandReceiver {
 
+    override val commandReceiver = this
+
     init {
         openScreenAnalytic()
         val e = navigationProvider.getParam<Home2Destination>()
@@ -25,7 +27,7 @@ internal class Home3ViewModel @Inject constructor(
     }
 
     override fun returnLogin() {
-        navigationProvider.navigateToBack()
+        navigationProvider.navigateBack()
         count++
     }
 

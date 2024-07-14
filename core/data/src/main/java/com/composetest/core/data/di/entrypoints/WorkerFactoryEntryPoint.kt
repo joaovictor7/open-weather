@@ -1,4 +1,4 @@
-package com.composetest.core.data.di
+package com.composetest.core.data.di.entrypoints
 
 import androidx.hilt.work.HiltWorkerFactory
 import dagger.hilt.EntryPoint

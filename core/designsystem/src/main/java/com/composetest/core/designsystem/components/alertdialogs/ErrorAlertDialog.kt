@@ -8,27 +8,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.composetest.core.designsystem.R
-import com.composetest.core.designsystem.components.alertdialogs.enums.ErrorAlertDialog
+import com.composetest.core.designsystem.components.alertdialogs.params.ErrorAlertDialogParam
 import com.composetest.core.designsystem.components.buttons.Button
 
 @Composable
 fun ErrorAlertDialog(
-    error: ErrorAlertDialog,
+    errorParam: ErrorAlertDialogParam?,
     onClickDismiss: () -> Unit
-) = with(error) {
-    if (this == ErrorAlertDialog.NONE) return
+) = errorParam?.let {
     AlertDialog(
         onDismissRequest = onClickDismiss,
-        icon = error.iconId?.let {
-            { Icon(painter = painterResource(it), contentDescription = null) }
-        },
+        icon = { Icon(painter = painterResource(it.iconId), contentDescription = null) },
         iconContentColor = MaterialTheme.colorScheme.error,
-        title = title?.let {
-            { Text(text = stringResource(it)) }
-        },
-        text = text?.let {
-            { Text(text = stringResource(it)) }
-        },
+        title = { Text(text = stringResource(it.title)) },
+        text = { Text(text = stringResource(it.text)) },
         confirmButton = {
             Button(
                 text = stringResource(R.string.global_word_close),

@@ -8,14 +8,10 @@ internal enum class AppBuildType(val buildTypeName: String) {
     val isDefault get() = this == DEBUG
     val isInternal get() = this in listOf(RELEASE, DEBUG)
     val isDebuggable get() = this in listOf(DEBUG, STAGING)
-
-    fun getApplicationIdSuffix(
-        onRelease: () -> Unit,
-        onNonRelease: (String) -> Unit,
-    ) = when(this) {
-        RELEASE -> onRelease.invoke()
-        DEBUG -> onNonRelease.invoke(DEV_APP_ID_SUFFIX)
-        else -> onNonRelease.invoke(buildTypeName)
+    val buildTypeNameUpperCase get() = buildTypeName.uppercase()
+    val applicationIdSuffix get() = when(this) {
+        DEBUG -> DEV_APP_ID_SUFFIX
+        else -> buildTypeName
     }
 
     private companion object {

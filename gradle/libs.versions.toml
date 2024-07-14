@@ -1,5 +1,5 @@
 [versions]
-agp = "8.5.0"
+agp = "8.5.1"
 kotlin = "2.0.0"
 kotlinJsonSerialization = "1.7.1"
 kotlinCoroutine = "1.8.1"
@@ -10,12 +10,12 @@ androidDataStore = "1.1.1"
 androidHilt = "2.51.1"
 androidXHilt = "1.2.0"
 composeBom = "2024.06.00"
-composeNavigation = "2.8.0-beta04"
+composeNavigation = "2.8.0-beta05"
 googleServices = "4.4.2"
-firebaseBom = "33.1.1"
+firebaseBom = "33.1.2"
 firebaseCrashlytics = "3.0.2"
 mockK = "1.13.11"
-ksp = "2.0.0-1.0.22"
+ksp = "2.0.0-1.0.23"
 room = "2.6.1"
 sqlCipher = "4.6.0"
 sqLite = "2.4.0"
@@ -63,7 +63,6 @@ androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navig
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics" }
-firebase-auth = { group = "com.google.firebase", name = "firebase-auth" }
 
 # Junit 5
 junit5 = { group = "org.junit.jupiter", name = "junit-jupiter-api", version.ref = "junit5" }
@@ -87,6 +86,7 @@ ktor-client-serialization = { group = "io.ktor", name = "ktor-serialization-kotl
 ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
 
 # SLF4J
+slf4j-api = { group = "org.slf4j", name = "slf4j-api", version.ref = "slf4j" }
 slf4j-simple = { group = "org.slf4j", name = "slf4j-simple", version.ref = "slf4j" }
 
 [plugins]

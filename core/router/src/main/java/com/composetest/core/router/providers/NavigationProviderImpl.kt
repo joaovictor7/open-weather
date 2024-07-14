@@ -18,12 +18,12 @@ internal class NavigationProviderImpl @Inject constructor(
 ) : NavigationProvider {
 
     private val navController get() = navControllerProvider.navController
-    private val canNavigateToBack
+    private val canNavigateBack
         get() = navController.currentBackStackEntry?.lifecycle?.currentState == Lifecycle.State.RESUMED
 
     override val currentBackStackEntryFlow get() = navController.currentBackStackEntryFlow
 
-    override fun checkCurrentDestination(destination: Any) =
+    override fun currentDestinationCheck(destination: Any) =
         navController.graph[destination].id == navController.currentDestination?.id
 
     override fun <Destination : Any> navigate(
@@ -40,20 +40,22 @@ internal class NavigationProviderImpl @Inject constructor(
         }
     }
 
-    override fun <Destination : Any> navigateAndClearStack(destination: Destination) {
-        with(navController) {
-            navigate(
-                route = destination,
-                navOptions = NavOptionsBuilder().apply {
-                    popUpScreen(currentDestination)
-                }.build()
-            )
-        }
+    override fun <Destination : Any> navigateRemovePrevious(destination: Destination) {
+        navController.navigate(
+            route = destination,
+            navOptions = NavOptionsBuilder().apply {
+                removePreviousScreens()
+            }.build()
+        )
     }
 
-    override fun <Result : Parcelable> navigateToBack(result: Result) {
+    override fun navigateBack() {
+        if (canNavigateBack) navController.popBackStack()
+    }
+
+    override fun <Result : Parcelable> navigateBack(result: Result) {
         with(navController) {
-            if (!canNavigateToBack) return
+            if (!canNavigateBack) return
             previousBackStackEntry?.savedStateHandle?.set(
                 result::class.simpleName.orEmpty(),
                 result
@@ -62,36 +64,29 @@ internal class NavigationProviderImpl @Inject constructor(
         }
     }
 
-    override fun navigateToBack() {
-        if (canNavigateToBack) {
-            navController.popBackStack()
-        }
-    }
-
-    override suspend fun <Destination : Any> navigateAsync(
+    override suspend fun <Destination : Any> asyncNavigate(
         destination: Destination,
         removeCurrentScreen: Boolean
     ) = withContext(Dispatchers.Main) {
         navigate(destination, removeCurrentScreen)
     }
 
-    override suspend fun <Destination : Any> navigateAndClearStackAsync(
+    override suspend fun <Destination : Any> asyncNavigateRemovePrevious(
         destination: Destination
     ) = withContext(Dispatchers.Main) {
-        navigateAndClearStack(destination)
+        navigateRemovePrevious(destination)
     }
 
-    override suspend fun <Result : Parcelable> navigateToBackAsync(result: Result) =
+    override suspend fun asyncNavigateBack() = withContext(Dispatchers.Main) {
+        navigateBack()
+    }
+
+    override suspend fun <Result : Parcelable> asyncNavigateBack(result: Result) =
         withContext(Dispatchers.Main) {
-            navigateToBack(result)
+            navigateBack(result)
         }
 
-    override suspend fun navigateToBackAsync() = withContext(Dispatchers.Main) {
-        navigateToBack()
-    }
-
     private inner class NavOptionsBuilder {
-
         private var navOptions = NavOptions.Builder()
 
         fun singleLauncher() = apply {
@@ -102,6 +97,10 @@ internal class NavigationProviderImpl @Inject constructor(
             navDestination?.id?.let { destinationId ->
                 navOptions = navOptions.setPopUpTo(destinationId, true)
             }
+        }
+
+        fun removePreviousScreens() = apply {
+            navOptions = navOptions.setPopUpTo(0, true)
         }
 
         fun build() = navOptions.build()

@@ -14,7 +14,8 @@ internal fun ApplicationExtension.setApplicationBuildTypes() {
         AppBuildType.values().forEach { buildType ->
             getByName(buildType.buildTypeName) {
                 setSigning(buildType, this@setApplicationBuildTypes)
-                setAppName(buildType)
+                setApplicationIdSuffix(buildType)
+                setManifestPlaceholders(buildType)
             }
         }
     }
@@ -65,14 +66,20 @@ private fun ApplicationBuildType.setSigning(
     }
 }
 
-private fun ApplicationBuildType.setAppName(buildType: AppBuildType) = buildType.getApplicationIdSuffix(
-    onRelease = {
-        manifestPlaceholders["appName"] = AppConfig.APP_NAME
-    },
-    onNonRelease = { suffixId ->
-        val buildTypeNameUpper = buildType.buildTypeName.uppercase()
-        manifestPlaceholders["appName"] = "${AppConfig.APP_NAME} - $buildTypeNameUpper"
-        versionNameSuffix = "-$buildTypeNameUpper"
-        applicationIdSuffix = ".$suffixId"
+private fun ApplicationBuildType.setApplicationIdSuffix(buildType: AppBuildType) {
+    if (buildType != AppBuildType.RELEASE) {
+        versionNameSuffix = "-${buildType.buildTypeNameUpperCase}"
+        applicationIdSuffix = ".${buildType.applicationIdSuffix}"
     }
-)
+}
+
+private fun ApplicationBuildType.setManifestPlaceholders(buildType: AppBuildType) {
+    var appName = "${AppConfig.APP_NAME} - ${buildType.buildTypeNameUpperCase}"
+    var usesClearTextTraffic = true
+    if (buildType == AppBuildType.RELEASE) {
+        appName = AppConfig.APP_NAME
+        usesClearTextTraffic = false
+    }
+    manifestPlaceholders["appName"] = appName
+    manifestPlaceholders["usesCleartextTraffic"] = usesClearTextTraffic
+}

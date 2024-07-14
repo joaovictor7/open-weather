@@ -4,9 +4,9 @@ import com.composetest.common.enums.BuildType
 import com.composetest.common.enums.Flavor
 import com.composetest.common.models.BuildConfigModel
 import com.composetest.common.providers.BuildConfigProvider
-import com.composetest.common.throwables.InvalidCredentialsThrowable
-import com.composetest.common.throwables.RemoteNetworkThrowable
-import com.composetest.core.designsystem.components.alertdialogs.enums.ErrorAlertDialog
+import com.composetest.common.throwables.NetworkThrowable
+import com.composetest.core.designsystem.components.alertdialogs.params.NetworkErrorAlertDialogParam
+import com.composetest.core.domain.throwables.InvalidCredentialsThrowable
 import com.composetest.core.domain.usecases.AuthenticationUseCase
 import com.composetest.core.domain.usecases.session.GetNeedsLoginBySessionUseCase
 import com.composetest.core.router.destinations.home.HomeDestination
@@ -84,7 +84,7 @@ class LoginViewModelTest : CoroutineTest {
                 collectedStates
             )
             coVerify {
-                navigationProvider.navigateAndClearStackAsync(
+                navigationProvider.asyncNavigateRemovePrevious(
                     HomeDestination("teste", InnerHome("te", "23232"))
                 )
             }
@@ -159,7 +159,7 @@ class LoginViewModelTest : CoroutineTest {
                 collectedStates
             )
             coVerify {
-                navigationProvider.navigateAndClearStackAsync(
+                navigationProvider.asyncNavigateRemovePrevious(
                     HomeDestination("teste", InnerHome("te", "23232"))
                 )
             }
@@ -170,7 +170,7 @@ class LoginViewModelTest : CoroutineTest {
         runStateFlowTest(testDispatcher, viewModel.uiState) { job, collectedStates ->
             coEvery {
                 authenticationUseCase.invoke(any(), any())
-            } returns flow { throw RemoteNetworkThrowable() }
+            } returns flow { throw NetworkThrowable() }
 
             viewModel.executeCommand(WriteData("teste@teste.com", "password"))
             viewModel.executeCommand(Login)
@@ -193,7 +193,7 @@ class LoginViewModelTest : CoroutineTest {
                         needsLogin = true,
                         versionName = buildConfigModelMock.versionNameForView,
                         enableLoginButton = true,
-                        errorAlertDialog = ErrorAlertDialog.NETWORK,
+                        errorAlertDialogParam = NetworkErrorAlertDialogParam,
                     )
                 ),
                 collectedStates

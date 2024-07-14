@@ -1,5 +1,5 @@
 package com.composetest.common.throwables
 
-class RemoteNetworkThrowable : Throwable() {
+class NetworkThrowable : Throwable() {
     override val message = "Not internet connection"
 }

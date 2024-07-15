@@ -1,6 +1,6 @@
 package com.composetest.feature.home.ui.home2
 
-import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.safeDrawingPadding
@@ -21,6 +21,7 @@ internal object Home2Screen : Screen<Home2UiState, Home2CommandReceiver> {
         onExecuteCommand: (Command<Home2CommandReceiver>) -> Unit
     ) {
         Column(
+            verticalArrangement = Arrangement.Center,
             modifier = Modifier
                 .safeDrawingPadding()
                 .fillMaxSize()
@@ -29,9 +30,6 @@ internal object Home2Screen : Screen<Home2UiState, Home2CommandReceiver> {
                 Text(text = uiState.t)
             }
             Text(text = "Home2")
-        }
-        BackHandler {
-            onExecuteCommand(ReturnHome)
         }
     }
 }

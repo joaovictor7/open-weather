@@ -6,7 +6,7 @@ import com.composetest.common.providers.BuildConfigProvider
 import com.composetest.common.providers.DateTimeProvider
 import com.composetest.core.data.network.requests.AnalyticRequest
 import com.composetest.core.data.network.requests.ErrorAnalyticRequest
-import com.composetest.core.data.repositories.local.UserRepository
+import com.composetest.core.database.repositories.UserRepository
 import com.composetest.core.data.repositories.remote.AnalyticsRepository
 import com.composetest.core.domain.mappers.UserModelMapper
 import kotlinx.coroutines.flow.first

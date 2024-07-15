@@ -1,8 +1,7 @@
-package com.composetest.core.database.providers
+package com.composetest.core.security.providers
 
 import androidx.sqlite.db.SupportSQLiteOpenHelper
 import com.composetest.core.security.domain.enums.SecureSharedPreferenceKey
-import com.composetest.core.security.providers.SecureSharedPreferencesProvider
 import com.composetest.core.security.utils.getRandomAlphanumericKey
 import com.composetest.common.providers.BuildConfigProvider
 import net.zetetic.database.sqlcipher.SupportOpenHelperFactory
@@ -10,10 +9,10 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-internal class SqlCipherProvider @Inject constructor(
+internal class SqlCipherProviderImpl @Inject constructor(
     private val secureSharedPreferencesProvider: SecureSharedPreferencesProvider,
     private val buildConfigProvider: BuildConfigProvider
-) {
+) : SqlCipherProvider {
 
     private val cipherActivated get() = buildConfigProvider.get.isRelease
 
@@ -21,7 +20,7 @@ internal class SqlCipherProvider @Inject constructor(
         loadCipherLibrary()
     }
 
-    fun getFactory(): SupportSQLiteOpenHelper.Factory? = if (cipherActivated) {
+    override fun getFactory(): SupportSQLiteOpenHelper.Factory? = if (cipherActivated) {
         val cipherPassword = getSqlCipherPassword()
         SupportOpenHelperFactory(cipherPassword.toByteArray())
     } else null

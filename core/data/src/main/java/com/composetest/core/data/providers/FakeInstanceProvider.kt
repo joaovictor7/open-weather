@@ -1,5 +1,5 @@
-package com.composetest.common.providers
+package com.composetest.core.data.providers
 
-interface FakeInstanceProvider {
+internal interface FakeInstanceProvider {
     fun <Instance> getInstance(instance: Instance, fakeInstance: Instance): Instance
 }

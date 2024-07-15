@@ -6,7 +6,7 @@ import androidx.room.Room
 import com.composetest.core.database.converters.LocalDateTimeConverter
 import com.composetest.core.database.database.AppDatabase
 import com.composetest.core.database.constants.DatabaseConfig
-import com.composetest.core.database.providers.SqlCipherProvider
+import com.composetest.core.security.providers.SqlCipherProvider
 import com.composetest.common.providers.BuildConfigProvider
 import dagger.Module
 import dagger.Provides
@@ -18,6 +18,7 @@ import java.util.concurrent.Executors
 @Module
 @InstallIn(SingletonComponent::class)
 internal object DatabaseModule {
+
     @Provides
     fun appDatabase(
         @ApplicationContext context: Context,

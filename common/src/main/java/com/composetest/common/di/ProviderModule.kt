@@ -5,8 +5,6 @@ import com.composetest.common.enums.Flavor
 import com.composetest.common.providers.DateTimeProvider
 import com.composetest.common.providers.DateTimeProviderImpl
 import com.composetest.common.providers.BuildConfigProvider
-import com.composetest.common.providers.FakeInstanceProvider
-import com.composetest.common.providers.FakeInstanceProviderImpl
 import com.composetest.common.providers.NetworkProvider
 import com.composetest.common.providers.NetworkProviderImpl
 import com.composetest.common.providers.fields.buildtypes.BuildTypeFieldsProvider
@@ -25,9 +23,6 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 internal abstract class ProviderBindsModule {
-    @Binds
-    abstract fun fakeInstanceProvider(fakeInstanceProviderImpl: FakeInstanceProviderImpl): FakeInstanceProvider
-
     @Binds
     abstract fun dateTimeProvider(dateTimeProviderImpl: DateTimeProviderImpl): DateTimeProvider
 

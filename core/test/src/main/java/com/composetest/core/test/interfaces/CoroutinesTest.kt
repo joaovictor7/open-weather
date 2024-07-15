@@ -1,10 +1,10 @@
 package com.composetest.core.test.interfaces
 
-import com.composetest.core.test.junitextensions.CoroutineExtensionContext
+import com.composetest.core.test.extensions.CoroutinesExtension
 import kotlinx.coroutines.test.TestDispatcher
 import org.junit.jupiter.api.extension.ExtendWith
 
-@ExtendWith(CoroutineExtensionContext::class)
-interface CoroutineTest {
+@ExtendWith(CoroutinesExtension::class)
+interface CoroutinesTest {
     var testDispatcher: TestDispatcher
 }

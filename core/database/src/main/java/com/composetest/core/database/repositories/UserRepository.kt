@@ -1,4 +1,4 @@
-package com.composetest.core.data.repositories.local
+package com.composetest.core.database.repositories
 
 import com.composetest.core.database.entities.UserEntity
 import kotlinx.coroutines.flow.Flow

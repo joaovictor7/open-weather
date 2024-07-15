@@ -1,6 +1,6 @@
-package com.composetest.core.test.junitextensions
+package com.composetest.core.test.extensions
 
-import com.composetest.core.test.interfaces.CoroutineTest
+import com.composetest.core.test.interfaces.CoroutinesTest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -12,13 +12,13 @@ import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.api.extension.TestInstancePostProcessor
 
 @OptIn(ExperimentalCoroutinesApi::class)
-internal class CoroutineExtensionContext :
+internal class CoroutinesExtension :
     TestInstancePostProcessor, BeforeEachCallback, AfterEachCallback {
 
     private val testDispatcher = UnconfinedTestDispatcher()
 
     override fun postProcessTestInstance(testInstance: Any?, context: ExtensionContext?) {
-        (testInstance as? CoroutineTest)?.let { coroutineTest ->
+        (testInstance as? CoroutinesTest)?.let { coroutineTest ->
             coroutineTest.testDispatcher = testDispatcher
         }
     }

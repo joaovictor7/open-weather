@@ -1,7 +1,7 @@
 package com.composetest.core.domain.usecases.session
 
 import com.composetest.common.providers.DateTimeProvider
-import com.composetest.core.data.repositories.local.SessionRepository
+import com.composetest.core.database.repositories.SessionRepository
 import com.composetest.core.domain.mappers.SessionEntityMapper
 import com.composetest.core.domain.mappers.SessionModelMapper
 import java.time.LocalDateTime

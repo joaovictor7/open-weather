@@ -9,7 +9,6 @@ android {
 
 dependencies {
     implementation(projects.common)
-    implementation(projects.core.database)
     implementation(libs.kotlin.json.serializable)
     implementation(libs.androidx.dataStore)
     implementation(libs.androidx.hilt.work)

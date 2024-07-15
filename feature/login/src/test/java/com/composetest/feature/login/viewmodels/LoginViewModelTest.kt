@@ -13,7 +13,7 @@ import com.composetest.core.router.destinations.home.HomeDestination
 import com.composetest.core.router.destinations.home.navtypes.InnerHome
 import com.composetest.core.router.providers.NavigationProvider
 import com.composetest.core.test.utils.runStateFlowTest
-import com.composetest.core.test.interfaces.CoroutineTest
+import com.composetest.core.test.interfaces.CoroutinesTest
 import com.composetest.feature.login.ui.login.Login
 import com.composetest.feature.login.ui.login.LoginUiState
 import com.composetest.feature.login.ui.login.LoginViewModel
@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class LoginViewModelTest : CoroutineTest {
+class LoginViewModelTest : CoroutinesTest {
 
     override lateinit var testDispatcher: TestDispatcher
 

@@ -1,7 +1,7 @@
 package com.composetest.core.domain.usecases.session
 
-import com.composetest.core.data.repositories.local.SessionRepository
-import com.composetest.core.data.repositories.local.UserRepository
+import com.composetest.core.database.repositories.SessionRepository
+import com.composetest.core.database.repositories.UserRepository
 import com.composetest.core.domain.mappers.SessionEntityMapper
 import com.composetest.core.domain.mappers.UserEntityMapper
 import com.composetest.core.domain.models.session.SessionWithUserModel

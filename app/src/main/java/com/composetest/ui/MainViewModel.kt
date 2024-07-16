@@ -9,6 +9,7 @@ import com.composetest.core.domain.usecases.apptheme.GetAppThemeFromDataStoreUse
 import com.composetest.core.domain.usecases.apptheme.GetAppThemeStateUseCase
 import com.composetest.core.domain.usecases.session.CheckSessionEndUseCase
 import com.composetest.core.router.destinations.login.LoginDestination
+import com.composetest.core.router.enums.NavigationMode
 import com.composetest.core.router.providers.NavigationProvider
 import com.composetest.ui.analytics.MainAnalytic
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -39,7 +40,7 @@ class MainViewModel @Inject constructor(
             val validSession = checkSessionEndUseCase()
             val currentScreenIsLogin = navigationProvider.currentDestinationCheck(LoginDestination)
             if (!validSession && !currentScreenIsLogin) {
-                navigationProvider.asyncNavigateRemovePrevious(LoginDestination)
+                navigationProvider.navigate(LoginDestination, NavigationMode.REMOVE_ALL_SCREENS)
             }
         }
     }

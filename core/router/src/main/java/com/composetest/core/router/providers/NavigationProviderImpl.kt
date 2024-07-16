@@ -2,9 +2,9 @@ package com.composetest.core.router.providers
 
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.SavedStateHandle
-import androidx.navigation.NavDestination
 import androidx.navigation.NavOptions
 import androidx.navigation.get
+import com.composetest.core.router.enums.NavigationMode
 import com.composetest.core.router.interfaces.ResultParam
 import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.Dispatchers
@@ -28,24 +28,12 @@ internal class NavigationProviderImpl @Inject constructor(
 
     override fun <Destination : Any> navigate(
         destination: Destination,
-        removeCurrentScreen: Boolean
+        navigationMode: NavigationMode?
     ) {
         if (!navigateAvailable) return
         navController.navigate(
             route = destination,
-            navOptions = NavOptionsBuilder().apply {
-                if (removeCurrentScreen) popUpScreen(navController.currentDestination)
-            }.build()
-        )
-    }
-
-    override fun <Destination : Any> navigateRemovePrevious(destination: Destination) {
-        if (!navigateAvailable) return
-        navController.navigate(
-            route = destination,
-            navOptions = NavOptionsBuilder().apply {
-                removePreviousScreens()
-            }.build()
+            navOptions = getNavOptions(navigationMode)
         )
     }
 
@@ -64,15 +52,9 @@ internal class NavigationProviderImpl @Inject constructor(
 
     override suspend fun <Destination : Any> asyncNavigate(
         destination: Destination,
-        removeCurrentScreen: Boolean
+        navigationMode: NavigationMode?
     ) = withContext(Dispatchers.Main) {
-        navigate(destination, removeCurrentScreen)
-    }
-
-    override suspend fun <Destination : Any> asyncNavigateRemovePrevious(
-        destination: Destination
-    ) = withContext(Dispatchers.Main) {
-        navigateRemovePrevious(destination)
+        navigate(destination, navigationMode)
     }
 
     override suspend fun asyncNavigateBack() = withContext(Dispatchers.Main) {
@@ -84,19 +66,16 @@ internal class NavigationProviderImpl @Inject constructor(
             navigateBack(result)
         }
 
-    private inner class NavOptionsBuilder {
-        private var navOptions = NavOptions.Builder()
-
-        fun popUpScreen(navDestination: NavDestination?) = apply {
-            navDestination?.id?.let { destinationId ->
-                navOptions = navOptions.setPopUpTo(destinationId, true)
-            }
-        }
-
-        fun removePreviousScreens() = apply {
-            navOptions = navOptions.setPopUpTo(0, true)
-        }
-
-        fun build() = navOptions.build()
+    private fun getNavOptions(mode: NavigationMode?): NavOptions? {
+        val currentDestination = navController.currentDestination
+        return if (mode != null && currentDestination != null) {
+            NavOptions.Builder().apply {
+                val destinationId = when (mode) {
+                    NavigationMode.REMOVE_CURRENT_SCREEN -> currentDestination.id
+                    NavigationMode.REMOVE_ALL_SCREENS -> 0
+                }
+                setPopUpTo(destinationId, true)
+            }.build()
+        } else null
     }
 }

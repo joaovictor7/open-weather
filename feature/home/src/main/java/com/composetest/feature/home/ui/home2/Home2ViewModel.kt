@@ -6,6 +6,7 @@ import com.composetest.core.domain.usecases.AnalyticsUseCase
 import com.composetest.core.router.extensions.getParam
 import com.composetest.core.router.destinations.home.Home2Destination
 import com.composetest.core.router.destinations.home.Home3Destination
+import com.composetest.core.router.enums.NavigationMode
 import com.composetest.core.router.providers.NavigationProvider
 import com.composetest.feature.home.ui.home2.analytics.Home2Analytic
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,7 +29,10 @@ internal class Home2ViewModel @Inject constructor(
     }
 
     override fun returnHome() {
-        navigationProvider.navigateRemovePrevious(Home3Destination("teste", "teste"))
+        navigationProvider.navigate(
+            Home3Destination("teste", "teste"),
+            NavigationMode.REMOVE_CURRENT_SCREEN
+        )
         count++
     }
 

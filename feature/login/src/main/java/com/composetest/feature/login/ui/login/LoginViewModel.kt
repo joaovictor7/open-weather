@@ -15,6 +15,7 @@ import com.composetest.core.domain.usecases.apptheme.SetAppThemeUseCase
 import com.composetest.core.domain.usecases.session.GetNeedsLoginBySessionUseCase
 import com.composetest.core.router.destinations.home.HomeDestination
 import com.composetest.core.router.destinations.home.navtypes.InnerHome
+import com.composetest.core.router.enums.NavigationMode
 import com.composetest.core.router.providers.NavigationProvider
 import com.composetest.feature.login.ui.login.analytics.LoginAnalytic
 import com.composetest.feature.login.ui.login.analytics.LoginClickEventAnalytic
@@ -113,8 +114,9 @@ internal class LoginViewModel @Inject constructor(
     }
 
     private suspend fun navigateToHome() {
-        navigationProvider.asyncNavigateRemovePrevious(
-            HomeDestination("teste", InnerHome("te", "23232"))
+        navigationProvider.asyncNavigate(
+            HomeDestination("teste", InnerHome("te", "23232")),
+            NavigationMode.REMOVE_ALL_SCREENS
         )
     }
 

@@ -1,9 +1,9 @@
 package com.composetest.core.security.di
 
-import com.composetest.core.security.providers.SecureSharedPreferencesProvider
-import com.composetest.core.security.providers.SecureSharedPreferencesProviderImpl
-import com.composetest.core.security.providers.SqlCipherProvider
-import com.composetest.core.security.providers.SqlCipherProviderImpl
+import com.composetest.core.security.providers.CipherProvider
+import com.composetest.core.security.providers.CipherProviderImpl
+import com.composetest.core.security.providers.SqliteCipherProvider
+import com.composetest.core.security.providers.SqliteCipherProviderImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -14,10 +14,12 @@ import dagger.hilt.components.SingletonComponent
 internal abstract class ProviderModule {
 
     @Binds
-    abstract fun sqlCipherProvider(sqlCipherProviderImpl: SqlCipherProviderImpl): SqlCipherProvider
+    abstract fun cipherProvider(
+        cipherProviderImpl: CipherProviderImpl
+    ): CipherProvider
 
     @Binds
-    abstract fun secureSharedPreferencesProvider(
-        secureSharedPreferencesProviderImpl: SecureSharedPreferencesProviderImpl
-    ): SecureSharedPreferencesProvider
+    abstract fun sqlCipherProvider(
+        sqliteCipherProviderImpl: SqliteCipherProviderImpl
+    ): SqliteCipherProvider
 }

@@ -8,6 +8,6 @@ private val charPool = ('a'..'z') + ('A'..'Z') + ('0'..'9') +
         '^', '(', ')', '%'
     )
 
-fun getRandomAlphanumericKey(textSize: Int = 100) =
+fun getAlphanumericRandomKey(textSize: Int = 100) =
     (1..textSize).map { Random.nextInt(0, charPool.size).let { charPool[it] } }
         .joinToString(String())

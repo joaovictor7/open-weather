@@ -3,11 +3,12 @@ package com.composetest.core.database.di
 import android.content.Context
 import android.util.Log
 import androidx.room.Room
+import com.composetest.common.providers.BuildConfigProvider
+import com.composetest.core.database.constants.DatabaseConfig
 import com.composetest.core.database.converters.LocalDateTimeConverter
 import com.composetest.core.database.database.AppDatabase
-import com.composetest.core.database.constants.DatabaseConfig
-import com.composetest.core.security.providers.SqlCipherProvider
-import com.composetest.common.providers.BuildConfigProvider
+import com.composetest.core.database.usecases.GetSecretKeyUseCase
+import com.composetest.core.security.providers.SqliteCipherProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,21 +24,26 @@ internal object DatabaseModule {
     fun appDatabase(
         @ApplicationContext context: Context,
         buildConfigProvider: BuildConfigProvider,
-        sqlCipherProvider: SqlCipherProvider
-    ): AppDatabase = Room.databaseBuilder(
-        context,
-        AppDatabase::class.java,
-        DatabaseConfig.DATABASE_NAME
-    ).openHelperFactory(sqlCipherProvider.getFactory())
-        .addTypeConverter(LocalDateTimeConverter()).apply {
-            if (!buildConfigProvider.get.isRelease) {
-                setQueryCallback({ sqlQuery, bindArgs ->
-                    Log.i("SQLite", "SQL Query: $sqlQuery")
-                    if (bindArgs.isNotEmpty()) {
-                        Log.i("SQLite", "SQL Args: $bindArgs")
-                    }
-                }, Executors.newSingleThreadExecutor())
+        getSecretKeyUseCase: GetSecretKeyUseCase,
+        sqliteCipherProvider: SqliteCipherProvider
+    ): AppDatabase {
+        val secretKey = getSecretKeyUseCase()
+        return Room.databaseBuilder(
+            context,
+            AppDatabase::class.java,
+            DatabaseConfig.DATABASE_NAME
+        )
+            .openHelperFactory(secretKey?.let { sqliteCipherProvider.getFactory(it) })
+            .addTypeConverter(LocalDateTimeConverter()).apply {
+                if (!buildConfigProvider.get.isRelease) {
+                    setQueryCallback({ sqlQuery, bindArgs ->
+                        Log.i("SQLite", "SQL Query: $sqlQuery")
+                        if (bindArgs.isNotEmpty()) {
+                            Log.i("SQLite", "SQL Args: $bindArgs")
+                        }
+                    }, Executors.newSingleThreadExecutor())
+                }
             }
-        }
-        .build()
+            .build()
+    }
 }

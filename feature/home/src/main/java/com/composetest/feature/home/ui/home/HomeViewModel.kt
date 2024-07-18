@@ -2,7 +2,6 @@ package com.composetest.feature.home.ui.home
 
 import androidx.lifecycle.viewModelScope
 import com.composetest.core.ui.bases.BaseViewModel
-import com.composetest.common.di.qualifiers.IoDispatcher
 import com.composetest.common.enums.Theme
 import com.composetest.core.domain.usecases.AnalyticsUseCase
 import com.composetest.core.domain.usecases.apptheme.SetAppThemeUseCase
@@ -14,7 +13,6 @@ import com.composetest.core.router.providers.NavigationProvider
 import com.composetest.core.router.results.Home2Result
 import com.composetest.feature.home.ui.home.analytics.HomeAnalytic
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,8 +20,7 @@ import javax.inject.Inject
 internal class HomeViewModel @Inject constructor(
     private val navigationProvider: NavigationProvider,
     private val setAppThemeUseCase: SetAppThemeUseCase,
-    override val analyticsUseCase: AnalyticsUseCase,
-    @IoDispatcher override val dispatcher: CoroutineDispatcher
+    override val analyticsUseCase: AnalyticsUseCase
 ) : BaseViewModel<HomeUiState>(HomeAnalytic(), HomeUiState()), HomeCommandReceiver {
 
     override val commandReceiver = this
@@ -43,7 +40,7 @@ internal class HomeViewModel @Inject constructor(
         theme: Theme?,
         dynamicColors: Boolean?
     ) {
-        viewModelScope.launch(dispatcher) {
+        viewModelScope.launch {
             when {
                 theme != null -> setAppThemeUseCase(theme)
                 dynamicColors != null -> setAppThemeUseCase(dynamicColors)

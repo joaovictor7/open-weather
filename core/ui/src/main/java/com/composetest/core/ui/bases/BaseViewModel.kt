@@ -2,16 +2,14 @@ package com.composetest.core.ui.bases
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.composetest.common.analytics.interfaces.Analytic
 import com.composetest.common.analytics.ErrorAnalyticEvent
 import com.composetest.common.analytics.OpenScreenAnalyticEvent
+import com.composetest.common.analytics.interfaces.Analytic
 import com.composetest.core.domain.usecases.AnalyticsUseCase
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
@@ -22,7 +20,6 @@ abstract class BaseViewModel<UiState>(
     uiState: UiState
 ) : ViewModel() {
 
-    abstract val dispatcher: CoroutineDispatcher
     abstract val analyticsUseCase: AnalyticsUseCase
 
     private val _uiState = MutableStateFlow(uiState)
@@ -33,7 +30,7 @@ abstract class BaseViewModel<UiState>(
     }
 
     protected fun openScreenAnalytic() {
-        viewModelScope.launch(dispatcher) {
+        viewModelScope.launch {
             analyticsUseCase(OpenScreenAnalyticEvent(analytic))
         }
     }
@@ -46,14 +43,27 @@ abstract class BaseViewModel<UiState>(
         onCollect: suspend (param: T) -> Unit
     ) {
         viewModelScope.launch {
-            flow.flowOn(dispatcher)
-                .onStart { onStart?.invoke() }
+            flow.onStart { onStart?.invoke() }
                 .onCompletion { onCompletion?.invoke() }
                 .catch {
                     analyticsUseCase(ErrorAnalyticEvent(it, analytic))
                     onError?.invoke(it)
                 }
                 .collect { onCollect(it) }
+        }
+    }
+
+    protected fun asyncAction(
+        onError: (suspend (e: Throwable) -> Unit)? = null,
+        onAction: suspend () -> Unit,
+    ) {
+        viewModelScope.launch {
+            runCatching {
+                onAction()
+            }.onFailure {
+                analyticsUseCase(ErrorAnalyticEvent(it, analytic))
+                onError?.invoke(it)
+            }
         }
     }
 }

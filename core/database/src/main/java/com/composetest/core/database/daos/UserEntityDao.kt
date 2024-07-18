@@ -5,7 +5,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.composetest.core.database.entities.UserEntity
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UserEntityDao {
@@ -19,5 +18,5 @@ interface UserEntityDao {
             "ORDER BY session.sessionId DESC " +
             "LIMIT 1"
     )
-    fun getCurrentUser(): Flow<UserEntity?>
+    suspend fun getCurrentUser(): UserEntity?
 }

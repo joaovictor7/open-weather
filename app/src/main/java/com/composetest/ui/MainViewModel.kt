@@ -2,7 +2,6 @@ package com.composetest.ui
 
 import androidx.lifecycle.viewModelScope
 import com.composetest.core.ui.bases.BaseViewModel
-import com.composetest.common.di.qualifiers.IoDispatcher
 import com.composetest.common.models.AppThemeModel
 import com.composetest.core.domain.usecases.AnalyticsUseCase
 import com.composetest.core.domain.usecases.apptheme.GetAppThemeFromDataStoreUseCase
@@ -13,7 +12,6 @@ import com.composetest.core.router.enums.NavigationMode
 import com.composetest.core.router.providers.NavigationProvider
 import com.composetest.ui.analytics.MainAnalytic
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,8 +21,7 @@ class MainViewModel @Inject constructor(
     private val getAppThemeStateUseCase: GetAppThemeStateUseCase,
     private val checkSessionEndUseCase: CheckSessionEndUseCase,
     private val navigationProvider: NavigationProvider,
-    override val analyticsUseCase: AnalyticsUseCase,
-    @IoDispatcher override val dispatcher: CoroutineDispatcher
+    override val analyticsUseCase: AnalyticsUseCase
 ) : BaseViewModel<MainUiState>(MainAnalytic(), MainUiState()), MainCommandReceiver {
 
     override val commandReceiver = this
@@ -36,7 +33,7 @@ class MainViewModel @Inject constructor(
     }
 
     override fun verifySession() {
-        viewModelScope.launch(dispatcher) {
+        viewModelScope.launch {
             val validSession = checkSessionEndUseCase()
             val currentScreenIsLogin = navigationProvider.currentDestinationCheck(LoginDestination)
             if (!validSession && !currentScreenIsLogin) {
@@ -45,7 +42,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    private fun getAppThemeFromDataStore() = viewModelScope.launch(dispatcher) {
+    private fun getAppThemeFromDataStore() = viewModelScope.launch {
         getAppThemeFromDataStoreUseCase()
     }
 

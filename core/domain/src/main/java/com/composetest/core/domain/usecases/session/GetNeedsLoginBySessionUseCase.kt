@@ -1,6 +1,6 @@
 package com.composetest.core.domain.usecases.session
 
-import com.composetest.core.database.repositories.SessionRepository
+import com.composetest.core.database.data.repositories.SessionRepository
 import com.composetest.core.domain.mappers.SessionModelMapper
 import javax.inject.Inject
 import javax.inject.Singleton

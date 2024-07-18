@@ -6,10 +6,9 @@ import com.composetest.common.providers.BuildConfigProvider
 import com.composetest.common.providers.DateTimeProvider
 import com.composetest.core.data.network.requests.AnalyticRequest
 import com.composetest.core.data.network.requests.ErrorAnalyticRequest
-import com.composetest.core.database.repositories.UserRepository
-import com.composetest.core.data.repositories.remote.AnalyticsRepository
+import com.composetest.core.database.data.repositories.UserRepository
+import com.composetest.core.data.data.repositories.remote.AnalyticsRepository
 import com.composetest.core.domain.mappers.UserModelMapper
-import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -37,7 +36,7 @@ class AnalyticsUseCase @Inject constructor(
     }
 
     private suspend fun Map<String, *>.addDefaultParams(): Map<String, *> {
-        val user = userRepository.getCurrentUser(userModelMapper::invoke).first()
+        val user = userRepository.getCurrentUser(userModelMapper::invoke)
         return mapOf(
             USER_ID to user?.id.orEmpty(),
             LOGGED_SESSION to (user != null).toString(),

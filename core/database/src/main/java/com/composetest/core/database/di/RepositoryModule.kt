@@ -1,9 +1,9 @@
 package com.composetest.core.database.di
 
-import com.composetest.core.database.repositories.SessionRepository
-import com.composetest.core.database.repositories.SessionRepositoryImpl
-import com.composetest.core.database.repositories.UserRepository
-import com.composetest.core.database.repositories.UserRepositoryImpl
+import com.composetest.core.database.data.repositories.SessionRepository
+import com.composetest.core.database.data.repositories.SessionRepositoryImpl
+import com.composetest.core.database.data.repositories.UserRepository
+import com.composetest.core.database.data.repositories.UserRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

@@ -1,15 +1,12 @@
 package com.composetest.feature.login.ui.login
 
 import androidx.lifecycle.viewModelScope
-import com.composetest.core.ui.bases.BaseViewModel
-import com.composetest.common.di.qualifiers.IoDispatcher
 import com.composetest.common.enums.Theme
 import com.composetest.common.providers.BuildConfigProvider
 import com.composetest.core.designsystem.components.alertdialogs.extensions.errorAlertDialogParam
 import com.composetest.core.domain.throwables.InvalidCredentialsThrowable
-import com.composetest.feature.login.models.LoginFormModel
-import com.composetest.core.domain.usecases.AuthenticationUseCase
 import com.composetest.core.domain.usecases.AnalyticsUseCase
+import com.composetest.core.domain.usecases.AuthenticationUseCase
 import com.composetest.core.domain.usecases.apptheme.GetAppThemeStateUseCase
 import com.composetest.core.domain.usecases.apptheme.SetAppThemeUseCase
 import com.composetest.core.domain.usecases.session.GetNeedsLoginBySessionUseCase
@@ -17,10 +14,11 @@ import com.composetest.core.router.destinations.home.HomeDestination
 import com.composetest.core.router.destinations.home.navtypes.InnerHome
 import com.composetest.core.router.enums.NavigationMode
 import com.composetest.core.router.providers.NavigationProvider
+import com.composetest.core.ui.bases.BaseViewModel
+import com.composetest.feature.login.models.LoginFormModel
 import com.composetest.feature.login.ui.login.analytics.LoginAnalytic
 import com.composetest.feature.login.ui.login.analytics.LoginClickEventAnalytic
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,8 +30,7 @@ internal class LoginViewModel @Inject constructor(
     private val setAppThemeUseCase: SetAppThemeUseCase,
     private val authenticationUseCase: AuthenticationUseCase,
     private val getNeedsLoginBySessionUseCase: GetNeedsLoginBySessionUseCase,
-    override val analyticsUseCase: AnalyticsUseCase,
-    @IoDispatcher override val dispatcher: CoroutineDispatcher
+    override val analyticsUseCase: AnalyticsUseCase
 ) : BaseViewModel<LoginUiState>(LoginAnalytic(), LoginUiState()), LoginCommandReceiver {
 
     override val commandReceiver = this
@@ -51,16 +48,13 @@ internal class LoginViewModel @Inject constructor(
     }
 
     override fun login() {
-        collectFlow(
-            flow = authenticationUseCase(loginFormModel.email, loginFormModel.password),
-            onStart = {
-                analyticsUseCase(LoginClickEventAnalytic())
-                updateUiState { it.setLoading(true) }
-            },
-            onCompletion = { updateUiState { it.setLoading(false) } },
-            onError = ::handleLoginError,
-            onCollect = { navigateToHome() }
-        )
+        asyncAction(onError = ::handleLoginError) {
+            analyticsUseCase(LoginClickEventAnalytic())
+            updateUiState { it.setLoading(true) }
+            authenticationUseCase(loginFormModel.email)
+            updateUiState { it.setLoading(false) }
+            navigateToHome()
+        }
     }
 
     override fun writeData(email: String?, password: String?) {
@@ -95,7 +89,7 @@ internal class LoginViewModel @Inject constructor(
         }
     }
 
-    private fun checkNeedsLogin() = viewModelScope.launch(dispatcher) {
+    private fun checkNeedsLogin() = viewModelScope.launch {
         if (getNeedsLoginBySessionUseCase()) {
             openScreenAnalytic()
             initState()

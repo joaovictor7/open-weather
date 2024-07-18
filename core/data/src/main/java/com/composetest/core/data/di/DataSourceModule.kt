@@ -1,11 +1,11 @@
 package com.composetest.core.data.di
 
-import com.composetest.core.data.datasources.local.PreferenceDataSource
-import com.composetest.core.data.datasources.local.PreferenceDataSourceImpl
-import com.composetest.core.data.datasources.remote.AuthenticationDataSource
-import com.composetest.core.data.datasources.remote.AuthenticationDataSourceImpl
-import com.composetest.core.data.datasources.remote.FirebaseAnalyticsDataSource
-import com.composetest.core.data.datasources.remote.FirebaseAnalyticsDataSourceImpl
+import com.composetest.core.data.data.datasources.local.PreferenceDataSource
+import com.composetest.core.data.data.datasources.local.PreferenceDataSourceImpl
+import com.composetest.core.data.data.datasources.remote.AuthenticationDataSource
+import com.composetest.core.data.data.datasources.remote.AuthenticationDataSourceImpl
+import com.composetest.core.data.data.datasources.remote.FirebaseAnalyticsDataSource
+import com.composetest.core.data.data.datasources.remote.FirebaseAnalyticsDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

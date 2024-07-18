@@ -1,7 +1,7 @@
 package com.composetest.core.database.usecases
 
 import com.composetest.common.providers.BuildConfigProvider
-import com.composetest.core.data.repositories.local.DatabaseRepository
+import com.composetest.core.data.data.repositories.local.DatabaseRepository
 import com.composetest.core.security.providers.CipherProvider
 import com.composetest.core.security.utils.getAlphanumericRandomKey
 import kotlinx.coroutines.runBlocking

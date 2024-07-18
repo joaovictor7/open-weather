@@ -11,6 +11,7 @@ import com.composetest.core.domain.usecases.AuthenticationUseCase
 import com.composetest.core.domain.usecases.session.GetNeedsLoginBySessionUseCase
 import com.composetest.core.router.destinations.home.HomeDestination
 import com.composetest.core.router.destinations.home.navtypes.InnerHome
+import com.composetest.core.router.enums.NavigationMode
 import com.composetest.core.router.providers.NavigationProvider
 import com.composetest.core.test.utils.runStateFlowTest
 import com.composetest.core.test.interfaces.CoroutinesTest
@@ -22,6 +23,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.test.TestDispatcher
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
@@ -84,8 +86,9 @@ class LoginViewModelTest : CoroutinesTest {
                 collectedStates
             )
             coVerify {
-                navigationProvider.asyncNavigateRemovePrevious(
-                    HomeDestination("teste", InnerHome("te", "23232"))
+                navigationProvider.asyncNavigate(
+                    HomeDestination("teste", InnerHome("te", "23232")),
+                    NavigationMode.REMOVE_ALL_SCREENS
                 )
             }
         }
@@ -96,7 +99,7 @@ class LoginViewModelTest : CoroutinesTest {
         runStateFlowTest(testDispatcher, viewModel.uiState) { job, collectedStates ->
             coEvery {
                 authenticationUseCase.invoke(any(), any())
-            } returns flow { throw InvalidCredentialsThrowable() }
+            } returns flow<Boolean> { throw InvalidCredentialsThrowable() }.flowOn(testDispatcher)
 
             viewModel.executeCommand(WriteData("teste@teste.com", "password"))
             viewModel.executeCommand(Login)
@@ -131,7 +134,7 @@ class LoginViewModelTest : CoroutinesTest {
         runStateFlowTest(testDispatcher, viewModel.uiState) { job, collectedStates ->
             coEvery {
                 authenticationUseCase(any(), any())
-            } returns flow { emit(true) }
+            } returns flow { emit(true) }.flowOn(testDispatcher)
 
             viewModel.executeCommand(WriteData("teste@teste.com", "password"))
             viewModel.executeCommand(Login)
@@ -159,8 +162,9 @@ class LoginViewModelTest : CoroutinesTest {
                 collectedStates
             )
             coVerify {
-                navigationProvider.asyncNavigateRemovePrevious(
-                    HomeDestination("teste", InnerHome("te", "23232"))
+                navigationProvider.asyncNavigate(
+                    HomeDestination("teste", InnerHome("te", "23232")),
+                    NavigationMode.REMOVE_ALL_SCREENS
                 )
             }
         }
@@ -170,7 +174,7 @@ class LoginViewModelTest : CoroutinesTest {
         runStateFlowTest(testDispatcher, viewModel.uiState) { job, collectedStates ->
             coEvery {
                 authenticationUseCase.invoke(any(), any())
-            } returns flow { throw NetworkThrowable() }
+            } returns flow<Boolean> { throw NetworkThrowable() }.flowOn(testDispatcher)
 
             viewModel.executeCommand(WriteData("teste@teste.com", "password"))
             viewModel.executeCommand(Login)
@@ -207,7 +211,6 @@ class LoginViewModelTest : CoroutinesTest {
         setAppThemeUseCase = mockk(),
         authenticationUseCase = authenticationUseCase,
         analyticsUseCase = mockk(relaxed = true),
-        getNeedsLoginBySessionUseCase = getNeedsLoginBySessionUseCase,
-        dispatcher = testDispatcher
+        getNeedsLoginBySessionUseCase = getNeedsLoginBySessionUseCase
     )
 }

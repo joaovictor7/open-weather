@@ -1,11 +1,11 @@
 package com.composetest.core.data.di
 
 import com.composetest.common.providers.DateTimeProvider
+import com.composetest.core.data.data.datasources.remote.AuthenticationDataSourceImpl
 import com.composetest.core.data.providers.FakeInstanceProvider
-import com.composetest.core.data.datasources.remote.AuthenticationDataSourceImpl
 import com.composetest.core.data.providers.RemoteCallProvider
-import com.composetest.core.data.repositories.remote.AuthenticationRepositoryFakeImpl
-import com.composetest.core.data.repositories.remote.AuthenticationRepositoryImpl
+import com.composetest.core.data.data.repositories.remote.AuthenticationRepositoryFakeImpl
+import com.composetest.core.data.data.repositories.remote.AuthenticationRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

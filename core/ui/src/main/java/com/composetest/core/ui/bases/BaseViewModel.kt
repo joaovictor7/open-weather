@@ -54,13 +54,21 @@ abstract class BaseViewModel<UiState : BaseUiState>(
         }
     }
 
-    protected fun runAsyncTask(onAsyncTask: suspend () -> Unit) {
+    protected fun runAsyncTask(
+        onError: (suspend (Throwable) -> Unit)? = null,
+        onStart: (suspend () -> Unit)? = null,
+        onCompletion: (suspend () -> Unit)? = null,
+        onAsyncTask: suspend () -> Unit
+    ) {
         viewModelScope.launch {
+            onStart?.invoke()
             runCatching {
                 onAsyncTask()
             }.onFailure {
                 analyticsUseCase(ErrorAnalyticEvent(it, analytic))
+                onError?.invoke(it)
             }
+            onCompletion?.invoke()
         }
     }
 }

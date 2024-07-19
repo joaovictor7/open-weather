@@ -1,6 +1,5 @@
 package com.composetest.feature.login.ui.login
 
-import androidx.lifecycle.viewModelScope
 import com.composetest.common.enums.Theme
 import com.composetest.common.providers.BuildConfigProvider
 import com.composetest.core.designsystem.components.alertdialogs.extensions.errorAlertDialogParam
@@ -17,9 +16,7 @@ import com.composetest.core.router.providers.NavigationProvider
 import com.composetest.core.ui.bases.BaseViewModel
 import com.composetest.feature.login.models.LoginFormModel
 import com.composetest.feature.login.ui.login.analytics.LoginAnalytic
-import com.composetest.feature.login.ui.login.analytics.LoginClickEventAnalytic
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -48,15 +45,12 @@ internal class LoginViewModel @Inject constructor(
     }
 
     override fun login() {
-        runFlowTask(
-            flow = authenticationUseCase(loginFormModel.email, loginFormModel.password),
+        runAsyncTask(
             onError = ::handleLoginError,
-            onCompletion = { updateUiState { it.setLoading(false) } },
-            onStart = {
-                analyticsUseCase(LoginClickEventAnalytic())
-                updateUiState { it.setLoading(true) }
-            },
+            onStart = { updateUiState { it.setLoading(true) } },
+            onCompletion = { updateUiState { it.setLoading(false) } }
         ) {
+            authenticationUseCase(loginFormModel.email, loginFormModel.password)
             navigateToHome()
         }
     }

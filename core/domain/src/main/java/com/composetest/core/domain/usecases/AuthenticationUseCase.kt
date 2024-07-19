@@ -19,16 +19,18 @@ class AuthenticationUseCase @Inject constructor(
     private val sessionModelMapper: SessionModelMapper
 ) {
 
-    operator fun invoke(email: String, password: String) =
-        authenticationRepository.authentication(
-            AuthenticationRequest(email, password, true),
-            sessionModelMapper::invoke
-        ).catch {
+    suspend operator fun invoke(email: String, password: String) {
+        val response = runCatching {
+            authenticationRepository.authentication(
+                AuthenticationRequest(email, password, true),
+                sessionModelMapper::invoke
+            )
+        }.getOrElse {
             when (it) {
                 is UnauthorizedRequestThrowable -> throw InvalidCredentialsThrowable()
                 else -> throw it
             }
-        }.onEach {
-            createSessionUseCase(it)
-        }.map { true }
+        }
+        createSessionUseCase(response)
+    }
 }

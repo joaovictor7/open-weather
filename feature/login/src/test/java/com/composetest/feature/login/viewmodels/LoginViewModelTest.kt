@@ -22,9 +22,8 @@ import com.composetest.feature.login.ui.login.WriteData
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.test.TestDispatcher
+import kotlinx.coroutines.withContext
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -100,7 +99,7 @@ class LoginViewModelTest : CoroutinesTest {
         runStateFlowTest(testDispatcher, viewModel.uiState) { job, collectedStates ->
             coEvery {
                 authenticationUseCase.invoke(any(), any())
-            } returns flow<Boolean> { throw InvalidCredentialsThrowable() }.flowOn(testDispatcher)
+            } coAnswers { withContext(testDispatcher) { throw InvalidCredentialsThrowable() } }
 
             viewModel.executeCommand(WriteData("teste@teste.com", "password"))
             viewModel.executeCommand(Login)
@@ -135,7 +134,7 @@ class LoginViewModelTest : CoroutinesTest {
         runStateFlowTest(testDispatcher, viewModel.uiState) { job, collectedStates ->
             coEvery {
                 authenticationUseCase(any(), any())
-            } returns flow { emit(true) }.flowOn(testDispatcher)
+            } coAnswers { withContext(testDispatcher) { } }
 
             viewModel.executeCommand(WriteData("teste@teste.com", "password"))
             viewModel.executeCommand(Login)
@@ -175,7 +174,7 @@ class LoginViewModelTest : CoroutinesTest {
         runStateFlowTest(testDispatcher, viewModel.uiState) { job, collectedStates ->
             coEvery {
                 authenticationUseCase.invoke(any(), any())
-            } returns flow<Boolean> { throw NetworkThrowable() }.flowOn(testDispatcher)
+            } coAnswers { withContext(testDispatcher) { throw NetworkThrowable() } }
 
             viewModel.executeCommand(WriteData("teste@teste.com", "password"))
             viewModel.executeCommand(Login)

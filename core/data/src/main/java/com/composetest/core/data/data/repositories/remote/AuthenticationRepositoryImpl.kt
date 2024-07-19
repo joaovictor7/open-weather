@@ -4,7 +4,6 @@ import com.composetest.core.data.data.datasources.remote.AuthenticationDataSourc
 import com.composetest.core.data.network.requests.AuthenticationRequest
 import com.composetest.core.data.network.responses.AuthenticationResponse
 import com.composetest.core.data.providers.RemoteCallProvider
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -14,10 +13,10 @@ internal class AuthenticationRepositoryImpl @Inject constructor(
     private val authenticationDataSource: AuthenticationDataSource
 ) : AuthenticationRepository {
 
-    override fun <T> authentication(
+    override suspend fun <T> authentication(
         request: AuthenticationRequest,
         mapper: (AuthenticationResponse) -> T
-    ) = remoteCallProvider.safeRemoteCall(
-        authenticationDataSource.authentication(request)
-    ).map(mapper)
+    ) = remoteCallProvider.safeRemoteCall {
+        mapper(authenticationDataSource.authentication(request))
+    }
 }

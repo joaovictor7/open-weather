@@ -2,10 +2,11 @@ package com.composetest.core.data.data.datasources.remote
 
 import com.composetest.core.data.network.requests.AuthenticationRequest
 import com.composetest.core.data.network.responses.AuthenticationResponse
+import kotlinx.coroutines.flow.Flow
 
 internal interface AuthenticationDataSource {
 
-    suspend fun authentication(
+    fun authentication(
         authenticationRequest: AuthenticationRequest
-    ): AuthenticationResponse
+    ): Flow<AuthenticationResponse>
 }

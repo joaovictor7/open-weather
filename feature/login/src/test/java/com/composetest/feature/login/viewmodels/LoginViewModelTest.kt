@@ -81,6 +81,7 @@ class LoginViewModelTest : CoroutinesTest {
         val viewModel = initViewModel()
         runStateFlowTest(testDispatcher, viewModel.uiState) { job, collectedStates ->
             job.cancel()
+
             assertEquals(
                 listOf(LoginUiState()),
                 collectedStates

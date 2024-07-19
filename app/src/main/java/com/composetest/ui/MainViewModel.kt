@@ -1,6 +1,5 @@
 package com.composetest.ui
 
-import androidx.lifecycle.viewModelScope
 import com.composetest.core.ui.bases.BaseViewModel
 import com.composetest.common.models.AppThemeModel
 import com.composetest.core.domain.usecases.AnalyticsUseCase
@@ -12,7 +11,6 @@ import com.composetest.core.router.enums.NavigationMode
 import com.composetest.core.router.providers.NavigationProvider
 import com.composetest.ui.analytics.MainAnalytic
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -33,7 +31,7 @@ class MainViewModel @Inject constructor(
     }
 
     override fun verifySession() {
-        viewModelScope.launch {
+        runAsyncTask {
             val validSession = checkSessionEndUseCase()
             val currentScreenIsLogin = navigationProvider.currentDestinationCheck(LoginDestination)
             if (!validSession && !currentScreenIsLogin) {
@@ -42,11 +40,11 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    private fun getAppThemeFromDataStore() = viewModelScope.launch {
+    private fun getAppThemeFromDataStore() = runAsyncTask {
         getAppThemeFromDataStoreUseCase()
     }
 
-    private fun iniState() = collectFlow(flow = getAppThemeStateUseCase()) {
+    private fun iniState() = runFlowTask(flow = getAppThemeStateUseCase()) {
         setSystemStyles(it)
     }
 

@@ -9,9 +9,4 @@ interface AuthenticationRepository {
         request: AuthenticationRequest,
         mapper: (AuthenticationResponse) -> T
     ): Flow<T>
-
-    suspend fun <T> authentication1(
-        request: AuthenticationRequest,
-        mapper: (AuthenticationResponse) -> T
-    ): T
 }

@@ -40,7 +40,7 @@ internal class HomeViewModel @Inject constructor(
         theme: Theme?,
         dynamicColors: Boolean?
     ) {
-        viewModelScope.launch {
+        runAsyncTask {
             when {
                 theme != null -> setAppThemeUseCase(theme)
                 dynamicColors != null -> setAppThemeUseCase(dynamicColors)
@@ -49,7 +49,7 @@ internal class HomeViewModel @Inject constructor(
     }
 
     private fun teste() {
-        collectFlow(flow = navigationProvider.getResultFlow<Home2Result>()) {
+        runFlowTask(flow = navigationProvider.getResultFlow<Home2Result>()) {
             val e = it
         }
     }

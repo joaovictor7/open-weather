@@ -6,6 +6,7 @@ import com.composetest.common.analytics.ErrorAnalyticEvent
 import com.composetest.common.analytics.OpenScreenAnalyticEvent
 import com.composetest.common.analytics.interfaces.Analytic
 import com.composetest.core.domain.usecases.AnalyticsUseCase
+import com.composetest.core.ui.interfaces.BaseUiState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,7 +16,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-abstract class BaseViewModel<UiState>(
+abstract class BaseViewModel<UiState : BaseUiState>(
     private val analytic: Analytic,
     uiState: UiState
 ) : ViewModel() {
@@ -30,12 +31,12 @@ abstract class BaseViewModel<UiState>(
     }
 
     protected fun openScreenAnalytic() {
-        viewModelScope.launch {
+        runAsyncTask {
             analyticsUseCase(OpenScreenAnalyticEvent(analytic))
         }
     }
 
-    protected fun <T> collectFlow(
+    protected fun <T> runFlowTask(
         flow: Flow<T>,
         onError: (suspend (e: Throwable) -> Unit)? = null,
         onStart: (suspend () -> Unit)? = null,
@@ -53,16 +54,12 @@ abstract class BaseViewModel<UiState>(
         }
     }
 
-    protected fun asyncAction(
-        onError: (suspend (e: Throwable) -> Unit)? = null,
-        onAction: suspend () -> Unit,
-    ) {
+    protected fun runAsyncTask(onAsyncTask: suspend () -> Unit) {
         viewModelScope.launch {
             runCatching {
-                onAction()
+                onAsyncTask()
             }.onFailure {
                 analyticsUseCase(ErrorAnalyticEvent(it, analytic))
-                onError?.invoke(it)
             }
         }
     }

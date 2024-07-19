@@ -48,11 +48,15 @@ internal class LoginViewModel @Inject constructor(
     }
 
     override fun login() {
-        asyncAction(onError = ::handleLoginError) {
-            analyticsUseCase(LoginClickEventAnalytic())
-            updateUiState { it.setLoading(true) }
-            authenticationUseCase(loginFormModel.email)
-            updateUiState { it.setLoading(false) }
+        runFlowTask(
+            flow = authenticationUseCase(loginFormModel.email, loginFormModel.password),
+            onError = ::handleLoginError,
+            onCompletion = { updateUiState { it.setLoading(false) } },
+            onStart = {
+                analyticsUseCase(LoginClickEventAnalytic())
+                updateUiState { it.setLoading(true) }
+            },
+        ) {
             navigateToHome()
         }
     }
@@ -89,7 +93,7 @@ internal class LoginViewModel @Inject constructor(
         }
     }
 
-    private fun checkNeedsLogin() = viewModelScope.launch {
+    private fun checkNeedsLogin() = runAsyncTask {
         if (getNeedsLoginBySessionUseCase()) {
             openScreenAnalytic()
             initState()

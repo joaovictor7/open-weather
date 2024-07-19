@@ -8,6 +8,8 @@ import com.composetest.core.data.data.repositories.local.WorkManagerRepository
 import com.composetest.core.data.data.repositories.local.WorkManagerRepositoryImpl
 import com.composetest.core.data.data.repositories.remote.AnalyticsRepository
 import com.composetest.core.data.data.repositories.remote.AnalyticsRepositoryImpl
+import com.composetest.core.data.data.repositories.remote.AuthenticationRepository
+import com.composetest.core.data.data.repositories.remote.AuthenticationRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -15,16 +17,32 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal abstract class RepositoryBindsModule {
+internal abstract class RepositoryModule {
+
+    // Locals
     @Binds
-    abstract fun appThemeRepository(appThemeRepositoryImpl: AppThemeRepositoryImpl): AppThemeRepository
+    abstract fun appThemeRepository(
+        appThemeRepositoryImpl: AppThemeRepositoryImpl
+    ): AppThemeRepository
 
     @Binds
-    abstract fun workManagerRepository(workManagerRepositoryImpl: WorkManagerRepositoryImpl): WorkManagerRepository
+    abstract fun workManagerRepository(
+        workManagerRepositoryImpl: WorkManagerRepositoryImpl
+    ): WorkManagerRepository
 
     @Binds
-    abstract fun analyticsRepository(analyticsRepositoryImpl: AnalyticsRepositoryImpl): AnalyticsRepository
+    abstract fun analyticsRepository(
+        analyticsRepositoryImpl: AnalyticsRepositoryImpl
+    ): AnalyticsRepository
 
     @Binds
-    abstract fun databaseRepository(databaseRepositoryImpl: DatabaseRepositoryImpl): DatabaseRepository
+    abstract fun databaseRepository(
+        databaseRepositoryImpl: DatabaseRepositoryImpl
+    ): DatabaseRepository
+
+    // Remotes
+    @Binds
+    abstract fun authenticationRepository(
+        authenticationRepositoryImpl: AuthenticationRepositoryImpl
+    ): AuthenticationRepository
 }

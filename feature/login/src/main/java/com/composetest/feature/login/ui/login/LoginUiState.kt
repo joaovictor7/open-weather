@@ -1,6 +1,7 @@
 package com.composetest.feature.login.ui.login
 
 import com.composetest.core.designsystem.components.alertdialogs.params.ErrorAlertDialogParam
+import com.composetest.core.ui.interfaces.BaseUiState
 
 internal data class LoginUiState(
     val needsLogin: Boolean = false,
@@ -8,9 +9,9 @@ internal data class LoginUiState(
     val invalidEmail: Boolean = false,
     val enableLoginButton: Boolean = false,
     val invalidCredentials: Boolean = false,
-    val isLoading: Boolean = false,
-    val errorAlertDialogParam: ErrorAlertDialogParam? = null
-) {
+    val errorAlertDialogParam: ErrorAlertDialogParam? = null,
+    override var isLoading: Boolean = false
+) : BaseUiState {
     fun initState(
         versionName: String,
         enableLoginButton: Boolean

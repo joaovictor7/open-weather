@@ -1,5 +1,7 @@
 package com.composetest.core.data.providers
 
+import kotlinx.coroutines.flow.Flow
+
 internal interface RemoteCallProvider {
-    suspend fun <T> safeRemoteCall(onRemoteCall: suspend () -> T): T
+    fun <T> safeRemoteCall(onRemoteCall: Flow<T>): Flow<T>
 }

@@ -138,12 +138,13 @@ private fun ColumnScope.LoginForm(
 
 @Composable
 private fun HandleEffects(onExecuteCommand: (Command<LoginCommandReceiver>) -> Unit) {
+    val currentAppTheme = LocalThemeProvider.current
     LaunchedEffect(Unit) {
-        onExecuteCommand(SetCustomTheme(true))
+        onExecuteCommand(SetCustomTheme(true, currentAppTheme))
     }
     DisposableEffect(Unit) {
         onDispose {
-            onExecuteCommand(SetCustomTheme(false))
+            onExecuteCommand(SetCustomTheme(false, currentAppTheme))
         }
     }
 }

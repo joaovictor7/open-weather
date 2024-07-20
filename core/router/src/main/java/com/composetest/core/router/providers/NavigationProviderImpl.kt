@@ -72,7 +72,7 @@ internal class NavigationProviderImpl @Inject constructor(
             NavOptions.Builder().apply {
                 val destinationId = when (mode) {
                     NavigationMode.REMOVE_CURRENT_SCREEN -> currentDestination.id
-                    NavigationMode.REMOVE_ALL_SCREENS -> 0
+                    NavigationMode.REMOVE_ALL_SCREENS_STACK -> 0
                 }
                 setPopUpTo(destinationId, true)
             }.build()

@@ -1,10 +1,8 @@
 package com.composetest.ui
 
 import com.composetest.core.ui.bases.BaseViewModel
-import com.composetest.common.models.AppThemeModel
 import com.composetest.core.domain.usecases.AnalyticsUseCase
-import com.composetest.core.domain.usecases.apptheme.GetAppThemeFromDataStoreUseCase
-import com.composetest.core.domain.usecases.apptheme.GetAppThemeStateUseCase
+import com.composetest.core.domain.usecases.apptheme.GetAppThemeUseCase
 import com.composetest.core.domain.usecases.session.CheckSessionEndUseCase
 import com.composetest.core.router.destinations.login.LoginDestination
 import com.composetest.core.router.enums.NavigationMode
@@ -15,8 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val getAppThemeFromDataStoreUseCase: GetAppThemeFromDataStoreUseCase,
-    private val getAppThemeStateUseCase: GetAppThemeStateUseCase,
+    private val getAppThemeUseCase: GetAppThemeUseCase,
     private val checkSessionEndUseCase: CheckSessionEndUseCase,
     private val navigationProvider: NavigationProvider,
     override val analyticsUseCase: AnalyticsUseCase
@@ -25,7 +22,6 @@ class MainViewModel @Inject constructor(
     override val commandReceiver = this
 
     init {
-        getAppThemeFromDataStore()
         iniState()
         getInitialData()
     }
@@ -35,24 +31,18 @@ class MainViewModel @Inject constructor(
             val validSession = checkSessionEndUseCase()
             val currentScreenIsLogin = navigationProvider.currentDestinationCheck(LoginDestination)
             if (!validSession && !currentScreenIsLogin) {
-                navigationProvider.navigate(LoginDestination, NavigationMode.REMOVE_ALL_SCREENS)
+                navigationProvider.navigate(LoginDestination, NavigationMode.REMOVE_ALL_SCREENS_STACK)
             }
         }
     }
 
-    private fun getAppThemeFromDataStore() = runAsyncTask {
-        getAppThemeFromDataStoreUseCase()
-    }
-
-    private fun iniState() = runFlowTask(flow = getAppThemeStateUseCase()) {
-        setSystemStyles(it)
+    private fun iniState() {
+        runFlowTask(flow = getAppThemeUseCase()) { appTheme ->
+            updateUiState { it.setAppTheme(appTheme) }
+        }
     }
 
     private fun getInitialData() {
         updateUiState { it.splashScreenFinished() }
-    }
-
-    private fun setSystemStyles(appThemeModel: AppThemeModel) {
-        updateUiState { it.setAppTheme(appThemeModel) }
     }
 }

@@ -1,15 +1,11 @@
 package com.composetest.feature.login.ui.login
 
-import com.composetest.core.ui.interfaces.Command
+import com.composetest.common.enums.Theme
 import com.composetest.core.ui.interfaces.CommandReceiver
 
 internal interface LoginCommandReceiver : CommandReceiver<LoginCommandReceiver> {
-    override fun executeCommand(command: Command<LoginCommandReceiver>) {
-        command.execute(this)
-    }
-
     fun writeData(email: String? = null, password: String? = null)
-    fun setCustomTheme(enterScreen: Boolean)
+    fun setCustomTheme(enterScreen: Boolean, currentAppTheme: Theme)
     fun checkShowInvalidEmailMsg()
     fun login()
     fun handleLoginError(throwable: Throwable? = null)

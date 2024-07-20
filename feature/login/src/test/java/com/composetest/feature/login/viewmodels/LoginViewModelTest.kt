@@ -89,7 +89,7 @@ class LoginViewModelTest : CoroutinesTest {
             coVerify {
                 navigationProvider.asyncNavigate(
                     HomeDestination("teste", InnerHome("te", "23232")),
-                    NavigationMode.REMOVE_ALL_SCREENS
+                    NavigationMode.REMOVE_ALL_SCREENS_STACK
                 )
             }
         }
@@ -199,7 +199,7 @@ class LoginViewModelTest : CoroutinesTest {
             coVerify {
                 navigationProvider.asyncNavigate(
                     HomeDestination("teste", InnerHome("te", "23232")),
-                    NavigationMode.REMOVE_ALL_SCREENS
+                    NavigationMode.REMOVE_ALL_SCREENS_STACK
                 )
             }
         }
@@ -259,7 +259,6 @@ class LoginViewModelTest : CoroutinesTest {
     private fun initViewModel() = LoginViewModel(
         navigationProvider = navigationProvider,
         buildConfigProvider = buildConfigProvider,
-        getAppThemeStateUseCase = mockk(),
         setAppThemeUseCase = mockk(),
         authenticationUseCase = authenticationUseCase,
         analyticsUseCase = mockk(relaxed = true),

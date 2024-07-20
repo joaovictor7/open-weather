@@ -6,7 +6,6 @@ import com.composetest.core.designsystem.components.alertdialogs.extensions.erro
 import com.composetest.core.domain.throwables.InvalidCredentialsThrowable
 import com.composetest.core.domain.usecases.AnalyticsUseCase
 import com.composetest.core.domain.usecases.AuthenticationUseCase
-import com.composetest.core.domain.usecases.apptheme.GetAppThemeStateUseCase
 import com.composetest.core.domain.usecases.apptheme.SetAppThemeUseCase
 import com.composetest.core.domain.usecases.session.GetNeedsLoginBySessionUseCase
 import com.composetest.core.router.destinations.home.HomeDestination
@@ -22,7 +21,6 @@ import javax.inject.Inject
 internal class LoginViewModel @Inject constructor(
     private val navigationProvider: NavigationProvider,
     private val buildConfigProvider: BuildConfigProvider,
-    private val getAppThemeStateUseCase: GetAppThemeStateUseCase,
     private val setAppThemeUseCase: SetAppThemeUseCase,
     private val authenticationUseCase: AuthenticationUseCase,
     private val getNeedsLoginBySessionUseCase: GetNeedsLoginBySessionUseCase,
@@ -61,8 +59,8 @@ internal class LoginViewModel @Inject constructor(
         stateScreenWritingManager()
     }
 
-    override fun setCustomTheme(enterScreen: Boolean) {
-        val theme = if (enterScreen && getAppThemeStateUseCase().value.theme != Theme.DARK)
+    override fun setCustomTheme(enterScreen: Boolean, currentAppTheme: Theme) {
+        val theme = if (enterScreen && currentAppTheme != Theme.DARK)
             Theme.DARK
         else null
         setAppThemeUseCase.invoke(theme)
@@ -99,7 +97,7 @@ internal class LoginViewModel @Inject constructor(
     private suspend fun navigateToHome() {
         navigationProvider.asyncNavigate(
             HomeDestination("teste", InnerHome("te", "23232")),
-            NavigationMode.REMOVE_ALL_SCREENS
+            NavigationMode.REMOVE_ALL_SCREENS_STACK
         )
     }
 

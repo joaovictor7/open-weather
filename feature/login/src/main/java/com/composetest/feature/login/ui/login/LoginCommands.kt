@@ -1,5 +1,6 @@
 package com.composetest.feature.login.ui.login
 
+import com.composetest.common.enums.Theme
 import com.composetest.core.ui.interfaces.Command
 
 internal data class WriteData(
@@ -11,9 +12,12 @@ internal data class WriteData(
     }
 }
 
-internal data class SetCustomTheme(val enterScreen: Boolean) : Command<LoginCommandReceiver> {
+internal data class SetCustomTheme(
+    val enterScreen: Boolean,
+    val currentAppTheme: Theme
+) : Command<LoginCommandReceiver> {
     override fun execute(receiver: LoginCommandReceiver) {
-        receiver.setCustomTheme(enterScreen)
+        receiver.setCustomTheme(enterScreen, currentAppTheme)
     }
 }
 

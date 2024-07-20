@@ -12,10 +12,11 @@ import com.composetest.core.designsystem.components.textfields.enums.TextFieldIc
 
 internal fun trailingIcon(
     trailingIconParam: TextFieldTrailingIconParam?,
-    textValue: MutableState<String>,
+    textValue: String,
     password: Boolean,
-    passwordHidden: MutableState<Boolean>
-): @Composable (() -> Unit)? = getTrailingParam(trailingIconParam, textValue)?.let {
+    passwordHidden: MutableState<Boolean>,
+    onTextChanged: (String) -> Unit
+): @Composable (() -> Unit)? = getTrailingParam(trailingIconParam, textValue, onTextChanged)?.let {
     {
         when {
             password -> {
@@ -41,9 +42,10 @@ internal fun createIcon(@DrawableRes iconId: Int?): @Composable (() -> Unit)? = 
 
 private fun getTrailingParam(
     param: TextFieldTrailingIconParam?,
-    textValue: MutableState<String>
+    textValue: String,
+    onTextChanged: (String) -> Unit
 ) = when {
     param?.iconType != TextFieldIcons.CLEAR_TEXT -> param
-    textValue.value.isNotEmpty() -> param.copy(onClick = { textValue.value = String() })
+    textValue.isNotEmpty() -> param.copy(onClick = { onTextChanged(String()) })
     else -> null
 }

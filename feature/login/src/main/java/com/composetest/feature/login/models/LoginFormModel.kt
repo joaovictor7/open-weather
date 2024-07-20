@@ -7,6 +7,6 @@ internal data class LoginFormModel(
     val password: String = String()
 ) {
     val emailIsValid get() = PatternsCompat.EMAIL_ADDRESS.matcher(email).matches()
-    val emailIsEmpty get() = email.isNotEmpty()
+    val emailIsNotEmpty get() = email.isNotEmpty()
     val loginAlready get() = email.isNotEmpty() and password.isNotEmpty() and emailIsValid
 }

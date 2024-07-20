@@ -23,19 +23,19 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import com.composetest.common.extensions.isDarkMode
 import com.composetest.core.designsystem.components.alertdialogs.ErrorAlertDialog
+import com.composetest.core.designsystem.components.alertdialogs.params.ErrorAlertDialogParam
 import com.composetest.core.designsystem.components.buttons.Button
 import com.composetest.core.designsystem.components.textfields.OutlinedTextField
+import com.composetest.core.designsystem.components.textfields.enums.TextFieldIcons
 import com.composetest.core.designsystem.components.textfields.params.TextFieldTrailingIconParam
 import com.composetest.core.designsystem.compositions.LocalThemeProvider
 import com.composetest.core.designsystem.dimensions.spacings
-import com.composetest.core.designsystem.components.textfields.enums.TextFieldIcons
-import com.composetest.common.extensions.isDarkMode
-import com.composetest.core.designsystem.components.alertdialogs.params.ErrorAlertDialogParam
-import com.composetest.core.ui.interfaces.Command
-import com.composetest.core.ui.interfaces.Screen
 import com.composetest.core.designsystem.extensions.modifiers.verticalTopBackgroundBrush
 import com.composetest.core.designsystem.theme.ComposeTestTheme
+import com.composetest.core.ui.interfaces.Command
+import com.composetest.core.ui.interfaces.Screen
 import com.composetest.feature.login.R
 
 internal object LoginScreen : Screen<LoginUiState, LoginCommandReceiver> {
@@ -90,12 +90,11 @@ private fun ColumnScope.LoginForm(
     Spacer(Modifier.height(spacings.fourteen))
     OutlinedTextField(
         labelText = stringResource(R.string.feature_login_email),
+        textValue = uiState.loginFormModel.email,
         placeholderText = stringResource(R.string.feature_login_email_placeholder),
-        supportingText = if (uiState.invalidEmail)
-            stringResource(R.string.feature_login_invalid_email) else null,
+        supportingText = uiState.emailSupportingTextField?.let { stringResource(it) },
         imeAction = ImeAction.Next,
-        trailingIconParam = if (uiState.invalidEmail)
-            TextFieldTrailingIconParam(iconType = TextFieldIcons.ERROR) else null,
+        trailingIconParam = uiState.emailTrailingIconTextField,
         modifier = Modifier.fillMaxWidth(),
         onFocusChanged = {
             if (!it.hasFocus) onExecuteCommand.invoke(CheckShowInvalidEmailMsg)
@@ -105,6 +104,7 @@ private fun ColumnScope.LoginForm(
     }
     Spacer(Modifier.height(spacings.fourteen))
     OutlinedTextField(
+        textValue = uiState.loginFormModel.password,
         labelText = stringResource(R.string.feature_login_password),
         keyboardInput = KeyboardType.Password,
         trailingIconParam = TextFieldTrailingIconParam(
@@ -152,8 +152,8 @@ private fun HandleEffects(onExecuteCommand: (Command<LoginCommandReceiver>) -> U
 private fun HandleErrorAlert(
     errorAlertDialogParam: ErrorAlertDialogParam?,
     onDismiss: () -> Unit
-) {
-    ErrorAlertDialog(errorParam = errorAlertDialogParam, onClickDismiss = onDismiss)
+) = errorAlertDialogParam?.let {
+    ErrorAlertDialog(errorParam = it, onClickDismiss = onDismiss)
 }
 
 @Composable

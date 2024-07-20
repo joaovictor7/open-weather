@@ -13,15 +13,15 @@ import com.composetest.core.designsystem.components.buttons.Button
 
 @Composable
 fun ErrorAlertDialog(
-    errorParam: ErrorAlertDialogParam?,
+    errorParam: ErrorAlertDialogParam,
     onClickDismiss: () -> Unit
-) = errorParam?.let {
+) {
     AlertDialog(
         onDismissRequest = onClickDismiss,
-        icon = { Icon(painter = painterResource(it.iconId), contentDescription = null) },
+        icon = { Icon(painter = painterResource(errorParam.iconId), contentDescription = null) },
         iconContentColor = MaterialTheme.colorScheme.error,
-        title = { Text(text = stringResource(it.title)) },
-        text = { Text(text = stringResource(it.text)) },
+        title = { Text(text = stringResource(errorParam.title)) },
+        text = { Text(text = stringResource(errorParam.text)) },
         confirmButton = {
             Button(
                 text = stringResource(R.string.global_word_close),

@@ -14,7 +14,6 @@ import com.composetest.core.router.destinations.home.navtypes.InnerHome
 import com.composetest.core.router.enums.NavigationMode
 import com.composetest.core.router.providers.NavigationProvider
 import com.composetest.core.ui.bases.BaseViewModel
-import com.composetest.feature.login.models.LoginFormModel
 import com.composetest.feature.login.ui.login.analytics.LoginAnalytic
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -32,14 +31,14 @@ internal class LoginViewModel @Inject constructor(
 
     override val commandReceiver = this
 
-    private var loginFormModel: LoginFormModel = LoginFormModel()
+    private val loginFormModel get() = uiState.value.loginFormModel
 
     init {
         checkNeedsLogin()
     }
 
     override fun checkShowInvalidEmailMsg() {
-        if (loginFormModel.emailIsEmpty) {
+        if (loginFormModel.emailIsNotEmpty) {
             updateUiState { it.setInvalidEmail(!loginFormModel.emailIsValid) }
         }
     }
@@ -47,8 +46,10 @@ internal class LoginViewModel @Inject constructor(
     override fun login() {
         runAsyncTask(
             onError = ::handleLoginError,
-            onStart = { updateUiState { it.setLoading(true) } },
-            onCompletion = { updateUiState { it.setLoading(false) } }
+            onCompletion = { updateUiState { it.setLoading(false) } },
+            onStart = {
+                updateUiState { it.setLoading(true).setShowInvalidCredentialsMsg(false) }
+            }
         ) {
             authenticationUseCase(loginFormModel.email, loginFormModel.password)
             navigateToHome()
@@ -56,18 +57,8 @@ internal class LoginViewModel @Inject constructor(
     }
 
     override fun writeData(email: String?, password: String?) {
-        when {
-            email != null -> {
-                loginFormModel = loginFormModel.copy(email = email)
-                if (uiState.value.invalidEmail) {
-                    updateUiState { it.setInvalidEmail(false) }
-                }
-            }
-            password != null -> {
-                loginFormModel = loginFormModel.copy(password = password)
-            }
-        }
-        resetViewState()
+        updateUiState { it.setLoginForm(email, password) }
+        stateScreenWritingManager()
     }
 
     override fun setCustomTheme(enterScreen: Boolean) {
@@ -80,7 +71,7 @@ internal class LoginViewModel @Inject constructor(
     override fun handleLoginError(throwable: Throwable?) {
         updateUiState {
             if (throwable is InvalidCredentialsThrowable) {
-                it.setShowInvalidCredentialsMsg()
+                it.setShowInvalidCredentialsMsg(true)
             } else {
                 it.setAlertDialogError(throwable.errorAlertDialogParam)
             }
@@ -112,9 +103,10 @@ internal class LoginViewModel @Inject constructor(
         )
     }
 
-    private fun resetViewState() {
+    private fun stateScreenWritingManager() {
         updateUiState {
-            it.resetStateView(loginFormModel.loginAlready || buildConfigProvider.get.isDebug)
+            it.setShowInvalidCredentialsMsg(false)
+                .setEnabledButton(loginFormModel.loginAlready || buildConfigProvider.get.isDebug)
         }
     }
 }

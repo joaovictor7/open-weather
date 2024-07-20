@@ -6,7 +6,8 @@ import com.composetest.core.domain.usecases.apptheme.GetAppThemeUseCase
 import com.composetest.core.domain.usecases.session.CheckSessionEndUseCase
 import com.composetest.core.router.destinations.login.LoginDestination
 import com.composetest.core.router.enums.NavigationMode
-import com.composetest.core.router.providers.NavigationProvider
+import com.composetest.core.router.providers.NavControllerProvider
+import com.composetest.core.router.managers.NavigationManager
 import com.composetest.ui.analytics.MainAnalytic
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -15,7 +16,8 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val getAppThemeUseCase: GetAppThemeUseCase,
     private val checkSessionEndUseCase: CheckSessionEndUseCase,
-    private val navigationProvider: NavigationProvider,
+    private val navigationManager: NavigationManager,
+    private val navControllerProvider: NavControllerProvider,
     override val analyticsUseCase: AnalyticsUseCase
 ) : BaseViewModel<MainUiState>(MainAnalytic(), MainUiState()), MainCommandReceiver {
 
@@ -29,9 +31,9 @@ class MainViewModel @Inject constructor(
     override fun verifySession() {
         runAsyncTask {
             val validSession = checkSessionEndUseCase()
-            val currentScreenIsLogin = navigationProvider.currentDestinationCheck(LoginDestination)
+            val currentScreenIsLogin = navControllerProvider.isCurrentScreen(LoginDestination)
             if (!validSession && !currentScreenIsLogin) {
-                navigationProvider.navigate(LoginDestination, NavigationMode.REMOVE_ALL_SCREENS_STACK)
+                navigationManager.navigate(LoginDestination, NavigationMode.REMOVE_ALL_SCREENS_STACK)
             }
         }
     }

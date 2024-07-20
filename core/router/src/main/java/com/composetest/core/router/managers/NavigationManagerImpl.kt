@@ -1,30 +1,27 @@
-package com.composetest.core.router.providers
+package com.composetest.core.router.managers
 
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavOptions
-import androidx.navigation.get
 import com.composetest.core.router.enums.NavigationMode
 import com.composetest.core.router.interfaces.ResultParam
+import com.composetest.core.router.providers.NavControllerProvider
 import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @ViewModelScoped
-internal class NavigationProviderImpl @Inject constructor(
+internal class NavigationManagerImpl @Inject constructor(
     private val navControllerProvider: NavControllerProvider,
     override val savedStateHandle: SavedStateHandle
-) : NavigationProvider {
+) : NavigationManager {
 
     private val navController get() = navControllerProvider.navController
     private val navigateAvailable
         get() = navController.currentBackStackEntry?.lifecycle?.currentState == Lifecycle.State.RESUMED
 
-    override val currentBackStackEntryFlow get() = navController.currentBackStackEntryFlow
-
-    override fun currentDestinationCheck(destination: Any) =
-        navController.graph[destination] == navController.currentDestination
+    override val navBackStackEntryFlow get() = navController.currentBackStackEntryFlow
 
     override fun <Destination : Any> navigate(
         destination: Destination,

@@ -1,4 +1,4 @@
-package com.composetest.core.router.providers
+package com.composetest.core.router.managers
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavBackStackEntry
@@ -6,12 +6,11 @@ import com.composetest.core.router.enums.NavigationMode
 import com.composetest.core.router.interfaces.ResultParam
 import kotlinx.coroutines.flow.Flow
 
-interface NavigationProvider {
+interface NavigationManager {
 
     val savedStateHandle: SavedStateHandle
-    val currentBackStackEntryFlow: Flow<NavBackStackEntry>
+    val navBackStackEntryFlow: Flow<NavBackStackEntry>
 
-    fun currentDestinationCheck(destination: Any): Boolean
     fun <Destination : Any> navigate(
         destination: Destination,
         navigationMode: NavigationMode? = null

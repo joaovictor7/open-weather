@@ -1,6 +1,5 @@
 package com.composetest.feature.home.ui.home
 
-import androidx.lifecycle.viewModelScope
 import com.composetest.core.ui.bases.BaseViewModel
 import com.composetest.common.enums.Theme
 import com.composetest.core.domain.usecases.AnalyticsUseCase
@@ -9,16 +8,15 @@ import com.composetest.core.router.extensions.getParam
 import com.composetest.core.router.destinations.home.Home2Destination
 import com.composetest.core.router.destinations.home.HomeDestination
 import com.composetest.core.router.extensions.getResultFlow
-import com.composetest.core.router.providers.NavigationProvider
-import com.composetest.core.router.results.Home2Result
+import com.composetest.core.router.managers.NavigationManager
+import com.composetest.core.router.results.home.Home2Result
 import com.composetest.feature.home.ui.home.analytics.HomeAnalytic
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 internal class HomeViewModel @Inject constructor(
-    private val navigationProvider: NavigationProvider,
+    private val navigationManager: NavigationManager,
     private val setAppThemeUseCase: SetAppThemeUseCase,
     override val analyticsUseCase: AnalyticsUseCase
 ) : BaseViewModel<HomeUiState>(HomeAnalytic(), HomeUiState()), HomeCommandReceiver {
@@ -27,13 +25,13 @@ internal class HomeViewModel @Inject constructor(
 
     init {
         openScreenAnalytic()
-        val e = navigationProvider.getParam<HomeDestination>()
+        val e = navigationManager.getParam<HomeDestination>()
         updateUiState { it.copy(t = e.innerHome.teste) }
         teste()
     }
 
     override fun navigateToHome2() {
-        navigationProvider.navigate(Home2Destination("tessfdf", "rer"))
+        navigationManager.navigate(Home2Destination("tessfdf", "rer"))
     }
 
     override fun changeAppTheme(
@@ -49,7 +47,7 @@ internal class HomeViewModel @Inject constructor(
     }
 
     private fun teste() {
-        runFlowTask(flow = navigationProvider.getResultFlow<Home2Result>()) {
+        runFlowTask(flow = navigationManager.getResultFlow<Home2Result>()) {
             val e = it
         }
     }

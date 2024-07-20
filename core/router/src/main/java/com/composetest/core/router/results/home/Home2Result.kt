@@ -1,4 +1,4 @@
-package com.composetest.core.router.results
+package com.composetest.core.router.results.home
 
 import com.composetest.core.router.interfaces.ResultParam
 import kotlinx.parcelize.Parcelize

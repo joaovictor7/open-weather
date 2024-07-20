@@ -11,7 +11,7 @@ import com.composetest.core.domain.usecases.session.GetNeedsLoginBySessionUseCas
 import com.composetest.core.router.destinations.home.HomeDestination
 import com.composetest.core.router.destinations.home.navtypes.InnerHome
 import com.composetest.core.router.enums.NavigationMode
-import com.composetest.core.router.providers.NavigationProvider
+import com.composetest.core.router.managers.NavigationManager
 import com.composetest.core.ui.bases.BaseViewModel
 import com.composetest.feature.login.ui.login.analytics.LoginAnalytic
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class LoginViewModel @Inject constructor(
-    private val navigationProvider: NavigationProvider,
+    private val navigationManager: NavigationManager,
     private val buildConfigProvider: BuildConfigProvider,
     private val setAppThemeUseCase: SetAppThemeUseCase,
     private val authenticationUseCase: AuthenticationUseCase,
@@ -95,7 +95,7 @@ internal class LoginViewModel @Inject constructor(
     }
 
     private suspend fun navigateToHome() {
-        navigationProvider.asyncNavigate(
+        navigationManager.asyncNavigate(
             HomeDestination("teste", InnerHome("te", "23232")),
             NavigationMode.REMOVE_ALL_SCREENS_STACK
         )

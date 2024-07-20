@@ -12,7 +12,7 @@ import com.composetest.core.domain.usecases.session.GetNeedsLoginBySessionUseCas
 import com.composetest.core.router.destinations.home.HomeDestination
 import com.composetest.core.router.destinations.home.navtypes.InnerHome
 import com.composetest.core.router.enums.NavigationMode
-import com.composetest.core.router.providers.NavigationProvider
+import com.composetest.core.router.managers.NavigationManager
 import com.composetest.core.test.interfaces.CoroutinesTest
 import com.composetest.core.test.utils.runStateFlowTest
 import com.composetest.feature.login.models.LoginFormModel
@@ -41,7 +41,7 @@ class LoginViewModelTest : CoroutinesTest {
         flavor = Flavor.FULL,
         androidSdkVersion = 34
     )
-    private val navigationProvider: NavigationProvider = mockk(relaxed = true)
+    private val navigationManager: NavigationManager = mockk(relaxed = true)
     private val buildConfigProvider: BuildConfigProvider = object : BuildConfigProvider {
         override val get: BuildConfigModel = buildConfigModelMock
     }
@@ -87,7 +87,7 @@ class LoginViewModelTest : CoroutinesTest {
                 collectedStates
             )
             coVerify {
-                navigationProvider.asyncNavigate(
+                navigationManager.asyncNavigate(
                     HomeDestination("teste", InnerHome("te", "23232")),
                     NavigationMode.REMOVE_ALL_SCREENS_STACK
                 )
@@ -197,7 +197,7 @@ class LoginViewModelTest : CoroutinesTest {
                 collectedStates
             )
             coVerify {
-                navigationProvider.asyncNavigate(
+                navigationManager.asyncNavigate(
                     HomeDestination("teste", InnerHome("te", "23232")),
                     NavigationMode.REMOVE_ALL_SCREENS_STACK
                 )
@@ -257,7 +257,7 @@ class LoginViewModelTest : CoroutinesTest {
         }
 
     private fun initViewModel() = LoginViewModel(
-        navigationProvider = navigationProvider,
+        navigationManager = navigationManager,
         buildConfigProvider = buildConfigProvider,
         setAppThemeUseCase = mockk(),
         authenticationUseCase = authenticationUseCase,

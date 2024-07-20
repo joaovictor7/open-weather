@@ -13,7 +13,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import com.composetest.core.router.providers.NavigationProvider
+import com.composetest.core.router.managers.NavigationManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.transform
@@ -21,13 +21,13 @@ import com.composetest.core.router.interfaces.NavType as NavTypes
 import kotlin.reflect.KType
 import kotlin.reflect.full.companionObjectInstance
 
-inline fun <reified Destination : Any> NavigationProvider.getParam(): Destination {
+inline fun <reified Destination : Any> NavigationManager.getParam(): Destination {
     val navTypes = getNavTypes(Destination::class.companionObjectInstance)
     return savedStateHandle.toRoute<Destination>(navTypes)
 }
 
-inline fun <reified Result : Parcelable> NavigationProvider.getResultFlow() =
-    currentBackStackEntryFlow.transform {
+inline fun <reified Result : Parcelable> NavigationManager.getResultFlow() =
+    navBackStackEntryFlow.transform {
         val result = it.savedStateHandle.get<Result>(Result::class.simpleName.orEmpty())
         if (result != null) emit(result)
     }.flowOn(Dispatchers.Main)

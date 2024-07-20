@@ -8,6 +8,7 @@ import javax.inject.Singleton
 internal class FakeInstanceProviderImpl @Inject constructor(
     private val buildConfigProvider: BuildConfigProvider
 ) : FakeInstanceProvider {
+
     override fun <Instance> getInstance(
         instance: Instance,
         fakeInstance: Instance

@@ -1,6 +1,7 @@
 package com.composetest.core.router.providers
 
 import androidx.navigation.NavHostController
+import androidx.navigation.get
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -13,4 +14,7 @@ internal class NavControllerProviderImpl @Inject constructor() : NavControllerPr
     override fun setNavController(navController: NavHostController) {
         this.navController = navController
     }
+
+    override fun isCurrentScreen(destination: Any) =
+        navController.graph[destination] == navController.currentDestination
 }

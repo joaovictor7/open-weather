@@ -105,7 +105,8 @@ internal class LoginViewModel @Inject constructor(
 
     private fun stateScreenWritingManager() {
         updateUiState {
-            it.setShowInvalidCredentialsMsg(false)
+            it
+                .setShowInvalidCredentialsMsg(false)
                 .setEnabledButton(loginFormModel.loginAlready || buildConfigProvider.get.isDebug)
         }
     }

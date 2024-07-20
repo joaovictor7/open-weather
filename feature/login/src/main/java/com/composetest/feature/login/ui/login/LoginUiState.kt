@@ -1,6 +1,5 @@
 package com.composetest.feature.login.ui.login
 
-import androidx.compose.ui.res.stringResource
 import com.composetest.core.designsystem.components.alertdialogs.params.ErrorAlertDialogParam
 import com.composetest.core.designsystem.components.textfields.enums.TextFieldIcons
 import com.composetest.core.designsystem.components.textfields.params.TextFieldTrailingIconParam
@@ -15,13 +14,15 @@ internal data class LoginUiState(
     val invalidEmail: Boolean = false,
     val enableLoginButton: Boolean = false,
     val invalidCredentials: Boolean = false,
-    val errorAlertDialogParam: ErrorAlertDialogParam? = null,
-    override var isLoading: Boolean = false
+    override var isLoading: Boolean = false,
+    override val errorAlertDialogParam: ErrorAlertDialogParam? = null
 ) : BaseUiState {
-    val emailTrailingIconTextField get() = if (invalidEmail)
-        TextFieldTrailingIconParam(iconType = TextFieldIcons.ERROR) else null
-    val emailSupportingTextField get() = if (invalidEmail)
-        R.string.feature_login_invalid_email else null
+    val emailTrailingIconTextField
+        get() = if (invalidEmail)
+            TextFieldTrailingIconParam(iconType = TextFieldIcons.ERROR) else null
+    val emailSupportingTextField
+        get() = if (invalidEmail)
+            R.string.feature_login_invalid_email else null
 
     fun initState(
         versionName: String,
@@ -31,17 +32,26 @@ internal data class LoginUiState(
         versionName = versionName,
         enableLoginButton = enableLoginButton
     )
-    fun setLoginForm(email: String?, password: String?) = when {
-        email != null -> {
-            copy(invalidEmail = false, loginFormModel = loginFormModel.copy(email = email))
+
+    fun setLoginForm(email: String?, password: String?): LoginUiState {
+        var newLoginFormModel = loginFormModel
+        email?.let {
+            newLoginFormModel = newLoginFormModel.copy(email = it)
         }
-        password != null -> copy(loginFormModel = loginFormModel.copy(password = password))
-        else -> this
+        password?.let {
+            newLoginFormModel = newLoginFormModel.copy(password = it)
+        }
+        return this.copy(loginFormModel = newLoginFormModel)
     }
+
     fun setInvalidEmail(invalid: Boolean) = copy(invalidEmail = invalid)
+
     fun setEnabledButton(enable: Boolean) = copy(enableLoginButton = enable)
+
     fun setShowInvalidCredentialsMsg(show: Boolean) = copy(invalidCredentials = show)
+
     fun setLoading(isLoading: Boolean) = copy(isLoading = isLoading)
+
     fun setAlertDialogError(errorAlertDialogParam: ErrorAlertDialogParam?) = copy(
         errorAlertDialogParam = errorAlertDialogParam
     )

@@ -5,7 +5,7 @@ import com.composetest.common.enums.Flavor
 import com.composetest.common.models.BuildConfigModel
 import com.composetest.common.providers.BuildConfigProvider
 import com.composetest.common.throwables.NetworkThrowable
-import com.composetest.core.designsystem.components.alertdialogs.params.NetworkErrorAlertDialogParam
+import com.composetest.core.designsystem.components.alertdialogs.params.ErrorAlertDialogParam
 import com.composetest.core.domain.throwables.InvalidCredentialsThrowable
 import com.composetest.core.domain.usecases.AuthenticationUseCase
 import com.composetest.core.domain.usecases.session.GetNeedsLoginBySessionUseCase
@@ -13,8 +13,9 @@ import com.composetest.core.router.destinations.home.HomeDestination
 import com.composetest.core.router.destinations.home.navtypes.InnerHome
 import com.composetest.core.router.enums.NavigationMode
 import com.composetest.core.router.providers.NavigationProvider
-import com.composetest.core.test.utils.runStateFlowTest
 import com.composetest.core.test.interfaces.CoroutinesTest
+import com.composetest.core.test.utils.runStateFlowTest
+import com.composetest.feature.login.models.LoginFormModel
 import com.composetest.feature.login.ui.login.Login
 import com.composetest.feature.login.ui.login.LoginUiState
 import com.composetest.feature.login.ui.login.LoginViewModel
@@ -116,13 +117,30 @@ class LoginViewModelTest : CoroutinesTest {
                         needsLogin = true,
                         versionName = buildConfigModelMock.versionNameForView,
                         enableLoginButton = true,
+                        loginFormModel = LoginFormModel(
+                            email = "teste@teste.com",
+                            password = "password"
+                        )
+                    ),
+                    LoginUiState(
+                        needsLogin = true,
+                        versionName = buildConfigModelMock.versionNameForView,
+                        enableLoginButton = true,
                         isLoading = true,
+                        loginFormModel = LoginFormModel(
+                            email = "teste@teste.com",
+                            password = "password"
+                        )
                     ),
                     LoginUiState(
                         needsLogin = true,
                         versionName = buildConfigModelMock.versionNameForView,
                         enableLoginButton = true,
                         invalidCredentials = true,
+                        loginFormModel = LoginFormModel(
+                            email = "teste@teste.com",
+                            password = "password"
+                        )
                     )
                 ),
                 collectedStates
@@ -133,8 +151,8 @@ class LoginViewModelTest : CoroutinesTest {
     fun `success login`() =
         runStateFlowTest(testDispatcher, viewModel.uiState) { job, collectedStates ->
             coEvery {
-                authenticationUseCase(any(), any())
-            } coAnswers { withContext(testDispatcher) { } }
+                withContext(testDispatcher) { authenticationUseCase(any(), any()) }
+            } coAnswers { withContext(testDispatcher) {} }
 
             viewModel.executeCommand(WriteData("teste@teste.com", "password"))
             viewModel.executeCommand(Login)
@@ -151,12 +169,29 @@ class LoginViewModelTest : CoroutinesTest {
                         needsLogin = true,
                         versionName = buildConfigModelMock.versionNameForView,
                         enableLoginButton = true,
-                        isLoading = true,
+                        loginFormModel = LoginFormModel(
+                            email = "teste@teste.com",
+                            password = "password"
+                        )
                     ),
                     LoginUiState(
                         needsLogin = true,
                         versionName = buildConfigModelMock.versionNameForView,
                         enableLoginButton = true,
+                        isLoading = true,
+                        loginFormModel = LoginFormModel(
+                            email = "teste@teste.com",
+                            password = "password"
+                        )
+                    ),
+                    LoginUiState(
+                        needsLogin = true,
+                        versionName = buildConfigModelMock.versionNameForView,
+                        enableLoginButton = true,
+                        loginFormModel = LoginFormModel(
+                            email = "teste@teste.com",
+                            password = "password"
+                        )
                     )
                 ),
                 collectedStates
@@ -191,13 +226,30 @@ class LoginViewModelTest : CoroutinesTest {
                         needsLogin = true,
                         versionName = buildConfigModelMock.versionNameForView,
                         enableLoginButton = true,
-                        isLoading = true,
+                        loginFormModel = LoginFormModel(
+                            email = "teste@teste.com",
+                            password = "password"
+                        )
                     ),
                     LoginUiState(
                         needsLogin = true,
                         versionName = buildConfigModelMock.versionNameForView,
                         enableLoginButton = true,
-                        errorAlertDialogParam = NetworkErrorAlertDialogParam,
+                        isLoading = true,
+                        loginFormModel = LoginFormModel(
+                            email = "teste@teste.com",
+                            password = "password"
+                        )
+                    ),
+                    LoginUiState(
+                        needsLogin = true,
+                        versionName = buildConfigModelMock.versionNameForView,
+                        enableLoginButton = true,
+                        errorAlertDialogParam = ErrorAlertDialogParam.networkErrorAlertDialogParam,
+                        loginFormModel = LoginFormModel(
+                            email = "teste@teste.com",
+                            password = "password"
+                        )
                     )
                 ),
                 collectedStates

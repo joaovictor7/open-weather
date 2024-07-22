@@ -3,11 +3,11 @@ package com.composetest.feature.login.ui.login
 import com.composetest.common.enums.Theme
 import com.composetest.common.providers.BuildConfigProvider
 import com.composetest.core.designsystem.components.alertdialogs.extensions.errorAlertDialogParam
+import com.composetest.core.domain.managers.SessionManager
 import com.composetest.core.domain.throwables.InvalidCredentialsThrowable
 import com.composetest.core.domain.usecases.AnalyticsUseCase
 import com.composetest.core.domain.usecases.AuthenticationUseCase
 import com.composetest.core.domain.usecases.apptheme.SetAppThemeUseCase
-import com.composetest.core.domain.usecases.session.GetNeedsLoginBySessionUseCase
 import com.composetest.core.router.destinations.home.HomeDestination
 import com.composetest.core.router.destinations.home.navtypes.InnerHome
 import com.composetest.core.router.enums.NavigationMode
@@ -23,7 +23,7 @@ internal class LoginViewModel @Inject constructor(
     private val buildConfigProvider: BuildConfigProvider,
     private val setAppThemeUseCase: SetAppThemeUseCase,
     private val authenticationUseCase: AuthenticationUseCase,
-    private val getNeedsLoginBySessionUseCase: GetNeedsLoginBySessionUseCase,
+    private val sessionManager: SessionManager,
     override val analyticsUseCase: AnalyticsUseCase
 ) : BaseViewModel<LoginUiState>(LoginAnalytic(), LoginUiState()), LoginCommandReceiver {
 
@@ -77,7 +77,7 @@ internal class LoginViewModel @Inject constructor(
     }
 
     private fun checkNeedsLogin() = runAsyncTask {
-        if (getNeedsLoginBySessionUseCase()) {
+        if (sessionManager.needsLogin()) {
             openScreenAnalytic()
             initState()
         } else {

@@ -1,22 +1,37 @@
-package com.composetest.core.domain.usecases.session
+package com.composetest.core.domain.managers
 
 import com.composetest.common.providers.DateTimeProvider
 import com.composetest.core.database.data.repositories.SessionRepository
+import com.composetest.core.database.data.repositories.UserRepository
 import com.composetest.core.domain.mappers.SessionEntityMapper
 import com.composetest.core.domain.mappers.SessionModelMapper
+import com.composetest.core.domain.mappers.UserEntityMapper
+import com.composetest.core.domain.models.session.SessionWithUserModel
 import java.time.LocalDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class CheckSessionEndUseCase @Inject constructor(
+internal class SessionManagerImpl @Inject constructor(
     private val sessionRepository: SessionRepository,
+    private val userRepository: UserRepository,
     private val sessionModelMapper: SessionModelMapper,
+    private val dateTimeProvider: DateTimeProvider,
     private val sessionEntityMapper: SessionEntityMapper,
-    private val dateTimeProvider: DateTimeProvider
-) {
+    private val userEntityMapper: UserEntityMapper
+) : SessionManager {
 
-    suspend operator fun invoke(): Boolean {
+    override suspend fun createSession(sessionWithUser: SessionWithUserModel) {
+        userRepository.insert(userEntityMapper(sessionWithUser.user))
+        sessionRepository.insert(sessionEntityMapper(sessionWithUser))
+    }
+
+    override suspend fun needsLogin() = sessionRepository
+        .getCurrentSession(sessionModelMapper::invoke).let { currentSession ->
+            currentSession == null
+        }
+
+    override suspend fun isSessionValid(): Boolean {
         val currentSession = sessionRepository
             .getCurrentSession(sessionModelMapper::invoke) ?: return false
         val finishDateSession = getFinishDateSession(currentSession.initialDate)

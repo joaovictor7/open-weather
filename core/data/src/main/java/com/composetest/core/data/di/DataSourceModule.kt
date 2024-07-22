@@ -46,8 +46,8 @@ internal object DataSourceProvidesModule {
             ioDispatcher = ioDispatcher
         ),
         fakeInstance =  AuthenticationFakeDataSourceImpl(
-            ioDispatcher = ioDispatcher,
-            dateTimeProvider = dateTimeProvider
+            dateTimeProvider = dateTimeProvider,
+            ioDispatcher = ioDispatcher
         )
     )
 }

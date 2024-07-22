@@ -15,7 +15,9 @@ class SessionModelMapper @Inject constructor(
 
     operator fun invoke(response: AuthenticationResponse) = SessionWithUserModel(
         token = response.token,
-        initialDate = LocalDateTime.parse(response.authenticationDate),
+        startDate = LocalDateTime.parse(response.sessionStartDate),
+        endDate = LocalDateTime.parse(response.sessionEndDate),
+        isFinished = false,
         user = userModelMapper(response.user)
     )
 
@@ -23,8 +25,9 @@ class SessionModelMapper @Inject constructor(
         SessionModel(
             id = it.id,
             token = it.token,
-            initialDate = it.initialDate,
-            endDate = it.endDate
+            initialDate = it.startDate,
+            endDate = it.endDate,
+            isFinished = it.isFinished
         )
     }
 }

@@ -6,7 +6,8 @@ import java.time.LocalDateTime
 data class SessionWithUserModel(
     val id: Long = 0,
     val token: String,
-    val initialDate: LocalDateTime,
-    val endDate: LocalDateTime? = null,
+    val startDate: LocalDateTime,
+    val endDate: LocalDateTime,
+    val isFinished: Boolean,
     val user: UserModel
 )

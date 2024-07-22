@@ -5,7 +5,6 @@ import com.composetest.core.data.network.requests.AuthenticationRequest
 import com.composetest.core.data.network.responses.AuthenticationResponse
 import com.composetest.core.data.network.responses.UserResponse
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 
 internal class AuthenticationFakeDataSourceImpl(
@@ -15,10 +14,12 @@ internal class AuthenticationFakeDataSourceImpl(
 
     override suspend fun authentication(authenticationRequest: AuthenticationRequest) =
         withContext(ioDispatcher) {
-            delay(2000)
+            val sessionStartDate = dateTimeProvider.nowDateTime
+            val sessionEndDate = sessionStartDate.plusSeconds(PLUS_FAKE_SESSION_DURATION)
             AuthenticationResponse(
                 token = "43reddcdsfe434323cdf3434",
-                authenticationDate = dateTimeProvider.nowDateTime.toString(),
+                sessionStartDate = sessionStartDate.toString(),
+                sessionEndDate = sessionEndDate.toString(),
                 user = UserResponse(
                     id = "123",
                     name = "Teste",
@@ -26,4 +27,8 @@ internal class AuthenticationFakeDataSourceImpl(
                 )
             )
         }
+
+    private companion object {
+        const val PLUS_FAKE_SESSION_DURATION = 2L
+    }
 }

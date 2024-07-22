@@ -2,7 +2,7 @@ package com.composetest.core.database.data.repositories
 
 import com.composetest.core.database.data.datasources.SessionDataSource
 import com.composetest.core.database.entities.SessionEntity
-import com.composetest.core.database.entities.partialupdate.EndDateSessionEntityUpdate
+import com.composetest.core.database.entities.partialupdate.FinishedSessionEntityUpdate
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,7 +15,7 @@ internal class SessionRepositoryImpl @Inject constructor(
         sessionDataSource.insert(entity)
     }
 
-    override suspend fun update(entity: EndDateSessionEntityUpdate) {
+    override suspend fun update(entity: FinishedSessionEntityUpdate) {
         sessionDataSource.update(entity)
     }
 

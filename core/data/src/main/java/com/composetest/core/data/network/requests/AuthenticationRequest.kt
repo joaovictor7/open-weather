@@ -5,6 +5,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class AuthenticationRequest(
     val email: String,
-    val password: String,
-    val returnSecureToken: Boolean
+    val password: String
 )

@@ -3,7 +3,7 @@ package com.composetest.core.database.data.datasources
 import com.composetest.common.di.qualifiers.IoDispatcher
 import com.composetest.core.database.database.AppDatabase
 import com.composetest.core.database.entities.SessionEntity
-import com.composetest.core.database.entities.partialupdate.EndDateSessionEntityUpdate
+import com.composetest.core.database.entities.partialupdate.FinishedSessionEntityUpdate
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -20,7 +20,7 @@ internal class SessionDataSourceImpl @Inject constructor(
         sessionDao.insert(entity)
     }
 
-    override suspend fun update(entity: EndDateSessionEntityUpdate) = withContext(ioDispatcher) {
+    override suspend fun update(entity: FinishedSessionEntityUpdate) = withContext(ioDispatcher) {
         sessionDao.update(entity)
     }
 

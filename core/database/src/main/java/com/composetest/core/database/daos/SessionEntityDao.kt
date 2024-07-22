@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.composetest.core.database.entities.SessionEntity
-import com.composetest.core.database.entities.partialupdate.EndDateSessionEntityUpdate
+import com.composetest.core.database.entities.partialupdate.FinishedSessionEntityUpdate
 
 @Dao
 interface SessionEntityDao {
@@ -13,7 +13,7 @@ interface SessionEntityDao {
     suspend fun insert(sessionEntity: SessionEntity)
 
     @Update(entity = SessionEntity::class)
-    suspend fun update(endDateSessionEntityUpdate: EndDateSessionEntityUpdate)
+    suspend fun update(finishedSessionEntityUpdate: FinishedSessionEntityUpdate)
 
     @Query(
         "SELECT * FROM session " +

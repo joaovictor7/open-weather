@@ -19,7 +19,7 @@ class AuthenticationUseCase @Inject constructor(
     suspend operator fun invoke(email: String, password: String) {
         val response = runCatching {
             authenticationRepository.authentication(
-                AuthenticationRequest(email, password, true),
+                AuthenticationRequest(email, password),
                 sessionModelMapper::invoke
             )
         }.getOrElse {

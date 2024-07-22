@@ -19,7 +19,8 @@ import java.time.LocalDateTime
 data class SessionEntity(
     @PrimaryKey(autoGenerate = true) @ColumnInfo("sessionId") val id: Long = 0,
     val token: String,
-    val initialDate: LocalDateTime,
-    val endDate: LocalDateTime? = null,
+    val startDate: LocalDateTime,
+    val endDate: LocalDateTime,
+    val isFinished: Boolean = false,
     val userId: String
 )

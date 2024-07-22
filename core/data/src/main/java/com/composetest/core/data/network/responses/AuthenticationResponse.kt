@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class AuthenticationResponse(
     val token: String,
-    val authenticationDate: String,
+    val sessionStartDate: String,
+    val sessionEndDate: String,
     val user: UserResponse
 )

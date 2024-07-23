@@ -3,7 +3,8 @@ package com.composetest.core.data.data.datasources.local
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
-import com.composetest.common.di.qualifiers.IoDispatcher
+import com.composetest.common.di.qualifiers.Dispatcher
+import com.composetest.common.enums.Dispatchers
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
@@ -14,7 +15,7 @@ import javax.inject.Singleton
 @Singleton
 internal class PreferenceDataSourceImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>,
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
+    @Dispatcher(Dispatchers.IO) private val ioDispatcher: CoroutineDispatcher
 ) : PreferenceDataSource {
 
     override suspend fun <T> setData(key: Preferences.Key<T>, value: T) {

@@ -1,7 +1,8 @@
-package com.composetest.core.database.data.datasources
+package com.composetest.core.data.data.datasources.local
 
-import com.composetest.common.di.qualifiers.IoDispatcher
-import com.composetest.core.database.database.AppDatabase
+import com.composetest.common.di.qualifiers.Dispatcher
+import com.composetest.common.enums.Dispatchers
+import com.composetest.core.database.daos.UserEntityDao
 import com.composetest.core.database.entities.UserEntity
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -10,17 +11,15 @@ import javax.inject.Singleton
 
 @Singleton
 internal class UserDataSourceImpl @Inject constructor(
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-    appDatabase: AppDatabase
+    private val userEntityDao: UserEntityDao,
+    @Dispatcher(Dispatchers.IO) private val ioDispatcher: CoroutineDispatcher
 ) : UserDataSource {
 
-    private val userDao = appDatabase.userDao()
-
     override suspend fun insert(user: UserEntity) = withContext(ioDispatcher) {
-        userDao.insert(user)
+        userEntityDao.insert(user)
     }
 
     override suspend fun getCurrentUser() = withContext(ioDispatcher) {
-        userDao.getCurrentUser()
+        userEntityDao.getCurrentUser()
     }
 }

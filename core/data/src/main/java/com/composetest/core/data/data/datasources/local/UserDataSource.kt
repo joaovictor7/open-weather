@@ -1,4 +1,4 @@
-package com.composetest.core.database.data.datasources
+package com.composetest.core.data.data.datasources.local
 
 import com.composetest.core.database.entities.UserEntity
 

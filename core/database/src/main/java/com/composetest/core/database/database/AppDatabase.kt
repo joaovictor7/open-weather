@@ -20,6 +20,6 @@ import com.composetest.core.database.entities.UserEntity
 )
 @TypeConverters(LocalDateTimeConverter::class)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun userDao(): UserEntityDao
-    abstract fun sessionDao(): SessionEntityDao
+    abstract fun userEntityDao(): UserEntityDao
+    abstract fun sessionEntityDao(): SessionEntityDao
 }

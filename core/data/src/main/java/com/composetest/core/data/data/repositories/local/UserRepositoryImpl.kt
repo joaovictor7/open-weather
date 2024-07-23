@@ -1,21 +1,19 @@
-package com.composetest.core.database.data.repositories
+package com.composetest.core.data.data.repositories.local
 
-import com.composetest.core.database.database.AppDatabase
+import com.composetest.core.data.data.datasources.local.UserDataSource
 import com.composetest.core.database.entities.UserEntity
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 internal class UserRepositoryImpl @Inject constructor(
-    appDatabase: AppDatabase
+    private val userDataSource: UserDataSource
 ) : UserRepository {
 
-    private val userDao = appDatabase.userDao()
-
     override suspend fun insert(user: UserEntity) {
-        userDao.insert(user)
+        userDataSource.insert(user)
     }
 
     override suspend fun <T> getCurrentUser(mapper: (UserEntity?) -> T) =
-        userDao.getCurrentUser().let(mapper)
+        userDataSource.getCurrentUser().let(mapper)
 }

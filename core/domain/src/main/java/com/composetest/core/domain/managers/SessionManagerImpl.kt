@@ -2,8 +2,8 @@ package com.composetest.core.domain.managers
 
 import com.composetest.core.data.data.repositories.local.WorkManagerRepository
 import com.composetest.core.data.workmanagers.workes.SessionWorker
-import com.composetest.core.database.data.repositories.SessionRepository
-import com.composetest.core.database.data.repositories.UserRepository
+import com.composetest.core.data.data.repositories.local.SessionRepository
+import com.composetest.core.data.data.repositories.local.UserRepository
 import com.composetest.core.database.entities.partialupdate.FinishedSessionEntityUpdate
 import com.composetest.core.domain.mappers.SessionEntityMapper
 import com.composetest.core.domain.mappers.SessionModelMapper

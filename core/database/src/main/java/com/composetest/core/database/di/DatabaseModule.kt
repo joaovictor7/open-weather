@@ -24,26 +24,22 @@ internal object DatabaseModule {
     fun appDatabase(
         @ApplicationContext context: Context,
         buildConfigProvider: BuildConfigProvider,
-        getSecretKeyUseCase: GetSecretKeyUseCase,
-        sqliteCipherProvider: SqliteCipherProvider
-    ): AppDatabase {
-        val secretKey = getSecretKeyUseCase()
-        return Room.databaseBuilder(
-            context,
-            AppDatabase::class.java,
-            DatabaseConfig.DATABASE_NAME
-        )
-            .openHelperFactory(secretKey?.let { sqliteCipherProvider.getFactory(it) })
-            .addTypeConverter(LocalDateTimeConverter()).apply {
-                if (!buildConfigProvider.get.isRelease) {
-                    setQueryCallback({ sqlQuery, bindArgs ->
-                        Log.i("SQLite", "SQL Query: $sqlQuery")
-                        if (bindArgs.isNotEmpty()) {
-                            Log.i("SQLite", "SQL Args: $bindArgs")
-                        }
-                    }, Executors.newSingleThreadExecutor())
-                }
+        sqliteCipherProvider: SqliteCipherProvider,
+        getSecretKeyUseCase: GetSecretKeyUseCase
+    ): AppDatabase = Room.databaseBuilder(
+        context,
+        AppDatabase::class.java,
+        DatabaseConfig.DATABASE_NAME
+    )
+        .openHelperFactory(getSecretKeyUseCase()?.let { sqliteCipherProvider.getFactory(it) })
+        .addTypeConverter(LocalDateTimeConverter())
+        .apply {
+            if (!buildConfigProvider.get.isRelease) {
+                setQueryCallback({ sqlQuery, bindArgs ->
+                    Log.i("SQLite", "SQL Query: $sqlQuery")
+                    if (bindArgs.isNotEmpty()) Log.i("SQLite", "SQL Args: $bindArgs")
+                }, Executors.newSingleThreadExecutor())
             }
-            .build()
-    }
+        }
+        .build()
 }

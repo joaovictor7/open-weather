@@ -1,7 +1,8 @@
-package com.composetest.core.database.data.datasources
+package com.composetest.core.data.data.datasources.local
 
-import com.composetest.common.di.qualifiers.IoDispatcher
-import com.composetest.core.database.database.AppDatabase
+import com.composetest.common.di.qualifiers.Dispatcher
+import com.composetest.common.enums.Dispatchers
+import com.composetest.core.database.daos.SessionEntityDao
 import com.composetest.core.database.entities.SessionEntity
 import com.composetest.core.database.entities.partialupdate.FinishedSessionEntityUpdate
 import kotlinx.coroutines.CoroutineDispatcher
@@ -11,20 +12,19 @@ import javax.inject.Singleton
 
 @Singleton
 internal class SessionDataSourceImpl @Inject constructor(
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-    appDatabase: AppDatabase
+    private val sessionEntityDao: SessionEntityDao,
+    @Dispatcher(Dispatchers.IO) private val ioDispatcher: CoroutineDispatcher
 ) : SessionDataSource {
-    private val sessionDao = appDatabase.sessionDao()
 
     override suspend fun insert(entity: SessionEntity) = withContext(ioDispatcher) {
-        sessionDao.insert(entity)
+        sessionEntityDao.insert(entity)
     }
 
     override suspend fun update(entity: FinishedSessionEntityUpdate) = withContext(ioDispatcher) {
-        sessionDao.update(entity)
+        sessionEntityDao.update(entity)
     }
 
     override suspend fun getCurrentSession() = withContext(ioDispatcher) {
-        sessionDao.getCurrentSession()
+        sessionEntityDao.getCurrentSession()
     }
 }

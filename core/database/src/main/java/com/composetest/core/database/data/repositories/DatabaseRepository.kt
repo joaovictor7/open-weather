@@ -1,6 +1,6 @@
-package com.composetest.core.data.data.repositories.local
+package com.composetest.core.database.data.repositories
 
-interface DatabaseRepository {
+internal interface DatabaseRepository {
     suspend fun getEncryptedSecretKey(): String?
 
     suspend fun setEncryptedSecretKey(encryptedKey: String)

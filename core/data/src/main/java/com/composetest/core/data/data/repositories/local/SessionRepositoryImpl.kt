@@ -1,6 +1,6 @@
-package com.composetest.core.database.data.repositories
+package com.composetest.core.data.data.repositories.local
 
-import com.composetest.core.database.data.datasources.SessionDataSource
+import com.composetest.core.data.data.datasources.local.SessionDataSource
 import com.composetest.core.database.entities.SessionEntity
 import com.composetest.core.database.entities.partialupdate.FinishedSessionEntityUpdate
 import javax.inject.Inject

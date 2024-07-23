@@ -2,8 +2,10 @@ package com.composetest.core.data.di
 
 import com.composetest.core.data.data.repositories.local.AppThemeRepository
 import com.composetest.core.data.data.repositories.local.AppThemeRepositoryImpl
-import com.composetest.core.data.data.repositories.local.DatabaseRepository
-import com.composetest.core.data.data.repositories.local.DatabaseRepositoryImpl
+import com.composetest.core.data.data.repositories.local.SessionRepository
+import com.composetest.core.data.data.repositories.local.SessionRepositoryImpl
+import com.composetest.core.data.data.repositories.local.UserRepository
+import com.composetest.core.data.data.repositories.local.UserRepositoryImpl
 import com.composetest.core.data.data.repositories.local.WorkManagerRepository
 import com.composetest.core.data.data.repositories.local.WorkManagerRepositoryImpl
 import com.composetest.core.data.data.repositories.remote.AnalyticsRepository
@@ -36,9 +38,10 @@ internal abstract class RepositoryModule {
     ): AnalyticsRepository
 
     @Binds
-    abstract fun databaseRepository(
-        databaseRepositoryImpl: DatabaseRepositoryImpl
-    ): DatabaseRepository
+    abstract fun sessionRepository(sessionRepositoryImpl: SessionRepositoryImpl): SessionRepository
+
+    @Binds
+    abstract fun userRepository(userRepositoryImpl: UserRepositoryImpl): UserRepository
 
     // Remotes
     @Binds

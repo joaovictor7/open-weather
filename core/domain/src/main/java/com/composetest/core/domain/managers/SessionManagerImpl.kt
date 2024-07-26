@@ -12,9 +12,7 @@ import com.composetest.core.domain.models.session.SessionWithUserModel
 import java.time.Duration
 import java.time.LocalDateTime
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 internal class SessionManagerImpl @Inject constructor(
     private val sessionRepository: SessionRepository,
     private val userRepository: UserRepository,

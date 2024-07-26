@@ -5,9 +5,7 @@ import com.composetest.core.data.network.requests.AuthenticationRequest
 import com.composetest.core.data.network.responses.AuthenticationResponse
 import com.composetest.core.data.managers.RemoteCallManager
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 internal class AuthenticationRepositoryImpl @Inject constructor(
     private val remoteCallManager: RemoteCallManager,
     private val authenticationDataSource: AuthenticationDataSource

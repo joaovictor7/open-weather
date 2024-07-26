@@ -9,9 +9,7 @@ import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 import javax.crypto.spec.IvParameterSpec
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 internal class CipherProviderImpl @Inject constructor() : CipherProvider {
 
     private val keyStore = KeyStore.getInstance(ANDROID_KEY_STORE).apply {

@@ -7,9 +7,7 @@ import com.composetest.core.database.entities.UserEntity
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 internal class UserDataSourceImpl @Inject constructor(
     private val userEntityDao: UserEntityDao,
     @Dispatcher(Dispatchers.IO) private val ioDispatcher: CoroutineDispatcher

@@ -6,9 +6,7 @@ import com.composetest.core.security.providers.CipherProvider
 import com.composetest.core.security.utils.getAlphanumericRandomKey
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 internal class GetSecretKeyUseCase @Inject constructor(
     private val databaseRepository: DatabaseRepository,
     private val buildConfigProvider: BuildConfigProvider,

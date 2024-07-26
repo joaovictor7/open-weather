@@ -10,9 +10,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 internal class PreferenceDataSourceImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>,
     @Dispatcher(Dispatchers.IO) private val ioDispatcher: CoroutineDispatcher

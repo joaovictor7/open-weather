@@ -5,9 +5,7 @@ import com.composetest.core.data.data.datasources.remote.FirebaseAnalyticsDataSo
 import com.composetest.core.data.network.requests.AnalyticRequest
 import com.composetest.core.data.network.requests.ErrorAnalyticRequest
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 internal class AnalyticsRepositoryImpl @Inject constructor(
     private val analyticsDataSource: FirebaseAnalyticsDataSourceImpl
 ) : AnalyticsRepository {

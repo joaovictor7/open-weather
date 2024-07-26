@@ -6,9 +6,7 @@ import com.composetest.core.domain.models.session.SessionModel
 import com.composetest.core.domain.models.session.SessionWithUserModel
 import java.time.LocalDateTime
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 class SessionModelMapper @Inject constructor(
     private val userModelMapper: UserModelMapper
 ) {

@@ -6,12 +6,10 @@ import androidx.navigation.NavOptions
 import com.composetest.core.router.enums.NavigationMode
 import com.composetest.core.router.interfaces.ResultParam
 import com.composetest.core.router.providers.NavControllerProvider
-import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-@ViewModelScoped
 internal class NavigationManagerImpl @Inject constructor(
     private val navControllerProvider: NavControllerProvider,
     override val savedStateHandle: SavedStateHandle

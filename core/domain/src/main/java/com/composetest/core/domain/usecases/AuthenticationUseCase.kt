@@ -6,10 +6,8 @@ import com.composetest.core.data.network.requests.AuthenticationRequest
 import com.composetest.core.domain.managers.SessionManager
 import com.composetest.core.domain.mappers.SessionModelMapper
 import com.composetest.core.domain.throwables.InvalidCredentialsThrowable
-import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject
 
-@ViewModelScoped
 class AuthenticationUseCase @Inject constructor(
     private val authenticationRepository: AuthenticationRepository,
     private val sessionManager: SessionManager,

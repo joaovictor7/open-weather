@@ -4,9 +4,7 @@ import com.composetest.common.enums.Theme
 import com.composetest.core.data.data.repositories.local.AppThemeRepository
 import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 internal class AppThemeManagerImpl @Inject constructor(
     private val appThemeRepository: AppThemeRepository
 ) : AppThemeManager {

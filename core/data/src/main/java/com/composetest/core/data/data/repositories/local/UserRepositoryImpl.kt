@@ -3,9 +3,7 @@ package com.composetest.core.data.data.repositories.local
 import com.composetest.core.data.data.datasources.local.UserDataSource
 import com.composetest.core.database.entities.UserEntity
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 internal class UserRepositoryImpl @Inject constructor(
     private val userDataSource: UserDataSource
 ) : UserRepository {

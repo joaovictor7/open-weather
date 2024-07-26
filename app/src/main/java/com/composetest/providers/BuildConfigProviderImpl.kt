@@ -7,9 +7,7 @@ import com.composetest.common.enums.Flavor.Companion.getFlavor
 import com.composetest.common.models.BuildConfigModel
 import com.composetest.common.providers.BuildConfigProvider
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 internal class BuildConfigProviderImpl @Inject constructor() : BuildConfigProvider {
     override val get = BuildConfigModel(
         applicationId = BuildConfig.APPLICATION_ID,

@@ -9,13 +9,16 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 internal object FirebaseModule {
     @Provides
+    @Singleton
     fun firebaseCrashlytics(): FirebaseCrashlytics = Firebase.crashlytics
 
     @Provides
+    @Singleton
     fun firebaseAnalytics(): FirebaseAnalytics = Firebase.analytics
 }

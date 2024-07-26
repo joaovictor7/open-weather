@@ -2,10 +2,8 @@ package com.composetest.core.data.data.repositories.local
 
 import androidx.work.WorkManager
 import javax.inject.Inject
-import javax.inject.Singleton
 import com.composetest.core.data.workmanagers.WorkManager as Work
 
-@Singleton
 internal class WorkManagerRepositoryImpl @Inject constructor(
     private val workManager: WorkManager
 ) : WorkManagerRepository {

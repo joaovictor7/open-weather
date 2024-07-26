@@ -4,9 +4,7 @@ import com.composetest.common.models.AppThemeModel
 import com.composetest.common.enums.Theme
 import com.composetest.common.extensions.orFalse
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 internal class AppThemeModelMapper @Inject constructor() {
 
     operator fun invoke(

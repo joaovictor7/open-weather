@@ -10,9 +10,7 @@ import com.composetest.core.data.data.repositories.local.UserRepository
 import com.composetest.core.data.data.repositories.remote.AnalyticsRepository
 import com.composetest.core.domain.mappers.UserModelMapper
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 class AnalyticsUseCase @Inject constructor(
     private val userRepository: UserRepository,
     private val analyticsRepository: AnalyticsRepository,

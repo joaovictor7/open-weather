@@ -8,9 +8,7 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 internal class FirebaseAnalyticsDataSourceImpl @Inject constructor(
     private val firebaseAnalytics: FirebaseAnalytics,
     private val firebaseCrashlytics: FirebaseCrashlytics,

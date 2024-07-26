@@ -24,12 +24,14 @@ import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 internal object KtorModule {
 
     @Provides
+    @Singleton
     fun ktorClient(
         buildTypeFieldsProvider: BuildTypeFieldsProvider
     ): HttpClient = HttpClient(Android) {

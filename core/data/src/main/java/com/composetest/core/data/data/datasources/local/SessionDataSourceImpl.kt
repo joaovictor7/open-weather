@@ -8,9 +8,7 @@ import com.composetest.core.database.entities.partialupdate.FinishedSessionEntit
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 internal class SessionDataSourceImpl @Inject constructor(
     private val sessionEntityDao: SessionEntityDao,
     @Dispatcher(Dispatchers.IO) private val ioDispatcher: CoroutineDispatcher

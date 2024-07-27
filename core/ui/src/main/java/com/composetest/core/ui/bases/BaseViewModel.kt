@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.composetest.common.analytics.ErrorAnalyticEvent
 import com.composetest.common.analytics.OpenScreenAnalyticEvent
-import com.composetest.common.analytics.interfaces.Analytic
+import com.composetest.common.analytics.interfaces.AnalyticScreen
 import com.composetest.core.domain.usecases.AnalyticsUseCase
 import com.composetest.core.ui.interfaces.BaseUiState
 import kotlinx.coroutines.flow.Flow
@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 abstract class BaseViewModel<UiState : BaseUiState>(
-    private val analytic: Analytic,
+    private val analyticScreen: AnalyticScreen,
     uiState: UiState
 ) : ViewModel() {
 
@@ -32,7 +32,7 @@ abstract class BaseViewModel<UiState : BaseUiState>(
 
     protected fun openScreenAnalytic() {
         runAsyncTask {
-            analyticsUseCase(OpenScreenAnalyticEvent(analytic))
+            analyticsUseCase(OpenScreenAnalyticEvent(analyticScreen))
         }
     }
 
@@ -47,7 +47,7 @@ abstract class BaseViewModel<UiState : BaseUiState>(
             flow.onStart { onStart?.invoke() }
                 .onCompletion { onCompletion?.invoke() }
                 .catch {
-                    analyticsUseCase(ErrorAnalyticEvent(it, analytic))
+                    analyticsUseCase(ErrorAnalyticEvent(it, analyticScreen))
                     onError?.invoke(it)
                 }
                 .collect { onCollect(it) }
@@ -65,7 +65,7 @@ abstract class BaseViewModel<UiState : BaseUiState>(
             runCatching {
                 onAsyncTask()
             }.onFailure {
-                analyticsUseCase(ErrorAnalyticEvent(it, analytic))
+                analyticsUseCase(ErrorAnalyticEvent(it, analyticScreen))
                 onError?.invoke(it)
             }
             onCompletion?.invoke()

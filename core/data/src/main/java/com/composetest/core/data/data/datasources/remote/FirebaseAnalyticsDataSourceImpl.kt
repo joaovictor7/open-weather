@@ -19,7 +19,7 @@ internal class FirebaseAnalyticsDataSourceImpl @Inject constructor(
         firebaseAnalytics.logEvent(tag, params)
     }
 
-    override suspend fun logNonFatalError(tag: String, params: Bundle, throwable: Throwable) =
+    override suspend fun logNonFatalError(tag: String, throwable: Throwable, params: Bundle) =
         withContext(ioDispatcher) {
             firebaseAnalytics.logEvent(tag, params)
             firebaseCrashlytics.recordException(throwable)

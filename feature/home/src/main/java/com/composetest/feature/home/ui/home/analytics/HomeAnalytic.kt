@@ -1,7 +1,7 @@
 package com.composetest.feature.home.ui.home.analytics
 
-import com.composetest.common.analytics.interfaces.Analytic
+import com.composetest.common.analytics.interfaces.AnalyticScreen
 
-internal class HomeAnalytic : Analytic {
+internal object HomeAnalytic : AnalyticScreen {
     override val screen = "home"
 }

@@ -13,7 +13,8 @@ import com.composetest.core.router.destinations.home.navtypes.InnerHome
 import com.composetest.core.router.enums.NavigationMode
 import com.composetest.core.router.managers.NavigationManager
 import com.composetest.core.ui.bases.BaseViewModel
-import com.composetest.feature.login.ui.login.analytics.LoginAnalytic
+import com.composetest.feature.login.ui.login.analytics.LoginClickEventAnalytic
+import com.composetest.feature.login.ui.login.analytics.LoginScreenAnalytic
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -25,7 +26,7 @@ internal class LoginViewModel @Inject constructor(
     private val authenticationUseCase: AuthenticationUseCase,
     private val sessionManager: SessionManager,
     override val analyticsUseCase: AnalyticsUseCase
-) : BaseViewModel<LoginUiState>(LoginAnalytic(), LoginUiState()), LoginCommandReceiver {
+) : BaseViewModel<LoginUiState>(LoginScreenAnalytic, LoginUiState()), LoginCommandReceiver {
 
     override val commandReceiver = this
 
@@ -46,6 +47,7 @@ internal class LoginViewModel @Inject constructor(
             onError = ::handleLoginError,
             onCompletion = { updateUiState { it.setLoading(false) } },
             onStart = {
+                analyticsUseCase(LoginClickEventAnalytic)
                 updateUiState { it.setLoading(true).setShowInvalidCredentialsMsg(false) }
             }
         ) {

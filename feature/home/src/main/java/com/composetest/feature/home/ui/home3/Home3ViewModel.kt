@@ -13,7 +13,7 @@ import javax.inject.Inject
 internal class Home3ViewModel @Inject constructor(
     private val navigationManager: NavigationManager,
     override val analyticsUseCase: AnalyticsUseCase
-) : BaseViewModel<Home3UiState>(Home3Analytic(), Home3UiState()), Home3CommandReceiver {
+) : BaseViewModel<Home3UiState>(Home3Analytic, Home3UiState()), Home3CommandReceiver {
 
     override val commandReceiver = this
 

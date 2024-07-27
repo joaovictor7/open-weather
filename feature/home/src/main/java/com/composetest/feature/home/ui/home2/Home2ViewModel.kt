@@ -15,7 +15,7 @@ import javax.inject.Inject
 internal class Home2ViewModel @Inject constructor(
     private val navigationManager: NavigationManager,
     override val analyticsUseCase: AnalyticsUseCase
-) : BaseViewModel<Home2UiState>(Home2Analytic(), Home2UiState()), Home2CommandReceiver {
+) : BaseViewModel<Home2UiState>(Home2Analytic, Home2UiState()), Home2CommandReceiver {
 
     override val commandReceiver = this
 

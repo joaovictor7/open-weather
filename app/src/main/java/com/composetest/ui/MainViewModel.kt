@@ -19,7 +19,7 @@ class MainViewModel @Inject constructor(
     private val navigationManager: NavigationManager,
     private val navControllerProvider: NavControllerProvider,
     override val analyticsUseCase: AnalyticsUseCase
-) : BaseViewModel<MainUiState>(MainAnalytic(), MainUiState()), MainCommandReceiver {
+) : BaseViewModel<MainUiState>(MainAnalytic, MainUiState()), MainCommandReceiver {
 
     override val commandReceiver = this
 

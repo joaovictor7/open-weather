@@ -19,7 +19,7 @@ internal class HomeViewModel @Inject constructor(
     private val navigationManager: NavigationManager,
     private val appThemeManager: AppThemeManager,
     override val analyticsUseCase: AnalyticsUseCase
-) : BaseViewModel<HomeUiState>(HomeAnalytic(), HomeUiState()), HomeCommandReceiver {
+) : BaseViewModel<HomeUiState>(HomeAnalytic, HomeUiState()), HomeCommandReceiver {
 
     override val commandReceiver = this
 

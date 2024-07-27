@@ -3,11 +3,11 @@ package com.composetest.feature.login.ui.login
 import com.composetest.common.enums.Theme
 import com.composetest.common.providers.BuildConfigProvider
 import com.composetest.core.designsystem.components.alertdialogs.extensions.errorAlertDialogParam
+import com.composetest.core.domain.managers.AppThemeManager
 import com.composetest.core.domain.managers.SessionManager
 import com.composetest.core.domain.throwables.InvalidCredentialsThrowable
 import com.composetest.core.domain.usecases.AnalyticsUseCase
 import com.composetest.core.domain.usecases.AuthenticationUseCase
-import com.composetest.core.domain.usecases.apptheme.SetAppThemeUseCase
 import com.composetest.core.router.destinations.home.HomeDestination
 import com.composetest.core.router.destinations.home.navtypes.InnerHome
 import com.composetest.core.router.enums.NavigationMode
@@ -21,7 +21,7 @@ import javax.inject.Inject
 internal class LoginViewModel @Inject constructor(
     private val navigationManager: NavigationManager,
     private val buildConfigProvider: BuildConfigProvider,
-    private val setAppThemeUseCase: SetAppThemeUseCase,
+    private val appThemeManager: AppThemeManager,
     private val authenticationUseCase: AuthenticationUseCase,
     private val sessionManager: SessionManager,
     override val analyticsUseCase: AnalyticsUseCase
@@ -63,7 +63,7 @@ internal class LoginViewModel @Inject constructor(
         val theme = if (enterScreen && currentAppTheme != Theme.DARK)
             Theme.DARK
         else null
-        setAppThemeUseCase.invoke(theme)
+        appThemeManager.setCustomTheme(theme)
     }
 
     override fun handleLoginError(throwable: Throwable?) {

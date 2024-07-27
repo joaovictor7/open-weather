@@ -2,8 +2,8 @@ package com.composetest.feature.home.ui.home
 
 import com.composetest.core.ui.bases.BaseViewModel
 import com.composetest.common.enums.Theme
+import com.composetest.core.domain.managers.AppThemeManager
 import com.composetest.core.domain.usecases.AnalyticsUseCase
-import com.composetest.core.domain.usecases.apptheme.SetAppThemeUseCase
 import com.composetest.core.router.extensions.getParam
 import com.composetest.core.router.destinations.home.Home2Destination
 import com.composetest.core.router.destinations.home.HomeDestination
@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 internal class HomeViewModel @Inject constructor(
     private val navigationManager: NavigationManager,
-    private val setAppThemeUseCase: SetAppThemeUseCase,
+    private val appThemeManager: AppThemeManager,
     override val analyticsUseCase: AnalyticsUseCase
 ) : BaseViewModel<HomeUiState>(HomeAnalytic(), HomeUiState()), HomeCommandReceiver {
 
@@ -40,8 +40,8 @@ internal class HomeViewModel @Inject constructor(
     ) {
         runAsyncTask {
             when {
-                theme != null -> setAppThemeUseCase(theme)
-                dynamicColors != null -> setAppThemeUseCase(dynamicColors)
+                theme != null -> appThemeManager.setTheme(theme)
+                dynamicColors != null -> appThemeManager.setDynamicColor(dynamicColors)
             }
         }
     }

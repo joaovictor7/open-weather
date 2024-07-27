@@ -1,9 +1,9 @@
 package com.composetest.ui
 
+import com.composetest.core.domain.managers.AppThemeManager
 import com.composetest.core.domain.managers.SessionManager
 import com.composetest.core.ui.bases.BaseViewModel
 import com.composetest.core.domain.usecases.AnalyticsUseCase
-import com.composetest.core.domain.usecases.apptheme.GetAppThemeUseCase
 import com.composetest.core.router.destinations.login.LoginDestination
 import com.composetest.core.router.enums.NavigationMode
 import com.composetest.core.router.providers.NavControllerProvider
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val getAppThemeUseCase: GetAppThemeUseCase,
+    private val appThemeManager: AppThemeManager,
     private val sessionManager: SessionManager,
     private val navigationManager: NavigationManager,
     private val navControllerProvider: NavControllerProvider,
@@ -39,7 +39,7 @@ class MainViewModel @Inject constructor(
     }
 
     private fun iniState() {
-        runFlowTask(flow = getAppThemeUseCase()) { appTheme ->
+        runFlowTask(flow = appThemeManager.getAppTheme()) { appTheme ->
             updateUiState { it.setAppTheme(appTheme) }
         }
     }

@@ -6,9 +6,9 @@ import com.composetest.common.models.BuildConfigModel
 import com.composetest.common.providers.BuildConfigProvider
 import com.composetest.common.throwables.NetworkThrowable
 import com.composetest.core.designsystem.components.alertdialogs.params.ErrorAlertDialogParam
+import com.composetest.core.domain.managers.SessionManager
 import com.composetest.core.domain.throwables.InvalidCredentialsThrowable
 import com.composetest.core.domain.usecases.AuthenticationUseCase
-import com.composetest.core.domain.usecases.session.GetNeedsLoginBySessionUseCase
 import com.composetest.core.router.destinations.home.HomeDestination
 import com.composetest.core.router.destinations.home.navtypes.InnerHome
 import com.composetest.core.router.enums.NavigationMode
@@ -46,8 +46,8 @@ class LoginViewModelTest : CoroutinesTest {
         override val get: BuildConfigModel = buildConfigModelMock
     }
     private val authenticationUseCase: AuthenticationUseCase = mockk()
-    private val getNeedsLoginBySessionUseCase: GetNeedsLoginBySessionUseCase = mockk {
-        coEvery { this@mockk.invoke() } returns true
+    private val sessionManager: SessionManager = mockk {
+        coEvery { needsLogin() } returns true
     }
 
     private lateinit var viewModel: LoginViewModel
@@ -60,7 +60,7 @@ class LoginViewModelTest : CoroutinesTest {
     @Test
     fun `initial uiState`() =
         runStateFlowTest(testDispatcher, viewModel.uiState) { job, collectedStates ->
-            coEvery { getNeedsLoginBySessionUseCase() } answers { false }
+            coEvery { sessionManager.needsLogin() } returns false
             job.cancel()
 
             assertEquals(
@@ -77,7 +77,7 @@ class LoginViewModelTest : CoroutinesTest {
 
     @Test
     fun `initial uiState when not need login`() {
-        coEvery { getNeedsLoginBySessionUseCase() } returns false
+        coEvery { sessionManager.needsLogin() } returns false
         val viewModel = initViewModel()
         runStateFlowTest(testDispatcher, viewModel.uiState) { job, collectedStates ->
             job.cancel()
@@ -259,9 +259,9 @@ class LoginViewModelTest : CoroutinesTest {
     private fun initViewModel() = LoginViewModel(
         navigationManager = navigationManager,
         buildConfigProvider = buildConfigProvider,
-        setAppThemeUseCase = mockk(),
+        appThemeManager = mockk(),
         authenticationUseCase = authenticationUseCase,
         analyticsUseCase = mockk(relaxed = true),
-        getNeedsLoginBySessionUseCase = getNeedsLoginBySessionUseCase
+        sessionManager = sessionManager
     )
 }

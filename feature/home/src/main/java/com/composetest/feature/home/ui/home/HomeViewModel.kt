@@ -9,6 +9,7 @@ import com.composetest.core.router.destinations.home.Home2Destination
 import com.composetest.core.router.destinations.home.HomeDestination
 import com.composetest.core.router.extensions.getResultFlow
 import com.composetest.core.router.managers.NavigationManager
+import com.composetest.core.router.providers.NavHostControllerProvider
 import com.composetest.core.router.results.home.Home2Result
 import com.composetest.feature.home.ui.home.analytics.HomeAnalytic
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,6 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 internal class HomeViewModel @Inject constructor(
     private val navigationManager: NavigationManager,
+    private val navHostControllerProvider: NavHostControllerProvider,
     private val appThemeManager: AppThemeManager,
     override val analyticsUseCase: AnalyticsUseCase
 ) : BaseViewModel<HomeUiState>(HomeAnalytic, HomeUiState()), HomeCommandReceiver {
@@ -47,7 +49,7 @@ internal class HomeViewModel @Inject constructor(
     }
 
     private fun teste() {
-        runFlowTask(flow = navigationManager.getResultFlow<Home2Result>()) {
+        runFlowTask(flow = navHostControllerProvider.getResultFlow<Home2Result>()) {
             val e = it
         }
     }

@@ -1,7 +1,7 @@
 package com.composetest.core.router.di
 
-import com.composetest.core.router.providers.NavControllerProvider
-import com.composetest.core.router.providers.NavControllerProviderImpl
+import com.composetest.core.router.providers.NavHostControllerProvider
+import com.composetest.core.router.providers.NavHostControllerProviderImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -14,7 +14,7 @@ internal abstract class ProviderModule {
 
     @Binds
     @Singleton
-    abstract fun navControllerProvider(
-        navControllerProviderImpl: NavControllerProviderImpl
-    ): NavControllerProvider
+    abstract fun navHostControllerProvider(
+        navControllerProviderImpl: NavHostControllerProviderImpl
+    ): NavHostControllerProvider
 }

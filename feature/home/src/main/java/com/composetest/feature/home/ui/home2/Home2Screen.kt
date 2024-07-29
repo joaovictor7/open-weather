@@ -1,6 +1,5 @@
 package com.composetest.feature.home.ui.home2
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.safeDrawingPadding
@@ -21,7 +20,6 @@ internal object Home2Screen : Screen<Home2UiState, Home2CommandReceiver> {
         onExecuteCommand: (Command<Home2CommandReceiver>) -> Unit
     ) {
         Column(
-            verticalArrangement = Arrangement.Center,
             modifier = Modifier
                 .safeDrawingPadding()
                 .fillMaxSize()

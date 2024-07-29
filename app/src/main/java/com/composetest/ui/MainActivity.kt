@@ -20,7 +20,7 @@ import com.composetest.core.designsystem.utils.lifecycleEvent
 import com.composetest.feature.login.navigation.loginNavGraph
 import com.composetest.feature.home.navigation.homeNavGraph
 import com.composetest.core.router.destinations.login.LoginDestination
-import com.composetest.core.router.providers.NavControllerProvider
+import com.composetest.core.router.providers.NavHostControllerProvider
 import com.composetest.core.ui.interfaces.Command
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -31,7 +31,7 @@ import kotlin.reflect.KClass
 class MainActivity : ComponentActivity() {
 
     @Inject
-    lateinit var navControllerProvider: NavControllerProvider
+    lateinit var navHostControllerProvider: NavHostControllerProvider
 
     private val viewModel: MainViewModel by viewModels()
 
@@ -47,7 +47,7 @@ class MainActivity : ComponentActivity() {
                 theme = uiState.appTheme.theme
             ) {
                 Navigation(
-                    navControllerProvider = navControllerProvider,
+                    navHostControllerProvider = navHostControllerProvider,
                     firstScreenDestination = LoginDestination::class
                 )
             }
@@ -70,11 +70,11 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 private fun Navigation(
-    navControllerProvider: NavControllerProvider,
+    navHostControllerProvider: NavHostControllerProvider,
     firstScreenDestination: KClass<*>
 ) {
     val navController = rememberNavController()
-    navControllerProvider.setNavController(navController)
+    navHostControllerProvider.setNavController(navController)
     NavHost(
         navController = navController,
         startDestination = firstScreenDestination

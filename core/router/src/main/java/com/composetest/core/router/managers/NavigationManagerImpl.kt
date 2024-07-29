@@ -3,41 +3,41 @@ package com.composetest.core.router.managers
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavOptions
+import com.composetest.common.di.qualifiers.Dispatcher
+import com.composetest.common.enums.Dispatchers
 import com.composetest.core.router.enums.NavigationMode
 import com.composetest.core.router.interfaces.ResultParam
-import com.composetest.core.router.providers.NavControllerProvider
-import kotlinx.coroutines.Dispatchers
+import com.composetest.core.router.providers.NavHostControllerProvider
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 internal class NavigationManagerImpl @Inject constructor(
-    private val navControllerProvider: NavControllerProvider,
+    private val navHostControllerProvider: NavHostControllerProvider,
+    @Dispatcher(Dispatchers.Main) private val mainDispatcher: CoroutineDispatcher,
     override val savedStateHandle: SavedStateHandle
 ) : NavigationManager {
 
-    private val navController get() = navControllerProvider.navController
-    private val navigateAvailable
+    private val navController get() = navHostControllerProvider.navController
+    private val navigateBackAvailable
         get() = navController.currentBackStackEntry?.lifecycle?.currentState == Lifecycle.State.RESUMED
-
-    override val navBackStackEntryFlow get() = navController.currentBackStackEntryFlow
 
     override fun <Destination : Any> navigate(
         destination: Destination,
         navigationMode: NavigationMode?
     ) {
-        if (!navigateAvailable) return
         navController.navigate(
             route = destination,
-            navOptions = getNavOptions(navigationMode)
+            navOptions = getNavigateOptions(navigationMode)
         )
     }
 
     override fun navigateBack() {
-        if (navigateAvailable) navController.popBackStack()
+        if (navigateBackAvailable) navController.popBackStack()
     }
 
     override fun <Result : ResultParam> navigateBack(result: Result) {
-        if (!navigateAvailable) return
+        if (!navigateBackAvailable) return
         navController.previousBackStackEntry?.savedStateHandle?.set(
             result::class.simpleName.orEmpty(),
             result
@@ -48,29 +48,28 @@ internal class NavigationManagerImpl @Inject constructor(
     override suspend fun <Destination : Any> asyncNavigate(
         destination: Destination,
         navigationMode: NavigationMode?
-    ) = withContext(Dispatchers.Main) {
+    ) = withContext(mainDispatcher) {
         navigate(destination, navigationMode)
     }
 
-    override suspend fun asyncNavigateBack() = withContext(Dispatchers.Main) {
+    override suspend fun asyncNavigateBack() = withContext(mainDispatcher) {
         navigateBack()
     }
 
     override suspend fun <Result : ResultParam> asyncNavigateBack(result: Result) =
-        withContext(Dispatchers.Main) {
+        withContext(mainDispatcher) {
             navigateBack(result)
         }
 
-    private fun getNavOptions(mode: NavigationMode?): NavOptions? {
+    private fun getNavigateOptions(mode: NavigationMode?) = NavOptions.Builder().apply {
         val currentDestination = navController.currentDestination
-        return if (mode != null && currentDestination != null) {
-            NavOptions.Builder().apply {
-                val destinationId = when (mode) {
-                    NavigationMode.REMOVE_CURRENT_SCREEN -> currentDestination.id
-                    NavigationMode.REMOVE_ALL_SCREENS_STACK -> 0
-                }
-                setPopUpTo(destinationId, true)
-            }.build()
-        } else null
-    }
+        if (mode != null && currentDestination != null) {
+            val destinationId = when (mode) {
+                NavigationMode.REMOVE_CURRENT_SCREEN -> currentDestination.id
+                NavigationMode.REMOVE_ALL_SCREENS_STACK -> 0
+            }
+            setPopUpTo(destinationId, true)
+        }
+        setLaunchSingleTop(true)
+    }.build()
 }

@@ -14,6 +14,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.composetest.core.router.managers.NavigationManager
+import com.composetest.core.router.providers.NavHostControllerProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.transform
@@ -26,7 +27,7 @@ inline fun <reified Destination : Any> NavigationManager.getParam(): Destination
     return savedStateHandle.toRoute<Destination>(navTypes)
 }
 
-inline fun <reified Result : Parcelable> NavigationManager.getResultFlow() =
+inline fun <reified Result : Parcelable> NavHostControllerProvider.getResultFlow() =
     navBackStackEntryFlow.transform {
         val result = it.savedStateHandle.get<Result>(Result::class.simpleName.orEmpty())
         if (result != null) emit(result)

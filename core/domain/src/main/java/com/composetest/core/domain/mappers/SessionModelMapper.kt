@@ -7,14 +7,12 @@ import com.composetest.core.domain.models.session.SessionWithUserModel
 import java.time.LocalDateTime
 import javax.inject.Inject
 
-class SessionModelMapper @Inject constructor(
-    private val userModelMapper: UserModelMapper
-) {
+class SessionModelMapper @Inject constructor(private val userModelMapper: UserModelMapper) {
 
     operator fun invoke(response: AuthenticationResponse) = SessionWithUserModel(
-        token = response.token,
-        startDate = LocalDateTime.parse(response.sessionStartDate),
-        endDate = LocalDateTime.parse(response.sessionEndDate),
+        token = response.sessionResponse.token,
+        startDate = LocalDateTime.parse(response.sessionResponse.startDate),
+        endDate = LocalDateTime.parse(response.sessionResponse.endDate),
         isFinished = false,
         user = userModelMapper(response.user)
     )

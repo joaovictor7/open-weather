@@ -9,7 +9,7 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkerParameters
-import com.composetest.common.analytics.ErrorAnalyticEvent
+import com.composetest.common.analytics.WorkerErrorAnalyticEvent
 import com.composetest.core.data.data.repositories.local.SessionRepository
 import com.composetest.core.data.data.repositories.remote.AnalyticsRepository
 import com.composetest.core.data.enums.WorkManagerName
@@ -29,16 +29,11 @@ class SessionWorker @AssistedInject constructor(
     override suspend fun doWork() = runCatching {
         val sessionId = sessionRepository.getCurrentSession {
             it?.id
-        } ?: throw NotFoundException("Session not initilized")
-//        sessionRepository.finishSession(FinishedSessionEntityUpdate(sessionId, true))
+        } ?: throw NotFoundException("Session not initialized")
+        sessionRepository.finishSession(sessionId)
         Result.success()
     }.getOrElse {
-        val e = ErrorAnalyticEvent(it)
-//        analyticsRepository.logNonFatalError(
-//            ErrorAnalyticRequest(
-//                tag = "error"
-//            )
-//        )
+        analyticsRepository.logNonFatalError(WorkerErrorAnalyticEvent(it))
         Result.failure()
     }
 

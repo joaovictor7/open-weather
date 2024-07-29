@@ -1,7 +1,7 @@
 package com.composetest.common.analytics
 
-open class BackgroundErrorAnalyticEvent(
+open class WorkerErrorAnalyticEvent(
     throwable: Throwable
 ) : ErrorAnalyticEvent(throwable, null) {
-    final override val tag = "background_throwable"
+    final override val tag = "worker_throwable"
 }

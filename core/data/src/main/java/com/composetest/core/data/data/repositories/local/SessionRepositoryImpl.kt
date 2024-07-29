@@ -13,8 +13,8 @@ internal class SessionRepositoryImpl @Inject constructor(
         sessionDataSource.insert(entity)
     }
 
-    override suspend fun update(entity: FinishedSessionEntityUpdate) {
-        sessionDataSource.update(entity)
+    override suspend fun finishSession(sessionId: Long) {
+        sessionDataSource.update(FinishedSessionEntityUpdate(sessionId, true))
     }
 
     override suspend fun <T> getCurrentSession(

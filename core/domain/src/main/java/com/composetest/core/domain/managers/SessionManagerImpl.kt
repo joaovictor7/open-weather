@@ -28,13 +28,6 @@ internal class SessionManagerImpl @Inject constructor(
         createSessionSchedule(sessionWithUser.startDate, sessionWithUser.endDate)
     }
 
-    override suspend fun finishSession(sessionWithUser: SessionWithUserModel) {
-        val currentSession = sessionRepository.getCurrentSession(
-            sessionModelMapper::invoke
-        ) ?: return
-        sessionRepository.update(FinishedSessionEntityUpdate(currentSession.id, true))
-    }
-
     override suspend fun needsLogin() = sessionRepository
         .getCurrentSession(sessionModelMapper::invoke).let { currentSession ->
             currentSession == null

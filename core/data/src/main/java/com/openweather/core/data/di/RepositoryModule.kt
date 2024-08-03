@@ -2,6 +2,8 @@ package com.openweather.core.data.di
 
 import com.openweather.core.data.data.repositories.remote.AnalyticsRepository
 import com.openweather.core.data.data.repositories.remote.AnalyticsRepositoryImpl
+import com.openweather.core.data.data.repositories.remote.WeatherForecastRepository
+import com.openweather.core.data.data.repositories.remote.WeatherForecastRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -19,5 +21,8 @@ internal abstract class RepositoryModule {
 
 
     // Remotes
-
+    @Binds
+    abstract fun weatherForecastRepository(
+        weatherForecastRepositoryImpl: WeatherForecastRepositoryImpl
+    ): WeatherForecastRepository
 }

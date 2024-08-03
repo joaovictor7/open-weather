@@ -1,8 +1,10 @@
 package com.openweather.core.data.di
 
-import com.openweather.common.providers.fields.buildtypes.BuildTypeFieldsProvider
 import com.openweather.common.throwables.UnauthorizedRequestThrowable
 import com.openweather.core.data.constants.ktor.KtorConfig
+import com.openweather.core.data.di.qualifiers.Api
+import com.openweather.core.data.enums.NetworkApi
+import com.openweather.core.data.extensions.addBaseApiUrl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,16 +34,10 @@ internal object KtorModule {
 
     @Provides
     @Singleton
-    fun ktorClient(
-        buildTypeFieldsProvider: BuildTypeFieldsProvider
-    ): HttpClient = HttpClient(Android) {
+    fun ktorClient(): HttpClient = HttpClient(Android) {
         expectSuccess = true
         defaultRequest {
             header(HttpHeaders.ContentType, ContentType.Application.Json)
-            url {
-                url(buildTypeFieldsProvider.get.baseApiUrl)
-                port = buildTypeFieldsProvider.get.baseApiPort
-            }
         }
         HttpResponseValidator {
             handleResponseExceptionWithRequest { exception, _ ->
@@ -69,4 +65,10 @@ internal object KtorModule {
             sanitizeHeader { header -> header == HttpHeaders.Authorization }
         }
     }
+
+    @Provides
+    @Api(NetworkApi.OPEN_WEATHER)
+    fun openWeatherApi(
+        httpClient: HttpClient
+    ): HttpClient = httpClient.addBaseApiUrl(NetworkApi.OPEN_WEATHER)
 }

@@ -2,8 +2,8 @@
 <resources>
     <!-- Colors -->
     <color name="background">@color/background_light</color>
-    <color name="background_light">#FFF8F6</color>
-    <color name="background_dark">#161312</color>
+    <color name="background_light">#F8F9FF</color>
+    <color name="background_dark">#111418</color>
 
     <!-- Icons -->
     <color name="icon_launcher_background">@color/background_dark</color>

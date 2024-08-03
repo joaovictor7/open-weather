@@ -6,8 +6,6 @@ import com.openweather.core.data.data.repositories.local.SessionRepository
 import com.openweather.core.data.data.repositories.local.SessionRepositoryImpl
 import com.openweather.core.data.data.repositories.local.UserRepository
 import com.openweather.core.data.data.repositories.local.UserRepositoryImpl
-import com.openweather.core.data.data.repositories.local.WorkManagerRepository
-import com.openweather.core.data.data.repositories.local.WorkManagerRepositoryImpl
 import com.openweather.core.data.data.repositories.remote.AnalyticsRepository
 import com.openweather.core.data.data.repositories.remote.AnalyticsRepositoryImpl
 import com.openweather.core.data.data.repositories.remote.AuthenticationRepository
@@ -28,11 +26,6 @@ internal abstract class RepositoryModule {
     abstract fun appThemeRepository(
         appThemeRepositoryImpl: AppThemeRepositoryImpl
     ): AppThemeRepository
-
-    @Binds
-    abstract fun workManagerRepository(
-        workManagerRepositoryImpl: WorkManagerRepositoryImpl
-    ): WorkManagerRepository
 
     @Binds
     abstract fun analyticsRepository(

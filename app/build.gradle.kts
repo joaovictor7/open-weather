@@ -21,6 +21,5 @@ dependencies {
     implementation(projects.core.domain)
     implementation(projects.feature.login)
     implementation(projects.feature.home)
-    implementation(libs.androidx.hilt.work)
     implementation(libs.androidx.splashScreen)
 }

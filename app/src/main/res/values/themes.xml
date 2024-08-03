@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.ComposeTest" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.OpenWeather" parent="android:Theme.Material.Light.NoActionBar" />
 
-    <style name="Theme.ComposeTest.SplashScreen" parent="Theme.SplashScreen">
+    <style name="Theme.OpenWeather.SplashScreen" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/background</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_splash_screen</item>
-        <item name="postSplashScreenTheme">@style/Theme.ComposeTest</item>
+        <item name="postSplashScreenTheme">@style/Theme.OpenWeather</item>
     </style>
 </resources>

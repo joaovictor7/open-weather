@@ -1,9 +1,9 @@
 plugins {
-    alias(libs.plugins.composeTest.library)
+    alias(libs.plugins.openWeather.library)
 }
 
 android {
-    namespace = "com.composetest.core.database"
+    namespace = "com.openweather.core.database"
 }
 
 dependencies {

@@ -1,11 +1,11 @@
 plugins {
-    alias(libs.plugins.composeTest.application)
-    alias(libs.plugins.composeTest.compose)
-    alias(libs.plugins.composeTest.test)
+    alias(libs.plugins.openWeather.application)
+    alias(libs.plugins.openWeather.compose)
+    alias(libs.plugins.openWeather.test)
 }
 
 android {
-    val appPackage = "com.composetest"
+    val appPackage = "com.openweather"
     namespace = appPackage
     defaultConfig {
         applicationId = appPackage

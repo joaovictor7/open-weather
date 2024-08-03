@@ -1,11 +1,11 @@
 plugins {
-    alias(libs.plugins.composeTest.library)
-    alias(libs.plugins.composeTest.compose)
-    alias(libs.plugins.composeTest.test)
+    alias(libs.plugins.openWeather.library)
+    alias(libs.plugins.openWeather.compose)
+    alias(libs.plugins.openWeather.test)
 }
 
 android {
-    namespace = "com.composetest.feature.login"
+    namespace = "com.openweather.feature.login"
 }
 
 dependencies {

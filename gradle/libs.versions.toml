@@ -93,10 +93,10 @@ slf4j-simple = { group = "org.slf4j", name = "slf4j-simple", version.ref = "slf4
 
 [plugins]
 # Convention plugins
-composeTest-application = { id = "com.composetest.application", version.ref = "unspecified" }
-composeTest-library = { id = "com.composetest.library", version.ref = "unspecified" }
-composeTest-compose = { id = "com.composetest.compose", version.ref = "unspecified" }
-composeTest-test = { id = "com.composetest.test", version.ref = "unspecified" }
+openWeather-application = { id = "com.openweather.application", version.ref = "unspecified" }
+openWeather-library = { id = "com.openweather.library", version.ref = "unspecified" }
+openWeather-compose = { id = "com.openweather.compose", version.ref = "unspecified" }
+openWeather-test = { id = "com.openweather.test", version.ref = "unspecified" }
 
 # Another plugins
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

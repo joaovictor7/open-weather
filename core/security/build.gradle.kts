@@ -1,9 +1,9 @@
 plugins {
-    alias(libs.plugins.composeTest.library)
+    alias(libs.plugins.openWeather.library)
 }
 
 android {
-    namespace = "com.composetest.core.security"
+    namespace = "com.openweather.core.security"
 }
 
 dependencies {

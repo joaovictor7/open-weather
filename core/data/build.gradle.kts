@@ -1,10 +1,10 @@
 plugins {
-    alias(libs.plugins.composeTest.library)
+    alias(libs.plugins.openWeather.library)
     alias(libs.plugins.kotlinSerialization)
 }
 
 android {
-    namespace = "com.composetest.core.data"
+    namespace = "com.openweather.core.data"
 }
 
 dependencies {

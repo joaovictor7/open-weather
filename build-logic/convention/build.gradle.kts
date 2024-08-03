@@ -17,19 +17,19 @@ gradlePlugin {
             }
         }
         registerPlugin(
-            id = "com.composetest.application",
+            id = "com.openweather.application",
             className = "ApplicationConventionPlugin"
         )
         registerPlugin(
-            id = "com.composetest.library",
+            id = "com.openweather.library",
             className = "LibraryConventionPlugin"
         )
         registerPlugin(
-            id = "com.composetest.compose",
+            id = "com.openweather.compose",
             className = "ComposeConventionPlugin"
         )
         registerPlugin(
-            id = "com.composetest.test",
+            id = "com.openweather.test",
             className = "TestConventionPlugin"
         )
     }

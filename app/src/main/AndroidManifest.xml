@@ -9,7 +9,7 @@
         android:label="${appName}"
         android:roundIcon="@drawable/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ComposeTest.SplashScreen"
+        android:theme="@style/Theme.OpenWeather.SplashScreen"
         android:usesCleartextTraffic="${usesCleartextTraffic}"
         tools:targetApi="34">
         <activity

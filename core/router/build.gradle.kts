@@ -1,12 +1,12 @@
 plugins {
-    alias(libs.plugins.composeTest.library)
-    alias(libs.plugins.composeTest.compose)
+    alias(libs.plugins.openWeather.library)
+    alias(libs.plugins.openWeather.compose)
     alias(libs.plugins.kotlinSerialization)
     id("kotlin-parcelize")
 }
 
 android {
-    namespace = "com.composetest.core.router"
+    namespace = "com.openweather.core.router"
 }
 
 dependencies {

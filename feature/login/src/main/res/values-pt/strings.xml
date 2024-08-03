@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="feature_login_password">Password</string>
-    <string name="feature_login_enter">Entrar</string>
-    <string name="feature_login_invalid_email">Você não digitou um e-mail 🤔</string>
-    <string name="feature_login_invalid_credentials">Algo deu errado. Tente novamente.</string>
-</resources>

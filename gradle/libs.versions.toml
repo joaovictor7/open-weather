@@ -45,8 +45,6 @@ androidx-splashScreen = { group = "androidx.core", name = "core-splashscreen", v
 # Room
 room = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 roomCompile = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
-sqlCipher = { group = "net.zetetic", name = "sqlcipher-android", version.ref = "sqlCipher" }
-sqLite = { group = "androidx.sqlite", name = "sqlite-ktx", version.ref = "sqLite" }
 
 # Hilt
 android-hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "androidHilt" }

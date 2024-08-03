@@ -8,6 +8,4 @@ android {
 
 dependencies {
     implementation(projects.common)
-    implementation(libs.sqlCipher)
-    implementation(libs.sqLite)
 }

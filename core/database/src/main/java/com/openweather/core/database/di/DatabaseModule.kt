@@ -7,8 +7,6 @@ import com.openweather.common.providers.BuildConfigProvider
 import com.openweather.core.database.constants.DatabaseConfig
 import com.openweather.core.database.converters.LocalDateTimeConverter
 import com.openweather.core.database.database.AppDatabase
-import com.openweather.core.database.usecases.GetSecretKeyUseCase
-import com.openweather.core.security.providers.SqliteCipherProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,14 +24,11 @@ internal object DatabaseModule {
     fun appDatabase(
         @ApplicationContext context: Context,
         buildConfigProvider: BuildConfigProvider,
-        sqliteCipherProvider: SqliteCipherProvider,
-        getSecretKeyUseCase: GetSecretKeyUseCase
     ): AppDatabase = Room.databaseBuilder(
         context,
         AppDatabase::class.java,
         DatabaseConfig.DATABASE_NAME
     )
-        .openHelperFactory(getSecretKeyUseCase()?.let { sqliteCipherProvider.getFactory(it) })
         .addTypeConverter(LocalDateTimeConverter())
         .apply {
             if (!buildConfigProvider.get.isRelease) {

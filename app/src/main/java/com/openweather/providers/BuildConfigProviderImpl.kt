@@ -4,7 +4,8 @@ import android.os.Build
 import com.openweather.BuildConfig
 import com.openweather.common.enums.BuildType.Companion.getBuildType
 import com.openweather.common.enums.Flavor.Companion.getFlavor
-import com.openweather.common.models.BuildConfigModel
+import com.openweather.common.models.buildconfig.BuildConfigFieldsModel
+import com.openweather.common.models.buildconfig.BuildConfigModel
 import com.openweather.common.providers.BuildConfigProvider
 import javax.inject.Inject
 
@@ -15,6 +16,9 @@ internal class BuildConfigProviderImpl @Inject constructor() : BuildConfigProvid
         versionCode = BuildConfig.VERSION_CODE,
         buildType = BuildConfig.BUILD_TYPE.getBuildType(),
         flavor = BuildConfig.FLAVOR.getFlavor(),
-        androidSdkVersion = Build.VERSION.SDK_INT
+        androidSdkVersion = Build.VERSION.SDK_INT,
+        buildConfigFieldsModel = BuildConfigFieldsModel(
+            openWeatherApiKey = BuildConfig.OPEN_WEATHER_KEY
+        )
     )
 }

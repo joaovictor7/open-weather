@@ -1,9 +1,10 @@
 package com.openweather.core.data.data.datasources.remote
 
-import com.openweather.core.data.models.responses.weatherforecast.TodayWeatherForecastResponse
-import com.openweather.core.data.models.responses.weatherforecast.FutureWeatherForecastResponse
+import com.openweather.core.data.data.network.requests.WeatherForecastRequest
+import com.openweather.core.data.data.network.responses.FutureWeatherForecastResponse
+import com.openweather.core.data.data.network.responses.TodayWeatherForecastResponse
 
 internal interface OpenWeatherDataSource {
-    suspend fun getCurrentWeatherForecast(): TodayWeatherForecastResponse
-    suspend fun getFutureWeatherForecast(): FutureWeatherForecastResponse
+    suspend fun getCurrentWeatherForecast(request: WeatherForecastRequest): TodayWeatherForecastResponse
+    suspend fun getFutureWeatherForecast(request: WeatherForecastRequest): FutureWeatherForecastResponse
 }

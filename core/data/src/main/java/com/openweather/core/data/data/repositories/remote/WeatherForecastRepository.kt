@@ -1,7 +1,7 @@
 package com.openweather.core.data.data.repositories.remote
 
-import com.openweather.core.data.models.responses.weatherforecast.FutureWeatherForecastResponse
-import com.openweather.core.data.models.responses.weatherforecast.TodayWeatherForecastResponse
+import com.openweather.core.data.data.network.responses.FutureWeatherForecastResponse
+import com.openweather.core.data.data.network.responses.TodayWeatherForecastResponse
 
 interface WeatherForecastRepository {
     suspend fun <T> getTodayWeatherForecast(mapper: (TodayWeatherForecastResponse) -> T): T

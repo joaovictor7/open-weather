@@ -1,6 +1,6 @@
 package com.openweather.core.domain.mappers
 
-import com.openweather.core.data.models.responses.weatherforecast.TodayWeatherForecastResponse
+import com.openweather.core.data.data.network.responses.TodayWeatherForecastResponse
 import com.openweather.core.domain.models.TodayWeatherForecastModel
 import javax.inject.Inject
 

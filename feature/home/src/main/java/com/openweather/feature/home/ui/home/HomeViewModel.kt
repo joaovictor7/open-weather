@@ -5,6 +5,7 @@ import com.openweather.core.domain.usecases.AnalyticsUseCase
 import com.openweather.core.domain.usecases.weatherforecast.GetTodayWeatherForecastUseCase
 import com.openweather.feature.home.ui.home.analytics.HomeAnalytic
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel

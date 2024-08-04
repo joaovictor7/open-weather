@@ -35,19 +35,19 @@ internal class OpenWeatherFakeDataSourceImpl(
         FutureWeatherForecastResponse(
             forecastList = listOf(
                 FutureWeatherForecastDataResponse(
-                    dateTime = 1f,
+                    dateTime = 1,
                     temperatureData = ForecastTemperatureDataResponse(
                         temperature = 2.0
                     )
                 ),
                 FutureWeatherForecastDataResponse(
-                    dateTime = 1f,
+                    dateTime = 1,
                     temperatureData = ForecastTemperatureDataResponse(
                         temperature = 2.0
                     )
                 ),
                 FutureWeatherForecastDataResponse(
-                    dateTime = 1f,
+                    dateTime = 1,
                     temperatureData = ForecastTemperatureDataResponse(
                         temperature = 2.0
                     )

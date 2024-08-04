@@ -10,6 +10,6 @@ data class FutureWeatherForecastResponse(
 
 @Serializable
 data class FutureWeatherForecastDataResponse(
-    @SerialName("dt") val dateTime: Float,
+    @SerialName("dt") val dateTime: Long,
     @SerialName("main") val temperatureData: ForecastTemperatureDataResponse
 )

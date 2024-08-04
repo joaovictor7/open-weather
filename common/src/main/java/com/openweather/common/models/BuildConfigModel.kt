@@ -1,4 +1,4 @@
-package com.openweather.common.models.buildconfig
+package com.openweather.common.models
 
 import com.openweather.common.enums.BuildType
 import com.openweather.common.enums.Flavor

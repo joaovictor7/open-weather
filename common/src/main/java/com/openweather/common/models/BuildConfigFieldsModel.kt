@@ -1,4 +1,4 @@
-package com.openweather.common.models.buildconfig
+package com.openweather.common.models
 
 data class BuildConfigFieldsModel(
     val openWeatherApiKey: String

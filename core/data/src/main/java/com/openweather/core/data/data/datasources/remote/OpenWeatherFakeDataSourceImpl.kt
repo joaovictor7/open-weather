@@ -18,7 +18,9 @@ internal class OpenWeatherFakeDataSourceImpl(
         TodayWeatherForecastResponse(
             cityName = "Porto",
             temperatureData = ForecastTemperatureDataResponse(
-                temperature = 2.0
+                temperature = 2f,
+                minTemperature = 1f,
+                maxTemperature = 3f
             ),
             weather = listOf(
                 TodayWeatherResponse(
@@ -37,19 +39,25 @@ internal class OpenWeatherFakeDataSourceImpl(
                 FutureWeatherForecastDataResponse(
                     dateTime = 1,
                     temperatureData = ForecastTemperatureDataResponse(
-                        temperature = 2.0
+                        temperature = 2f,
+                        minTemperature = 1f,
+                        maxTemperature = 5f
                     )
                 ),
                 FutureWeatherForecastDataResponse(
                     dateTime = 1,
                     temperatureData = ForecastTemperatureDataResponse(
-                        temperature = 2.0
+                        temperature = 2f,
+                        minTemperature = 1f,
+                        maxTemperature = 5f
                     )
                 ),
                 FutureWeatherForecastDataResponse(
                     dateTime = 1,
                     temperatureData = ForecastTemperatureDataResponse(
-                        temperature = 2.0
+                        temperature = 2f,
+                        minTemperature = 1f,
+                        maxTemperature = 5f
                     )
                 )
             )

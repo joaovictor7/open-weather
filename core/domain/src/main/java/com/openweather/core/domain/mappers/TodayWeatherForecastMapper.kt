@@ -11,6 +11,8 @@ class TodayWeatherForecastMapper @Inject constructor() {
         return TodayWeatherForecastModel(
             cityName = response.cityName,
             temperature = "${response.temperatureData.temperature}º",
+            minTemperature = response.temperatureData.minTemperature,
+            maxTemperature = response.temperatureData.maxTemperature,
             iconId = lastWeather.icon,
             weatherDescription = lastWeather.description
         )

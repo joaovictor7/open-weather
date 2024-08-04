@@ -19,5 +19,19 @@ internal class HomeViewModel @Inject constructor(
 
     init {
         openScreenAnalytic()
+        initState()
+    }
+
+    private fun initState() {
+        runAsyncTask {
+            setTodayWeatherForecast()
+        }
+    }
+
+    private suspend fun setTodayWeatherForecast() {
+        val todayWeatherForecast = getTodayWeatherForecastUseCase()
+        updateUiState {
+            it.setCurrentWeatherForecast(todayWeatherForecast)
+        }
     }
 }

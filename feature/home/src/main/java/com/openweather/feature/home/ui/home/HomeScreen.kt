@@ -11,17 +11,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.AbsoluteAlignment
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.openweather.core.designsystem.components.graphics.SimpleScatterPlotGraphic
+import com.openweather.core.designsystem.dimensions.components
 import com.openweather.core.designsystem.dimensions.spacings
 import com.openweather.core.designsystem.theme.OpenWeatherTheme
 import com.openweather.core.ui.interfaces.Command
 import com.openweather.core.ui.interfaces.Screen
-import com.openweather.feature.home.R
 
 internal object HomeScreen : Screen<HomeUiState, HomeCommandReceiver> {
 
@@ -31,31 +31,13 @@ internal object HomeScreen : Screen<HomeUiState, HomeCommandReceiver> {
         onExecuteCommand: (Command<HomeCommandReceiver>) -> Unit
     ) {
         Scaffold { paddingValues ->
-            Column(modifier = Modifier.padding(paddingValues)) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = stringResource(R.string.feature_home_weather_forecast_now),
-                        style = MaterialTheme.typography.titleLarge
-                    )
-                    Spacer(Modifier.padding(horizontal = spacings.four))
-                    Text(
-                        text = "16º",
-                        style = MaterialTheme.typography.displayMedium
-                    )
-                }
-                SimpleScatterPlotGraphic(
-                    modifier = Modifier
-                        .padding(all = spacings.sixteen)
-                        .height(200.dp),
-                    yPoints = listOf(1f),
-                    labelCount = 2f,
-                    minLabel = 1f,
-                    maxLabel = 30f
-                )
+            Column(
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .padding(20.dp)
+            ) {
+                CurrentWeatherForecast(uiState = uiState)
+                Spacer(Modifier.height(30.dp))
                 val teste = listOf(
                     listOf("12", "13", "14", "14", "14", "14", "14", "14"),
                     listOf("12", "13", "14", "14", "14", "14", "14", "14"),
@@ -67,6 +49,38 @@ internal object HomeScreen : Screen<HomeUiState, HomeCommandReceiver> {
             }
         }
     }
+}
+
+@Composable
+private fun CurrentWeatherForecast(uiState: HomeUiState) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column(horizontalAlignment = AbsoluteAlignment.Right) {
+            Text(
+                text = uiState.weatherNowWithCity,
+                style = MaterialTheme.typography.titleMedium
+            )
+            Text(
+                text = uiState.weatherNow,
+                style = MaterialTheme.typography.titleMedium
+            )
+        }
+        Spacer(Modifier.padding(horizontal = spacings.ten))
+        Text(
+            text = uiState.temperatureNow,
+            style = MaterialTheme.typography.displaySmall
+        )
+    }
+    SimpleScatterPlotGraphic(
+        modifier = Modifier.height(components.homeWeatherForecastGraphicHeight),
+        yPoints = listOf(1f),
+        labelCount = 2.5f,
+        minLabel = uiState.minTemperature,
+        maxLabel = uiState.maxTemperature
+    )
 }
 
 @Composable
@@ -91,6 +105,14 @@ private fun FutureWeatherForecasts(forecasts: List<List<String>>) = forecasts.fo
 @Composable
 private fun Preview() {
     OpenWeatherTheme {
-        HomeScreen(uiState = HomeUiState())  { }
+        HomeScreen(
+            uiState = HomeUiState(
+                weatherNow = "Céu limpo",
+                city = "Porto",
+                temperatureNow = "20º",
+                maxTemperature = 30f,
+                minTemperature = 15f
+            )
+        ) { }
     }
 }

@@ -2,6 +2,6 @@
 <resources>
 
     <!-- Home -->
-    <string name="feature_home_weather_forecast_now">Agora</string>
+    <string name="feature_home_weather_forecast_now">Agora em</string>
 
 </resources>

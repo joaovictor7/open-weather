@@ -10,10 +10,6 @@ class GetTodayWeatherForecastUseCase @Inject constructor(
     private val todayWeatherForecastMapper: TodayWeatherForecastMapper
 ) {
 
-    suspend operator fun invoke(): TodayWeatherForecastModel {
-        val model = weatherForecastRepository.getTodayWeatherForecast(
-            todayWeatherForecastMapper::invoke
-        )
-        return model
-    }
+    suspend operator fun invoke(): TodayWeatherForecastModel =
+        weatherForecastRepository.getTodayWeatherForecast(todayWeatherForecastMapper::invoke)
 }

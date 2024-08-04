@@ -1,16 +1,17 @@
 package com.openweather.core.data.data.repositories.remote
 
 import com.openweather.common.providers.BuildConfigProvider
+import com.openweather.common.providers.LocaleProvider
 import com.openweather.core.data.data.datasources.remote.OpenWeatherDataSource
 import com.openweather.core.data.data.network.requests.WeatherForecastRequest
 import com.openweather.core.data.data.network.responses.FutureWeatherForecastResponse
 import com.openweather.core.data.data.network.responses.TodayWeatherForecastResponse
-import java.util.Locale
 import javax.inject.Inject
 
 internal class WeatherForecastRepositoryImpl @Inject constructor(
     private val openWeatherDataSource: OpenWeatherDataSource,
-    private val buildConfigProvider: BuildConfigProvider
+    private val buildConfigProvider: BuildConfigProvider,
+    private val localeProvider: LocaleProvider
 ) : WeatherForecastRepository {
 
     override suspend fun <T> getTodayWeatherForecast(
@@ -31,7 +32,7 @@ internal class WeatherForecastRepositoryImpl @Inject constructor(
         latitude = PORTO_CITY_LATITUDE,
         longitude = PORTO_CITY_LONGITUDE,
         appId = buildConfigProvider.get.buildConfigFieldsModel.openWeatherApiKey,
-        language = Locale.getDefault().language,
+        language = localeProvider.currentLanguage,
         metric = "metric"
     )
 

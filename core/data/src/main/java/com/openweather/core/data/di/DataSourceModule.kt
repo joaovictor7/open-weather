@@ -1,7 +1,5 @@
 package com.openweather.core.data.di
 
-import com.openweather.core.data.data.datasources.local.PreferenceDataSource
-import com.openweather.core.data.data.datasources.local.PreferenceDataSourceImpl
 import com.openweather.core.data.data.datasources.remote.FirebaseAnalyticsDataSource
 import com.openweather.core.data.data.datasources.remote.FirebaseAnalyticsDataSourceImpl
 import com.openweather.core.data.data.datasources.remote.OpenWeatherDataSource
@@ -26,11 +24,6 @@ internal abstract class DataSourceBindsModule {
     abstract fun firebaseAnalyticsDataSource(
         firebaseAnalyticsDataSourceImpl: FirebaseAnalyticsDataSourceImpl
     ): FirebaseAnalyticsDataSource
-
-    @Binds
-    abstract fun preferenceDataSource(
-        preferenceDataSourceImpl: PreferenceDataSourceImpl
-    ): PreferenceDataSource
 }
 
 @Module

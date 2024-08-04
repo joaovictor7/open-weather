@@ -6,7 +6,6 @@ kotlinCoroutine = "1.8.1"
 junit5 = "5.10.3"
 lifecycleRuntime = "2.8.4"
 activityCompose = "1.9.1"
-androidDataStore = "1.1.1"
 androidHilt = "2.51.1"
 androidXHilt = "1.2.0"
 composeBom = "2024.06.00"
@@ -39,7 +38,6 @@ android-tools-build-gradle = { group = "com.android.tools.build", name = "gradle
 # AndroidX
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntime" }
 androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycleRuntime" }
-androidx-dataStore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidDataStore" }
 androidx-splashScreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splashScreen" }
 
 # Room

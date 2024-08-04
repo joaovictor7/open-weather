@@ -11,7 +11,6 @@ dependencies {
     implementation(projects.core.database)
     implementation(projects.common)
     implementation(libs.kotlin.json.serializable)
-    implementation(libs.androidx.dataStore)
     implementation(libs.ktor.client.android)
     implementation(libs.ktor.client.negotiation)
     implementation(libs.ktor.client.serialization)

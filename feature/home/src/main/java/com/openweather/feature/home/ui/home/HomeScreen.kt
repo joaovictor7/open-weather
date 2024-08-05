@@ -23,12 +23,12 @@ import com.openweather.core.designsystem.components.graphics.SimpleScatterPlotGr
 import com.openweather.core.designsystem.dimensions.components
 import com.openweather.core.designsystem.dimensions.spacings
 import com.openweather.core.designsystem.theme.OpenWeatherTheme
-import com.openweather.core.domain.models.FutureWeatherForecastDailyModel
-import com.openweather.core.domain.models.FutureWeatherForecastModel
 import com.openweather.core.ui.interfaces.Command
 import com.openweather.core.ui.interfaces.Screen
+import com.openweather.feature.home.models.FutureWeatherDailyForecastScreenModel
+import com.openweather.feature.home.models.FutureWeatherForecastScreenModel
 import com.openweather.feature.home.models.TodayWeatherForecastScreenModel
-import com.openweather.feature.home.models.WeatherNowViewModel
+import com.openweather.feature.home.models.WeatherNowScreenModel
 
 internal object HomeScreen : Screen<HomeUiState, HomeCommandReceiver> {
 
@@ -48,7 +48,7 @@ internal object HomeScreen : Screen<HomeUiState, HomeCommandReceiver> {
                 WeatherForecastGraphic(uiState = uiState)
                 Spacer(Modifier.height(spacings.thirty))
                 FutureWeatherForecasts(
-                    futureWeatherForecastModels = uiState.futureTemperatureForecasts
+                    futureWeatherForecastScreenModels = uiState.futureWeatherForecastScreenModels
                 )
             }
         }
@@ -87,9 +87,9 @@ private fun WeatherForecastGraphic(uiState: HomeUiState) {
             modifier = Modifier
                 .height(components.homeWeatherForecastGraphicHeight)
                 .padding(spacings.twelve),
-            yPoints = uiState.todayWeatherForecastScreenModels.temperatures,
-            minLabel = uiState.todayWeatherForecastScreenModels.minTemperature,
-            maxLabel = uiState.todayWeatherForecastScreenModels.maxTemperature,
+            yPoints = uiState.todayWeatherForecastScreenModel.temperatures,
+            minLabel = uiState.todayWeatherForecastScreenModel.minTemperature,
+            maxLabel = uiState.todayWeatherForecastScreenModel.maxTemperature,
             labelFormat = "%sº"
         )
     }
@@ -97,14 +97,14 @@ private fun WeatherForecastGraphic(uiState: HomeUiState) {
 
 @Composable
 private fun FutureWeatherForecasts(
-    futureWeatherForecastModels: List<FutureWeatherForecastModel>
+    futureWeatherForecastScreenModels: List<FutureWeatherForecastScreenModel>
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-        futureWeatherForecastModels.forEach { futureWeatherForecastModel ->
+        futureWeatherForecastScreenModels.forEach { futureWeatherForecastModel ->
             Column {
                 Text(
                     text = futureWeatherForecastModel.day,
@@ -141,49 +141,49 @@ private fun Preview() {
     OpenWeatherTheme {
         HomeScreen(
             uiState = HomeUiState(
-                weatherNowModel = WeatherNowViewModel(
+                weatherNowModel = WeatherNowScreenModel(
                     city = "Porto",
                     temperature = "20º",
                     iconId = "",
                     description = "Céu limpo"
                 ),
-                todayWeatherForecastScreenModels = TodayWeatherForecastScreenModel(
+                todayWeatherForecastScreenModel = TodayWeatherForecastScreenModel(
                     minTemperature = 17f,
                     maxTemperature = 25f
                 ),
-                futureTemperatureForecasts = listOf(
-                    FutureWeatherForecastModel(
+                futureWeatherForecastScreenModels = listOf(
+                    FutureWeatherForecastScreenModel(
                         day = "terça",
                         weatherForecasts = listOf(
-                            FutureWeatherForecastDailyModel(
+                            FutureWeatherDailyForecastScreenModel(
                                 iconId = "",
                                 temperature = "19",
                                 hour = "07"
                             ),
-                            FutureWeatherForecastDailyModel(
+                            FutureWeatherDailyForecastScreenModel(
                                 iconId = "",
                                 temperature = "19",
                                 hour = "07"
                             ),
-                            FutureWeatherForecastDailyModel(
+                            FutureWeatherDailyForecastScreenModel(
                                 iconId = "",
                                 temperature = "19",
                                 hour = "07"
                             ),
-                            FutureWeatherForecastDailyModel(
+                            FutureWeatherDailyForecastScreenModel(
                                 iconId = "",
                                 temperature = "19",
                                 hour = "07"
                             )
                         )
                     ),
-                    FutureWeatherForecastModel(
+                    FutureWeatherForecastScreenModel(
                         day = "terça",
                         weatherForecasts = listOf(
-                            FutureWeatherForecastDailyModel(
+                            FutureWeatherDailyForecastScreenModel(
                                 iconId = "",
                                 temperature = "19",
-                                hour = "07"
+                                hour = "07h"
                             )
                         )
                     )

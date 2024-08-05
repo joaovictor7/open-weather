@@ -20,7 +20,7 @@ internal class OpenWeatherDataSourceImpl(
             }
         }
 
-    override suspend fun getFutureWeatherForecast(
+    override suspend fun getWeatherForecasts(
         request: WeatherForecastRequest
     ) = safeRemoteCallManager.safeRemoteCall {
         openWeatherApi.get<WeatherForecastResponse>(FORECAST_URL) {

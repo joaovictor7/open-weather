@@ -2,39 +2,36 @@ package com.openweather.feature.home.ui.home
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import com.openweather.core.domain.models.FutureWeatherForecastModel
-import com.openweather.core.domain.models.WeatherNowModel
-import com.openweather.core.domain.models.WeatherForecastsModel
+import com.openweather.core.domain.models.TodayWeatherForecastModel
 import com.openweather.core.ui.interfaces.BaseUiState
 import com.openweather.feature.home.R
+import com.openweather.feature.home.models.FutureWeatherForecastScreenModel
 import com.openweather.feature.home.models.TodayWeatherForecastScreenModel
-import com.openweather.feature.home.models.WeatherNowViewModel
+import com.openweather.feature.home.models.WeatherNowScreenModel
 
 internal data class HomeUiState(
-    val weatherNowModel: WeatherNowViewModel = WeatherNowViewModel(),
-    val todayWeatherForecastScreenModels: TodayWeatherForecastScreenModel = TodayWeatherForecastScreenModel(),
-    val futureTemperatureForecasts: List<FutureWeatherForecastModel> = emptyList()
+    val weatherNowModel: WeatherNowScreenModel = WeatherNowScreenModel(),
+    val todayWeatherForecastScreenModel: TodayWeatherForecastScreenModel = TodayWeatherForecastScreenModel(),
+    val futureWeatherForecastScreenModels: List<FutureWeatherForecastScreenModel> = emptyList()
 ) : BaseUiState {
 
     val weatherNowWithCity: String
         @Composable get() = stringResource(R.string.feature_home_weather_forecast_now)
             .plus(" ${weatherNowModel.city}")
 
-    fun setWeatherNow(weatherNowModel: WeatherNowModel) = copy(
-        weatherNowModel = WeatherNowViewModel(
-            city = weatherNowModel.city,
-            temperature = weatherNowModel.temperature,
-            iconId = weatherNowModel.iconId,
-            description = weatherNowModel.description
-        )
+    fun setWeatherNow(weatherNowModel: WeatherNowScreenModel) = copy(
+        weatherNowModel = weatherNowModel
     )
 
-    fun setWeatherForecasts(weatherForecastsModel: WeatherForecastsModel) = copy(
-        todayWeatherForecastScreenModels = TodayWeatherForecastScreenModel(
-            minTemperature = weatherForecastsModel.todayWeatherForecast.minTemperature,
-            maxTemperature = weatherForecastsModel.todayWeatherForecast.maxTemperature,
-            temperatures = weatherForecastsModel.todayWeatherForecast.temperatures
+    fun setWeatherForecasts(
+        todayWeatherForecastModel: TodayWeatherForecastModel,
+        futureWeatherForecastScreenModels: List<FutureWeatherForecastScreenModel>
+    ) = copy(
+        todayWeatherForecastScreenModel = TodayWeatherForecastScreenModel(
+            minTemperature = todayWeatherForecastModel.minTemperature,
+            maxTemperature = todayWeatherForecastModel.maxTemperature,
+            temperatures = todayWeatherForecastModel.temperatures
         ),
-        futureTemperatureForecasts = weatherForecastsModel.futureWeatherForecasts
+        futureWeatherForecastScreenModels = futureWeatherForecastScreenModels
     )
 }

@@ -4,6 +4,8 @@ import com.openweather.core.ui.bases.BaseViewModel
 import com.openweather.core.domain.usecases.AnalyticsUseCase
 import com.openweather.core.domain.usecases.weatherforecast.GetWeatherForecastsUseCase
 import com.openweather.core.domain.usecases.weatherforecast.GetWeatherNowUseCase
+import com.openweather.feature.home.mappers.FutureWeatherForecastScreenModelsMapper
+import com.openweather.feature.home.mappers.WeatherNowScreenModelMapper
 import com.openweather.feature.home.ui.home.analytics.HomeAnalytic
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -12,6 +14,8 @@ import javax.inject.Inject
 internal class HomeViewModel @Inject constructor(
     private val getWeatherNowUseCase: GetWeatherNowUseCase,
     private val getWeatherForecastsUseCase: GetWeatherForecastsUseCase,
+    private val futureWeatherForecastScreenModelsMapper: FutureWeatherForecastScreenModelsMapper,
+    private val weatherNowScreenModelMapper: WeatherNowScreenModelMapper,
     override val analyticsUseCase: AnalyticsUseCase
 ) : BaseViewModel<HomeUiState>(HomeAnalytic, HomeUiState()), HomeCommandReceiver {
 
@@ -24,22 +28,25 @@ internal class HomeViewModel @Inject constructor(
 
     private fun initState() {
         runAsyncTask {
-            setTodayWeather()
-            setWeatherForecast()
+            setWeatherNow()
+            setWeatherForecasts()
         }
     }
 
-    private suspend fun setTodayWeather() {
-        val todayWeatherForecast = getWeatherNowUseCase()
+    private suspend fun setWeatherNow() {
+        val weatherNowForecast = getWeatherNowUseCase()
         updateUiState {
-            it.setWeatherNow(todayWeatherForecast)
+            it.setWeatherNow(weatherNowScreenModelMapper(weatherNowForecast))
         }
     }
 
-    private suspend fun setWeatherForecast() {
+    private suspend fun setWeatherForecasts() {
         val weatherForecast = getWeatherForecastsUseCase()
         updateUiState {
-            it.setWeatherForecasts(weatherForecast)
+            it.setWeatherForecasts(
+                weatherForecast.todayWeatherForecast,
+                futureWeatherForecastScreenModelsMapper(weatherForecast.futureWeatherForecasts)
+            )
         }
     }
 }

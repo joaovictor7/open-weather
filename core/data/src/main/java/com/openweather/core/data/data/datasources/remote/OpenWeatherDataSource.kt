@@ -6,5 +6,5 @@ import com.openweather.core.data.data.network.responses.WeatherNowResponse
 
 internal interface OpenWeatherDataSource {
     suspend fun getWeatherNow(request: WeatherForecastRequest): WeatherNowResponse
-    suspend fun getFutureWeatherForecast(request: WeatherForecastRequest): WeatherForecastResponse
+    suspend fun getWeatherForecasts(request: WeatherForecastRequest): WeatherForecastResponse
 }

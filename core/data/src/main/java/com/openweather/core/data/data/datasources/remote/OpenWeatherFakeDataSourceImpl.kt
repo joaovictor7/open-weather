@@ -30,7 +30,7 @@ internal class OpenWeatherFakeDataSourceImpl(
         )
     }
 
-    override suspend fun getFutureWeatherForecast(
+    override suspend fun getWeatherForecasts(
         request: WeatherForecastRequest
     ) = remoteCallManager.safeRemoteCall {
         WeatherForecastResponse(

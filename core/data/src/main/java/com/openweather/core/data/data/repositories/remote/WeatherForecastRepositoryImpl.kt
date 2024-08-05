@@ -21,10 +21,10 @@ internal class WeatherForecastRepositoryImpl @Inject constructor(
         return mapper(response)
     }
 
-    override suspend fun <T> getFutureWeatherForecast(
+    override suspend fun <T> getWeatherForecasts(
         mapper: (WeatherForecastResponse) -> T
     ): T {
-        val response = openWeatherDataSource.getFutureWeatherForecast(createRequest())
+        val response = openWeatherDataSource.getWeatherForecasts(createRequest())
         return mapper(response)
     }
 

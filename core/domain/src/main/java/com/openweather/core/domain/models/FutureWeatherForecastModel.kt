@@ -1,6 +1,8 @@
 package com.openweather.core.domain.models
 
+import java.time.LocalDate
+
 data class FutureWeatherForecastModel(
-    val day: String,
-    val weatherForecasts: List<FutureWeatherForecastDailyModel>
+    val date: LocalDate,
+    val futureDailyWeatherForecasts: List<FutureDailyWeatherForecastModel>
 )

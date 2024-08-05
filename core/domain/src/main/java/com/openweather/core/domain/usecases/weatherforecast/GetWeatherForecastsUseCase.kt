@@ -13,17 +13,17 @@ class GetWeatherForecastsUseCase @Inject constructor(
     private val dateTimeProvider: DateTimeProvider
 ) {
 
-    suspend operator fun invoke(): WeatherForecastsModel =
-        weatherForecastRepository.getWeatherForecasts { response ->
-            val todayWeatherForecasts = response.dataList.filter {
-                it.dateTime.unixToLocalDateTime.toLocalDate() <= dateTimeProvider.nowDateTime.toLocalDate()
-            }
-            val futureWeatherForecasts = response.dataList
-                .filterNot {
-                    it.dateTime.unixToLocalDateTime.toLocalDate() == dateTimeProvider.nowDateTime.toLocalDate()
-                }.groupBy {
-                    it.dateTime.unixToLocalDateTime.toLocalDate()
-                }
-            weatherForecastMapper(todayWeatherForecasts, futureWeatherForecasts)
+    suspend operator fun invoke(): WeatherForecastsModel {
+        val response = weatherForecastRepository.getWeatherForecasts()
+        val todayWeatherForecasts = response.dataList.filter {
+            it.dateTime.unixToLocalDateTime.toLocalDate() <= dateTimeProvider.nowDateTime.toLocalDate()
         }
+        val futureWeatherForecasts = response.dataList
+            .filterNot {
+                it.dateTime.unixToLocalDateTime.toLocalDate() == dateTimeProvider.nowDateTime.toLocalDate()
+            }.groupBy {
+                it.dateTime.unixToLocalDateTime.toLocalDate()
+            }
+        return weatherForecastMapper(todayWeatherForecasts, futureWeatherForecasts)
+    }
 }

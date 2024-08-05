@@ -10,6 +10,8 @@ class GetWeatherNowUseCase @Inject constructor(
     private val weatherNowMapper: WeatherNowMapper
 ) {
 
-    suspend operator fun invoke(): WeatherNowModel =
-        weatherForecastRepository.getWeatherNow(weatherNowMapper::invoke)
+    suspend operator fun invoke(): WeatherNowModel {
+        val response = weatherForecastRepository.getWeatherNow()
+        return weatherNowMapper(response)
+    }
 }

@@ -4,8 +4,6 @@ import com.openweather.common.providers.BuildConfigProvider
 import com.openweather.common.providers.LocaleProvider
 import com.openweather.core.data.data.datasources.remote.OpenWeatherDataSource
 import com.openweather.core.data.data.network.requests.WeatherForecastRequest
-import com.openweather.core.data.data.network.responses.WeatherForecastResponse
-import com.openweather.core.data.data.network.responses.WeatherNowResponse
 import javax.inject.Inject
 
 internal class WeatherForecastRepositoryImpl @Inject constructor(
@@ -14,19 +12,11 @@ internal class WeatherForecastRepositoryImpl @Inject constructor(
     private val localeProvider: LocaleProvider
 ) : WeatherForecastRepository {
 
-    override suspend fun <T> getWeatherNow(
-        mapper: (WeatherNowResponse) -> T
-    ): T {
-        val response = openWeatherDataSource.getWeatherNow(createRequest())
-        return mapper(response)
-    }
+    override suspend fun getWeatherNow() =
+        openWeatherDataSource.getWeatherNow(createRequest())
 
-    override suspend fun <T> getWeatherForecasts(
-        mapper: (WeatherForecastResponse) -> T
-    ): T {
-        val response = openWeatherDataSource.getWeatherForecasts(createRequest())
-        return mapper(response)
-    }
+    override suspend fun getWeatherForecasts() =
+        openWeatherDataSource.getWeatherForecasts(createRequest())
 
     private fun createRequest() = WeatherForecastRequest(
         latitude = PORTO_CITY_LATITUDE,

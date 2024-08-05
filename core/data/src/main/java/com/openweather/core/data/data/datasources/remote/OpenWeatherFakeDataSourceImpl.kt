@@ -2,28 +2,27 @@ package com.openweather.core.data.data.datasources.remote
 
 import com.openweather.core.data.data.network.requests.WeatherForecastRequest
 import com.openweather.core.data.managers.RemoteCallManager
-import com.openweather.core.data.data.network.responses.TodayWeatherResponse
-import com.openweather.core.data.data.network.responses.TodayWeatherForecastResponse
-import com.openweather.core.data.data.network.responses.ForecastTemperatureDataResponse
-import com.openweather.core.data.data.network.responses.FutureWeatherForecastDataResponse
-import com.openweather.core.data.data.network.responses.FutureWeatherForecastResponse
+import com.openweather.core.data.data.network.responses.WeatherNowDataResponse
+import com.openweather.core.data.data.network.responses.WeatherNowResponse
+import com.openweather.core.data.data.network.responses.WeatherNowTemperatureResponse
+import com.openweather.core.data.data.network.responses.WeatherForecastDataResponse
+import com.openweather.core.data.data.network.responses.WeatherForecastResponse
+import com.openweather.core.data.data.network.responses.WeatherForecastTemperatureResponse
 
 internal class OpenWeatherFakeDataSourceImpl(
     private val remoteCallManager: RemoteCallManager
 ) : OpenWeatherDataSource {
 
-    override suspend fun getCurrentWeatherForecast(
+    override suspend fun getWeatherNow(
         request: WeatherForecastRequest
     ) = remoteCallManager.safeRemoteCall {
-        TodayWeatherForecastResponse(
-            cityName = "Porto",
-            temperatureData = ForecastTemperatureDataResponse(
-                temperature = 2f,
-                minTemperature = 1f,
-                maxTemperature = 3f
+        WeatherNowResponse(
+            city = "Porto",
+            temperatureData = WeatherNowTemperatureResponse(
+                temperature = 2f
             ),
-            weather = listOf(
-                TodayWeatherResponse(
+            weatherDataList = listOf(
+                WeatherNowDataResponse(
                     icon = "0",
                     "Céu limpo"
                 )
@@ -34,27 +33,27 @@ internal class OpenWeatherFakeDataSourceImpl(
     override suspend fun getFutureWeatherForecast(
         request: WeatherForecastRequest
     ) = remoteCallManager.safeRemoteCall {
-        FutureWeatherForecastResponse(
-            forecastList = listOf(
-                FutureWeatherForecastDataResponse(
+        WeatherForecastResponse(
+            dataList = listOf(
+                WeatherForecastDataResponse(
                     dateTime = 1,
-                    temperatureData = ForecastTemperatureDataResponse(
+                    temperatureData = WeatherForecastTemperatureResponse(
                         temperature = 2f,
                         minTemperature = 1f,
                         maxTemperature = 5f
                     )
                 ),
-                FutureWeatherForecastDataResponse(
+                WeatherForecastDataResponse(
                     dateTime = 1,
-                    temperatureData = ForecastTemperatureDataResponse(
+                    temperatureData = WeatherForecastTemperatureResponse(
                         temperature = 2f,
                         minTemperature = 1f,
                         maxTemperature = 5f
                     )
                 ),
-                FutureWeatherForecastDataResponse(
+                WeatherForecastDataResponse(
                     dateTime = 1,
-                    temperatureData = ForecastTemperatureDataResponse(
+                    temperatureData = WeatherForecastTemperatureResponse(
                         temperature = 2f,
                         minTemperature = 1f,
                         maxTemperature = 5f

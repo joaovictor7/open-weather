@@ -2,16 +2,16 @@ package com.openweather.feature.home.ui.home
 
 import com.openweather.core.ui.bases.BaseViewModel
 import com.openweather.core.domain.usecases.AnalyticsUseCase
-import com.openweather.core.domain.usecases.weatherforecast.GetFutureWeatherForecastUseCase
-import com.openweather.core.domain.usecases.weatherforecast.GetTodayWeatherForecastUseCase
+import com.openweather.core.domain.usecases.weatherforecast.GetWeatherForecastsUseCase
+import com.openweather.core.domain.usecases.weatherforecast.GetWeatherNowUseCase
 import com.openweather.feature.home.ui.home.analytics.HomeAnalytic
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 internal class HomeViewModel @Inject constructor(
-    private val getTodayWeatherForecastUseCase: GetTodayWeatherForecastUseCase,
-    private val getFutureWeatherForecastUseCase: GetFutureWeatherForecastUseCase,
+    private val getWeatherNowUseCase: GetWeatherNowUseCase,
+    private val getWeatherForecastsUseCase: GetWeatherForecastsUseCase,
     override val analyticsUseCase: AnalyticsUseCase
 ) : BaseViewModel<HomeUiState>(HomeAnalytic, HomeUiState()), HomeCommandReceiver {
 
@@ -24,14 +24,22 @@ internal class HomeViewModel @Inject constructor(
 
     private fun initState() {
         runAsyncTask {
-            setTodayWeatherForecast()
+            setTodayWeather()
+            setWeatherForecast()
         }
     }
 
-    private suspend fun setTodayWeatherForecast() {
-        val todayWeatherForecast = getTodayWeatherForecastUseCase()
+    private suspend fun setTodayWeather() {
+        val todayWeatherForecast = getWeatherNowUseCase()
         updateUiState {
-            it.setCurrentWeatherForecast(todayWeatherForecast)
+            it.setWeatherNow(todayWeatherForecast)
+        }
+    }
+
+    private suspend fun setWeatherForecast() {
+        val weatherForecast = getWeatherForecastsUseCase()
+        updateUiState {
+            it.setWeatherForecasts(weatherForecast)
         }
     }
 }

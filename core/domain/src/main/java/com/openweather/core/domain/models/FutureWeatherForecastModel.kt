@@ -1,6 +1,6 @@
 package com.openweather.core.domain.models
 
 data class FutureWeatherForecastModel(
-    val hour: String,
-    val temperature: String
+    val day: String,
+    val weatherForecasts: List<FutureWeatherForecastDailyModel>
 )

@@ -10,18 +10,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.nativeCanvas
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.openweather.core.designsystem.dimensions.components
 import com.openweather.core.designsystem.dimensions.fontSizes
 import com.openweather.core.designsystem.dimensions.spacings
 import com.openweather.core.designsystem.theme.OpenWeatherTheme
-import kotlin.math.roundToInt
 
 @Composable
 fun SimpleScatterPlotGraphic(
@@ -34,11 +33,13 @@ fun SimpleScatterPlotGraphic(
 ) {
     val graphColor = MaterialTheme.colorScheme.primary
     val lineColor = MaterialTheme.colorScheme.primary
+    val drawCircleColor = MaterialTheme.colorScheme.secondary
+    val labelTextColor = MaterialTheme.colorScheme.onSurface
     val spacing = components.simpleScatterPlotSpace
     val lineStroke = components.simpleScatterPlotLineStroke
     val lineIndicator = components.simpleScatterPlotLineIndicatorStroke
     val pointRadius = components.simpleScatterPlotPointRadius
-    val labelFontSize = fontSizes.twelve
+    val labelFontSize = fontSizes.fourteen
 
     Canvas(
         modifier = modifier
@@ -92,7 +93,7 @@ fun SimpleScatterPlotGraphic(
 
         (normX.indices).forEach {
             drawCircle(
-                Color.Black,
+                color = drawCircleColor,
                 radius = pointRadius.toPx(),
                 center = Offset(normX[it], normY[it])
             )
@@ -103,16 +104,22 @@ fun SimpleScatterPlotGraphic(
         val labelSpacing = (maxLabel - minLabel) / labelCountDec
         for (i in 0..labelCountDec.toInt()) {
             val yValue = minLabel + i * labelSpacing
+            val yValueFormatted = if (yValue % 1.0 == 0.0) {
+                yValue.toInt().toString()
+            } else {
+                "%.1f".format(yValue).replace(",", ".")
+            }
             val yPosition = size.height - (yValue - minLabel) / (maxLabel - minLabel) * size.height
 
             drawContext.canvas.nativeCanvas.apply {
                 drawText(
-                    labelFormat?.format(yValue.roundToInt()) ?: yValue.roundToInt().toString(),
+                    labelFormat?.format(yValueFormatted) ?: yValueFormatted,
                     0f,
                     yPosition,
                     Paint().apply {
-                        color = android.graphics.Color.BLACK
+                        color = labelTextColor.toArgb()
                         textSize = labelFontSize.toPx()
+                        style = Paint.Style.FILL_AND_STROKE
                     }
                 )
 
@@ -129,19 +136,18 @@ fun SimpleScatterPlotGraphic(
 }
 
 @Composable
-@Preview
+@PreviewLightDark
 private fun Preview() {
     OpenWeatherTheme {
         SimpleScatterPlotGraphic(
-            modifier = Modifier
-                .height(200.dp),
+            modifier = Modifier.height(200.dp),
             yPoints = listOf(
-                22f, 25f, 27f, 28f, 36f
+                22f, 25f, 27f, 28f, 29f, 30f
             ),
-            labelCount = 6f,
+            labelCount = 5f,
             minLabel = 20f,
-            maxLabel = 40f,
-            labelFormat = "%d0º"
+            maxLabel = 44f,
+            labelFormat = "%sº"
         )
     }
 }

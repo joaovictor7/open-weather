@@ -4,8 +4,8 @@ import com.openweather.common.providers.BuildConfigProvider
 import com.openweather.common.providers.LocaleProvider
 import com.openweather.core.data.data.datasources.remote.OpenWeatherDataSource
 import com.openweather.core.data.data.network.requests.WeatherForecastRequest
-import com.openweather.core.data.data.network.responses.FutureWeatherForecastResponse
-import com.openweather.core.data.data.network.responses.TodayWeatherForecastResponse
+import com.openweather.core.data.data.network.responses.WeatherForecastResponse
+import com.openweather.core.data.data.network.responses.WeatherNowResponse
 import javax.inject.Inject
 
 internal class WeatherForecastRepositoryImpl @Inject constructor(
@@ -14,15 +14,15 @@ internal class WeatherForecastRepositoryImpl @Inject constructor(
     private val localeProvider: LocaleProvider
 ) : WeatherForecastRepository {
 
-    override suspend fun <T> getTodayWeatherForecast(
-        mapper: (TodayWeatherForecastResponse) -> T
+    override suspend fun <T> getWeatherNow(
+        mapper: (WeatherNowResponse) -> T
     ): T {
-        val response = openWeatherDataSource.getCurrentWeatherForecast(createRequest())
+        val response = openWeatherDataSource.getWeatherNow(createRequest())
         return mapper(response)
     }
 
     override suspend fun <T> getFutureWeatherForecast(
-        mapper: (FutureWeatherForecastResponse) -> T
+        mapper: (WeatherForecastResponse) -> T
     ): T {
         val response = openWeatherDataSource.getFutureWeatherForecast(createRequest())
         return mapper(response)

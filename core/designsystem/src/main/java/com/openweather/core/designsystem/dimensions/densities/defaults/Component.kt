@@ -8,6 +8,7 @@ open class Component {
     open val simpleScatterPlotLineStroke = 3.dp
     open val simpleScatterPlotLineIndicatorStroke = 0.3.dp
     open val simpleScatterPlotPointRadius = 4.dp
+
     // Home Weather Forecast
     open val homeWeatherForecastGraphicHeight = 200.dp
 }

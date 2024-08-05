@@ -3,8 +3,8 @@ package com.openweather.core.data.data.datasources.remote
 import com.openweather.core.data.extensions.get
 import com.openweather.core.data.managers.RemoteCallManager
 import com.openweather.core.data.data.network.requests.WeatherForecastRequest
-import com.openweather.core.data.data.network.responses.FutureWeatherForecastResponse
-import com.openweather.core.data.data.network.responses.TodayWeatherForecastResponse
+import com.openweather.core.data.data.network.responses.WeatherForecastResponse
+import com.openweather.core.data.data.network.responses.WeatherNowResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.request.HttpRequestBuilder
 
@@ -13,9 +13,9 @@ internal class OpenWeatherDataSourceImpl(
     private val openWeatherApi: HttpClient
 ) : OpenWeatherDataSource {
 
-    override suspend fun getCurrentWeatherForecast(request: WeatherForecastRequest) =
+    override suspend fun getWeatherNow(request: WeatherForecastRequest) =
         safeRemoteCallManager.safeRemoteCall {
-            openWeatherApi.get<TodayWeatherForecastResponse>(WEATHER_URL) {
+            openWeatherApi.get<WeatherNowResponse>(WEATHER_URL) {
                 appendParameters(request)
             }
         }
@@ -23,7 +23,7 @@ internal class OpenWeatherDataSourceImpl(
     override suspend fun getFutureWeatherForecast(
         request: WeatherForecastRequest
     ) = safeRemoteCallManager.safeRemoteCall {
-        openWeatherApi.get<FutureWeatherForecastResponse>(FORECAST_URL) {
+        openWeatherApi.get<WeatherForecastResponse>(FORECAST_URL) {
             appendParameters(request)
         }
     }

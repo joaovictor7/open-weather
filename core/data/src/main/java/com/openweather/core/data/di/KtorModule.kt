@@ -1,10 +1,11 @@
 package com.openweather.core.data.di
 
+import com.openweather.common.providers.BuildConfigProvider
 import com.openweather.common.throwables.UnauthorizedRequestThrowable
 import com.openweather.core.data.constants.ktor.KtorConfig
 import com.openweather.core.data.di.qualifiers.Api
 import com.openweather.core.data.enums.NetworkApi
-import com.openweather.core.data.extensions.addBaseApiUrl
+import com.openweather.core.data.extensions.setHost
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -70,6 +71,10 @@ internal object KtorModule {
     @Provides
     @Api(NetworkApi.OPEN_WEATHER)
     fun openWeatherApi(
-        httpClient: HttpClient
-    ): HttpClient = httpClient.addBaseApiUrl(NetworkApi.OPEN_WEATHER)
+        httpClient: HttpClient,
+        buildConfigProvider: BuildConfigProvider
+    ): HttpClient = httpClient.setHost(
+        host = buildConfigProvider.get.buildConfigFieldsModel.openWeatherApiHost,
+        networkApi = NetworkApi.OPEN_WEATHER
+    )
 }

@@ -7,6 +7,7 @@ import com.openweather.common.analytics.OpenScreenAnalyticEvent
 import com.openweather.common.analytics.interfaces.AnalyticScreen
 import com.openweather.core.domain.usecases.AnalyticsUseCase
 import com.openweather.core.ui.interfaces.BaseUiState
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -41,7 +42,7 @@ abstract class BaseViewModel<UiState : BaseUiState>(
         onError: (suspend (e: Throwable) -> Unit)? = null,
         onStart: (suspend () -> Unit)? = null,
         onCompletion: (suspend () -> Unit)? = null,
-        onCollect: suspend (param: T) -> Unit
+        onCollect: suspend CoroutineScope.(param: T) -> Unit
     ) {
         viewModelScope.launch {
             flow.onStart { onStart?.invoke() }
@@ -58,7 +59,7 @@ abstract class BaseViewModel<UiState : BaseUiState>(
         onError: (suspend (Throwable) -> Unit)? = null,
         onStart: (suspend () -> Unit)? = null,
         onCompletion: (suspend () -> Unit)? = null,
-        onAsyncTask: suspend () -> Unit
+        onAsyncTask: suspend CoroutineScope.() -> Unit
     ) {
         viewModelScope.launch {
             onStart?.invoke()

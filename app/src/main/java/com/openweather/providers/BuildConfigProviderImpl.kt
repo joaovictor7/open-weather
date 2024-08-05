@@ -18,7 +18,8 @@ internal class BuildConfigProviderImpl @Inject constructor() : BuildConfigProvid
         flavor = BuildConfig.FLAVOR.getFlavor(),
         androidSdkVersion = Build.VERSION.SDK_INT,
         buildConfigFieldsModel = BuildConfigFieldsModel(
-            openWeatherApiKey = BuildConfig.OPEN_WEATHER_KEY
+            openWeatherApiKey = BuildConfig.OPEN_WEATHER_KEY,
+            openWeatherApiHost = BuildConfig.OPEN_WEATHER_API_HOST
         )
     )
 }

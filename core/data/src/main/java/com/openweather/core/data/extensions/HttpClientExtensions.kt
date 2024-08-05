@@ -7,15 +7,18 @@ import io.ktor.client.plugins.HttpSend
 import io.ktor.client.plugins.plugin
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.get
-import io.ktor.client.request.host
 import io.ktor.client.request.post
 
-internal fun HttpClient.addBaseApiUrl(networkApi: NetworkApi) = apply {
+internal fun HttpClient.setHost(
+    host: String,
+    port: Int = 0,
+    networkApi: NetworkApi
+) = apply {
     plugin(HttpSend).intercept { request ->
-        request.host = networkApi.baseUrl
         request.url {
-            port = networkApi.port
-            protocol = networkApi.protocol
+            this.host = host
+            this.port = port
+            this.protocol = networkApi.protocol
         }
         execute(request)
     }

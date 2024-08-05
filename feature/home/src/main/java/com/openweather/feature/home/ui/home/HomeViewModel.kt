@@ -8,6 +8,7 @@ import com.openweather.feature.home.mapper.FutureWeatherForecastScreenModelsMapp
 import com.openweather.feature.home.mapper.WeatherNowScreenModelMapper
 import com.openweather.feature.home.ui.home.analytics.HomeAnalytic
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,8 +29,8 @@ internal class HomeViewModel @Inject constructor(
 
     private fun initState() {
         runAsyncTask {
-            setWeatherNow()
-            setWeatherForecasts()
+            launch { setWeatherNow() }
+            launch { setWeatherForecasts() }
         }
     }
 

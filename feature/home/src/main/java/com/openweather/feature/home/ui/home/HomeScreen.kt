@@ -25,7 +25,7 @@ import com.openweather.core.designsystem.dimensions.spacings
 import com.openweather.core.designsystem.theme.OpenWeatherTheme
 import com.openweather.core.ui.interfaces.Command
 import com.openweather.core.ui.interfaces.Screen
-import com.openweather.feature.home.models.FutureWeatherDailyForecastScreenModel
+import com.openweather.feature.home.models.FutureDailyWeatherForecastScreenModel
 import com.openweather.feature.home.models.FutureWeatherForecastScreenModel
 import com.openweather.feature.home.models.TodayWeatherForecastScreenModel
 import com.openweather.feature.home.models.WeatherNowScreenModel
@@ -115,7 +115,7 @@ private fun FutureWeatherForecasts(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceAround
                 ) {
-                    futureWeatherForecastModel.weatherForecasts.forEach {
+                    futureWeatherForecastModel.futureDailyWeatherForecasts.forEach {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             Text(
                                 text = it.temperature,
@@ -154,23 +154,23 @@ private fun Preview() {
                 futureWeatherForecastScreenModels = listOf(
                     FutureWeatherForecastScreenModel(
                         day = "terça",
-                        weatherForecasts = listOf(
-                            FutureWeatherDailyForecastScreenModel(
+                        futureDailyWeatherForecasts = listOf(
+                            FutureDailyWeatherForecastScreenModel(
                                 iconId = "",
                                 temperature = "19",
                                 hour = "07"
                             ),
-                            FutureWeatherDailyForecastScreenModel(
+                            FutureDailyWeatherForecastScreenModel(
                                 iconId = "",
                                 temperature = "19",
                                 hour = "07"
                             ),
-                            FutureWeatherDailyForecastScreenModel(
+                            FutureDailyWeatherForecastScreenModel(
                                 iconId = "",
                                 temperature = "19",
                                 hour = "07"
                             ),
-                            FutureWeatherDailyForecastScreenModel(
+                            FutureDailyWeatherForecastScreenModel(
                                 iconId = "",
                                 temperature = "19",
                                 hour = "07"
@@ -179,8 +179,8 @@ private fun Preview() {
                     ),
                     FutureWeatherForecastScreenModel(
                         day = "terça",
-                        weatherForecasts = listOf(
-                            FutureWeatherDailyForecastScreenModel(
+                        futureDailyWeatherForecasts = listOf(
+                            FutureDailyWeatherForecastScreenModel(
                                 iconId = "",
                                 temperature = "19",
                                 hour = "07h"

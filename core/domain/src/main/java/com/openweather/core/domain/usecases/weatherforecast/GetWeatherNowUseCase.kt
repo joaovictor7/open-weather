@@ -12,6 +12,7 @@ class GetWeatherNowUseCase @Inject constructor(
 
     suspend operator fun invoke(): WeatherNowModel {
         val response = weatherForecastRepository.getWeatherNow()
-        return weatherNowMapper(response)
+        val lastWeatherNowData = response.weatherDataList.last()
+        return weatherNowMapper(response, lastWeatherNowData)
     }
 }

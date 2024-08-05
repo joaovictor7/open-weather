@@ -4,8 +4,8 @@ import com.openweather.core.ui.bases.BaseViewModel
 import com.openweather.core.domain.usecases.AnalyticsUseCase
 import com.openweather.core.domain.usecases.weatherforecast.GetWeatherForecastsUseCase
 import com.openweather.core.domain.usecases.weatherforecast.GetWeatherNowUseCase
-import com.openweather.feature.home.mappers.FutureWeatherForecastScreenModelsMapper
-import com.openweather.feature.home.mappers.WeatherNowScreenModelMapper
+import com.openweather.feature.home.mapper.FutureWeatherForecastScreenModelsMapper
+import com.openweather.feature.home.mapper.WeatherNowScreenModelMapper
 import com.openweather.feature.home.ui.home.analytics.HomeAnalytic
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

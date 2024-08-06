@@ -39,10 +39,10 @@ abstract class BaseViewModel<UiState : BaseUiState>(
 
     protected fun <T> runFlowTask(
         flow: Flow<T>,
-        onError: (suspend (e: Throwable) -> Unit)? = null,
         onStart: (suspend () -> Unit)? = null,
         onCompletion: (suspend () -> Unit)? = null,
-        onCollect: suspend CoroutineScope.(param: T) -> Unit
+        onError: (suspend (e: Throwable) -> Unit)? = null,
+        onCollect: suspend (param: T) -> Unit
     ) {
         viewModelScope.launch {
             flow.onStart { onStart?.invoke() }
@@ -56,20 +56,32 @@ abstract class BaseViewModel<UiState : BaseUiState>(
     }
 
     protected fun runAsyncTask(
-        onError: (suspend (Throwable) -> Unit)? = null,
         onStart: (suspend () -> Unit)? = null,
         onCompletion: (suspend () -> Unit)? = null,
+        onError: (suspend (Throwable) -> Unit)? = null,
         onAsyncTask: suspend CoroutineScope.() -> Unit
     ) {
         viewModelScope.launch {
-            onStart?.invoke()
-            runCatching {
-                onAsyncTask()
-            }.onFailure {
-                analyticsUseCase(ErrorAnalyticEvent(it, analyticScreen))
-                onError?.invoke(it)
+            launch {
+                safeRunAsyncTask(onError = onError) {
+                    onStart?.invoke()
+                    onAsyncTask()
+                }
+            }.invokeOnCompletion {
+                launch { safeRunAsyncTask { onCompletion?.invoke() } }
             }
-            onCompletion?.invoke()
+        }
+    }
+
+    private suspend fun safeRunAsyncTask(
+        onError: (suspend (Throwable) -> Unit)? = null,
+        onAsyncTask: suspend () -> Unit
+    ) {
+        runCatching {
+            onAsyncTask()
+        }.onFailure {
+            analyticsUseCase(ErrorAnalyticEvent(it, analyticScreen))
+            onError?.invoke(it)
         }
     }
 }

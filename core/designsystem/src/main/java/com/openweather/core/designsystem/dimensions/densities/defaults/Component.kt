@@ -11,4 +11,5 @@ open class Component {
 
     // Home Weather Forecast
     open val homeWeatherForecastGraphicHeight = 200.dp
+    open val homeWeatherForecastMaxCityTextName = 150.dp
 }

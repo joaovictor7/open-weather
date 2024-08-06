@@ -12,7 +12,8 @@ import com.openweather.feature.home.models.WeatherNowScreenModel
 internal data class HomeUiState(
     val weatherNowModel: WeatherNowScreenModel = WeatherNowScreenModel(),
     val todayWeatherForecastScreenModel: TodayWeatherForecastScreenModel = TodayWeatherForecastScreenModel(),
-    val futureWeatherForecastScreenModels: List<FutureWeatherForecastScreenModel> = emptyList()
+    val futureWeatherForecastScreenModels: List<FutureWeatherForecastScreenModel> = emptyList(),
+    override val isLoading: Boolean = false
 ) : BaseUiState {
 
     val weatherNowWithCity: String
@@ -34,4 +35,6 @@ internal data class HomeUiState(
         ),
         futureWeatherForecastScreenModels = futureWeatherForecastScreenModels
     )
+
+    fun setLoading(isLoading: Boolean) = copy(isLoading = isLoading)
 }

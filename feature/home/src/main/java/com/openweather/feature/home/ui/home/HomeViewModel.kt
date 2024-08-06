@@ -24,11 +24,19 @@ internal class HomeViewModel @Inject constructor(
 
     init {
         openScreenAnalytic()
-        initState()
+        getWeatherForecastData()
     }
 
-    private fun initState() {
-        runAsyncTask {
+    override fun refresh() {
+        getWeatherForecastData()
+    }
+
+    private fun getWeatherForecastData() {
+        updateUiState { it.setLoading(true) }
+        runAsyncTask(
+            onStart = { updateUiState { it.setLoading(true) } },
+            onCompletion = { updateUiState { it.setLoading(false) } }
+        ) {
             launch { setWeatherNow() }
             launch { setWeatherForecasts() }
         }

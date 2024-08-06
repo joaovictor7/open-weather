@@ -1,7 +1,7 @@
 package com.openweather.core.domain.usecases.weatherforecast
 
 import com.openweather.core.data.data.repositories.remote.WeatherForecastRepository
-import com.openweather.core.domain.mappers.WeatherNowMapper
+import com.openweather.core.domain.mapper.WeatherNowMapper
 import com.openweather.core.domain.models.WeatherNowModel
 import javax.inject.Inject
 

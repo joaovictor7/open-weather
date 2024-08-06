@@ -4,7 +4,7 @@ import com.openweather.core.data.data.network.responses.WeatherNowDataResponse
 import com.openweather.core.data.data.network.responses.WeatherNowResponse
 import com.openweather.core.data.data.network.responses.WeatherNowTemperatureResponse
 import com.openweather.core.data.data.repositories.remote.WeatherForecastRepository
-import com.openweather.core.domain.mappers.WeatherNowMapper
+import com.openweather.core.domain.mapper.WeatherNowMapper
 import com.openweather.core.domain.models.WeatherNowModel
 import com.openweather.core.domain.usecases.weatherforecast.GetWeatherNowUseCase
 import com.openweather.core.test.interfaces.CoroutinesTest

@@ -1,4 +1,4 @@
-package com.openweather.core.domain.mappers
+package com.openweather.core.domain.mapper
 
 import com.openweather.core.data.data.network.responses.WeatherNowDataResponse
 import com.openweather.core.data.data.network.responses.WeatherNowResponse

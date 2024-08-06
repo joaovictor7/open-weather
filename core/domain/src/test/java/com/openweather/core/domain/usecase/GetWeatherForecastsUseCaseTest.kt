@@ -6,7 +6,7 @@ import com.openweather.core.data.data.network.responses.WeatherForecastDataRespo
 import com.openweather.core.data.data.network.responses.WeatherForecastResponse
 import com.openweather.core.data.data.network.responses.WeatherForecastTemperatureResponse
 import com.openweather.core.data.data.repositories.remote.WeatherForecastRepository
-import com.openweather.core.domain.mappers.WeatherForecastMapper
+import com.openweather.core.domain.mapper.WeatherForecastMapper
 import com.openweather.core.domain.models.FutureDailyWeatherForecastModel
 import com.openweather.core.domain.models.FutureWeatherForecastModel
 import com.openweather.core.domain.models.TodayWeatherForecastModel

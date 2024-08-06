@@ -1,4 +1,4 @@
-package com.openweather.core.domain.mappers
+package com.openweather.core.domain.mapper
 
 import com.openweather.common.extensions.unixToLocalDateTime
 import com.openweather.core.data.data.network.responses.WeatherForecastDataResponse

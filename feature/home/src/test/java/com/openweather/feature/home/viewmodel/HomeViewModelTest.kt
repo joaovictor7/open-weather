@@ -22,7 +22,6 @@ import com.openweather.feature.home.ui.home.HomeViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.test.TestDispatcher
-import kotlinx.coroutines.withContext
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -44,41 +43,33 @@ internal class HomeViewModelTest : CoroutinesTest {
     private val futureWeatherForecastScreenModelsMapper = FutureWeatherForecastScreenModelsMapper()
     private val analyticsUseCase: AnalyticsUseCase = mockk(relaxed = true)
     private val getWeatherNowUseCase: GetWeatherNowUseCase = mockk {
-        coEvery { this@mockk.invoke() } coAnswers {
-            withContext(testDispatcher) {
-                WeatherNowModel(
-                    city = "Porto",
-                    temperature = 20f,
-                    iconId = String(),
-                    description = "céu limpo"
-                )
-            }
-        }
+        coEvery { this@mockk.invoke() } returns WeatherNowModel(
+            city = "Porto",
+            temperature = 20f,
+            iconId = String(),
+            description = "céu limpo"
+        )
     }
     private val getWeatherForecastsUseCase: GetWeatherForecastsUseCase = mockk {
-        coEvery { this@mockk.invoke() } coAnswers {
-            withContext(testDispatcher) {
-                WeatherForecastsModel(
-                    todayWeatherForecast = TodayWeatherForecastModel(
-                        minTemperature = 15f,
-                        maxTemperature = 25f,
-                        temperatures = listOf(15f, 17f, 24f, 25f)
-                    ),
-                    futureWeatherForecasts = listOf(
-                        FutureWeatherForecastModel(
-                            date = localDateMock,
-                            futureDailyWeatherForecasts = listOf(
-                                FutureDailyWeatherForecastModel(
-                                    iconId = String(),
-                                    temperature = 20f,
-                                    dateTime = LocalDateTime.now()
-                                )
-                            )
+        coEvery { this@mockk.invoke() } returns WeatherForecastsModel(
+            todayWeatherForecast = TodayWeatherForecastModel(
+                minTemperature = 15f,
+                maxTemperature = 25f,
+                temperatures = listOf(15f, 17f, 24f, 25f)
+            ),
+            futureWeatherForecasts = listOf(
+                FutureWeatherForecastModel(
+                    date = localDateMock,
+                    futureDailyWeatherForecasts = listOf(
+                        FutureDailyWeatherForecastModel(
+                            iconId = String(),
+                            temperature = 20f,
+                            dateTime = LocalDateTime.now()
                         )
                     )
                 )
-            }
-        }
+            )
+        )
     }
 
     private lateinit var viewModel: HomeViewModel

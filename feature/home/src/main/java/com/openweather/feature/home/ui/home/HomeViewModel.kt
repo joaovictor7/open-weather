@@ -32,7 +32,6 @@ internal class HomeViewModel @Inject constructor(
     }
 
     private fun getWeatherForecastData() {
-        updateUiState { it.setLoading(true) }
         runAsyncTask(
             onStart = { updateUiState { it.setLoading(true) } },
             onCompletion = { updateUiState { it.setLoading(false) } }

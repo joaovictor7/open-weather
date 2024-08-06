@@ -17,11 +17,13 @@ import com.openweather.feature.home.models.FutureDailyWeatherForecastScreenModel
 import com.openweather.feature.home.models.FutureWeatherForecastScreenModel
 import com.openweather.feature.home.models.TodayWeatherForecastScreenModel
 import com.openweather.feature.home.models.WeatherNowScreenModel
+import com.openweather.feature.home.ui.home.HomeCommands
 import com.openweather.feature.home.ui.home.HomeUiState
 import com.openweather.feature.home.ui.home.HomeViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.test.TestDispatcher
+import kotlinx.coroutines.withContext
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -43,12 +45,16 @@ internal class HomeViewModelTest : CoroutinesTest {
     private val futureWeatherForecastScreenModelsMapper = FutureWeatherForecastScreenModelsMapper()
     private val analyticsUseCase: AnalyticsUseCase = mockk(relaxed = true)
     private val getWeatherNowUseCase: GetWeatherNowUseCase = mockk {
-        coEvery { this@mockk.invoke() } returns WeatherNowModel(
-            city = "Porto",
-            temperature = 20f,
-            iconId = String(),
-            description = "céu limpo"
-        )
+        coEvery { this@mockk.invoke() } coAnswers {
+            withContext(testDispatcher) {
+                WeatherNowModel(
+                    city = "Porto",
+                    temperature = 20f,
+                    iconId = String(),
+                    description = "céu limpo"
+                )
+            }
+        }
     }
     private val getWeatherForecastsUseCase: GetWeatherForecastsUseCase = mockk {
         coEvery { this@mockk.invoke() } returns WeatherForecastsModel(
@@ -83,7 +89,7 @@ internal class HomeViewModelTest : CoroutinesTest {
             getWeatherNowUseCase = getWeatherNowUseCase,
             futureWeatherForecastScreenModelsMapper = futureWeatherForecastScreenModelsMapper,
             weatherNowScreenModelMapper = weatherNowScreenModelMapper,
-            analyticsUseCase = analyticsUseCase
+            analyticsUseCase = analyticsUseCase,
         )
     }
 
@@ -97,6 +103,148 @@ internal class HomeViewModelTest : CoroutinesTest {
                         weatherNowModel = WeatherNowScreenModel(
                             city = "Porto",
                             temperature = "20º",
+                            iconId = String(),
+                            description = "Céu limpo"
+                        ),
+                        todayWeatherForecastScreenModel = TodayWeatherForecastScreenModel(
+                            minTemperature = 15f,
+                            maxTemperature = 25f,
+                            temperatures = listOf(15f, 17f, 24f, 25f)
+                        ),
+                        futureWeatherForecastScreenModels = listOf(
+                            FutureWeatherForecastScreenModel(
+                                day = "segunda-feira, 05 agosto 2024",
+                                futureDailyWeatherForecasts = listOf(
+                                    FutureDailyWeatherForecastScreenModel(
+                                        iconId = String(),
+                                        temperature = "20º",
+                                        hour = "${LocalDateTime.now().format(dateToHourFormatter)}h"
+                                    )
+                                )
+                            )
+                        )
+                    )
+                ),
+                collectedUiStates
+            )
+        }
+
+    @Test
+    fun `refresh page test`() =
+        runStateFlowTest(testDispatcher, viewModel.uiState) { job, collectedUiStates ->
+            coEvery { getWeatherNowUseCase() } returns WeatherNowModel(
+                city = "Lisboa",
+                temperature = 22f,
+                iconId = String(),
+                description = "céu limpo"
+            )
+            coEvery { getWeatherForecastsUseCase() } returns WeatherForecastsModel(
+                todayWeatherForecast = TodayWeatherForecastModel(
+                    minTemperature = 15f,
+                    maxTemperature = 25f,
+                    temperatures = listOf(15f, 17f, 24f, 25f)
+                ),
+                futureWeatherForecasts = listOf(
+                    FutureWeatherForecastModel(
+                        date = localDateMock,
+                        futureDailyWeatherForecasts = listOf(
+                            FutureDailyWeatherForecastModel(
+                                iconId = String(),
+                                temperature = 20f,
+                                dateTime = LocalDateTime.now()
+                            )
+                        )
+                    )
+                )
+            )
+
+            viewModel.executeCommand(HomeCommands.Refresh)
+            job.cancel()
+
+            assertEquals(
+                listOf(
+                    HomeUiState(
+                        weatherNowModel = WeatherNowScreenModel(
+                            city = "Porto",
+                            temperature = "20º",
+                            iconId = String(),
+                            description = "Céu limpo"
+                        ),
+                        todayWeatherForecastScreenModel = TodayWeatherForecastScreenModel(
+                            minTemperature = 15f,
+                            maxTemperature = 25f,
+                            temperatures = listOf(15f, 17f, 24f, 25f)
+                        ),
+                        futureWeatherForecastScreenModels = listOf(
+                            FutureWeatherForecastScreenModel(
+                                day = "segunda-feira, 05 agosto 2024",
+                                futureDailyWeatherForecasts = listOf(
+                                    FutureDailyWeatherForecastScreenModel(
+                                        iconId = String(),
+                                        temperature = "20º",
+                                        hour = "${LocalDateTime.now().format(dateToHourFormatter)}h"
+                                    )
+                                )
+                            )
+                        )
+                    ),
+                    HomeUiState(
+                        isLoading = true,
+                        weatherNowModel = WeatherNowScreenModel(
+                            city = "Porto",
+                            temperature = "20º",
+                            iconId = String(),
+                            description = "Céu limpo"
+                        ),
+                        todayWeatherForecastScreenModel = TodayWeatherForecastScreenModel(
+                            minTemperature = 15f,
+                            maxTemperature = 25f,
+                            temperatures = listOf(15f, 17f, 24f, 25f)
+                        ),
+                        futureWeatherForecastScreenModels = listOf(
+                            FutureWeatherForecastScreenModel(
+                                day = "segunda-feira, 05 agosto 2024",
+                                futureDailyWeatherForecasts = listOf(
+                                    FutureDailyWeatherForecastScreenModel(
+                                        iconId = String(),
+                                        temperature = "20º",
+                                        hour = "${LocalDateTime.now().format(dateToHourFormatter)}h"
+                                    )
+                                )
+                            )
+                        )
+                    ),
+                    HomeUiState(
+                        isLoading = true,
+                        weatherNowModel = WeatherNowScreenModel(
+                            city = "Lisboa",
+                            temperature = "22º",
+                            iconId = String(),
+                            description = "Céu limpo"
+                        ),
+                        todayWeatherForecastScreenModel = TodayWeatherForecastScreenModel(
+                            minTemperature = 15f,
+                            maxTemperature = 25f,
+                            temperatures = listOf(15f, 17f, 24f, 25f)
+                        ),
+                        futureWeatherForecastScreenModels = listOf(
+                            FutureWeatherForecastScreenModel(
+                                day = "segunda-feira, 05 agosto 2024",
+                                futureDailyWeatherForecasts = listOf(
+                                    FutureDailyWeatherForecastScreenModel(
+                                        iconId = String(),
+                                        temperature = "20º",
+                                        hour = "${LocalDateTime.now().format(dateToHourFormatter)}h"
+                                    )
+                                )
+                            )
+                        )
+                    ),
+                    HomeUiState(
+                        isLoading = false,
+                        weatherNowModel = WeatherNowScreenModel(
+                            city = "Lisboa",
+                            temperature = "22º",
                             iconId = String(),
                             description = "Céu limpo"
                         ),
